@@ -30,7 +30,6 @@
     background: var(--bg); color: var(--text);
     min-height: 100vh; transition: background 0.3s, color 0.3s;
   }
-  /* ── 로그인 ── */
   #loginScreen {
     min-height: 100vh; display: flex;
     align-items: center; justify-content: center;
@@ -74,7 +73,7 @@
   .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.4); }
   .login-error {
     color: var(--danger); font-size: 0.85rem;
-    margin-top: 8px; display: none; line-height: 1.5;
+    margin-top: 8px; display: none; line-height: 1.5; white-space: pre-line;
   }
   .login-success {
     color: var(--success); font-size: 0.85rem;
@@ -87,7 +86,6 @@
     padding: 10px 14px; margin-bottom: 16px; line-height: 1.6; text-align: left;
     white-space: pre-line;
   }
-  /* ── 앱 ── */
   #appScreen { display: none; }
   .header {
     background: var(--surface); border-bottom: 1px solid var(--border);
@@ -225,7 +223,6 @@
     font-weight: 600; margin-right: 4px; margin-top: 6px;
   }
   .tag-good { background: rgba(67,233,123,0.15); color: var(--accent3); }
-  /* ★ 유튜브 링크 버튼 */
   .yt-btn {
     display: inline-flex; align-items: center; gap: 6px;
     margin-top: 10px; padding: 8px 14px; border-radius: 8px;
@@ -299,7 +296,6 @@
     border: 1px solid rgba(108,99,255,0.2); border-radius: 12px; padding: 16px;
     font-size: 0.85rem; line-height: 1.7; color: var(--text); margin-top: 12px; white-space: pre-wrap;
   }
-  /* ── 모달 ── */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     display: flex; align-items: center; justify-content: center;
@@ -380,7 +376,6 @@
 
     <div class="login-hint" id="authHint">📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.</div>
 
-    <!-- ★ 수정1: placeholder에서 (신규: 0000) 삭제 -->
     <input id="loginId"   class="login-input" type="text"     placeholder="학번 (예: 10101)" maxlength="10">
     <input id="loginName" class="login-input" type="text"     placeholder="이름">
     <input id="loginPw"   class="login-input" type="password" placeholder="비밀번호" maxlength="20">
@@ -665,7 +660,7 @@
 
 <script>
 // ════════════════════════════════════════════════
-// ★ GAS URL (배포 후 여기에 입력)
+// ★ GAS URL - 실제 배포 URL로 반드시 교체하세요
 // ════════════════════════════════════════════════
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbx4YtMLGHTxSCdaSfhKMLHHYl-ZvE36MvdPB5k39TGXa4ovedJICZwoDC1McIj2nvjeBA/exec';
 
@@ -686,11 +681,9 @@ let wodSeconds         = 900;
 let wodRunning         = false;
 let wodSetsCount       = 0;
 let stream             = null;
-
-// ★ MediaPipe Pose 관련
 let poseDetector       = null;
 let mpCamera           = null;
-let lastKeypoints      = null;  // 최신 관절 좌표
+let lastKeypoints      = null;
 
 const EXERCISES = [
   { name:'에어 스쿼트', icon:'🦵', key:'squat'  },
@@ -701,7 +694,6 @@ const EXERCISES = [
   { name:'줄넘기',      icon:'🪢', key:'jump'   },
 ];
 
-// ★ 수정4: 백과사전 유튜브 링크 추가
 const WIKI_DATA = [
   { name:'에어 스쿼트', icon:'🦵', target:'대퇴사두근, 햄스트링, 둔근, 코어',
     correct:['발은 어깨너비로 벌리기','발끝은 30도 외회전','무릎은 발끝 방향 유지','허벅지가 바닥과 평행될 때까지 앉기','가슴과 어깨는 수직 유지'],
@@ -735,33 +727,55 @@ const WIKI_DATA = [
     youtube:'https://youtu.be/82jNjDS19lg?si=HW0qhp9TIWimQpkO' },
 ];
 
-// ── GAS 통신 (JSONP) ───────────────────────────
+// ════════════════════════════════════════════════
+// ★ Step4 수정 - 모바일 완전 호환 gasCall 함수
+// ════════════════════════════════════════════════
 function gasCall(params) {
   return new Promise((resolve, reject) => {
-    const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const s = document.createElement('script');
+    const cbName = 'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const s      = document.createElement('script');
+    let   done   = false;
+
+    // ── 정리 함수 ──────────────────────────────
+    function cleanup() {
+      try { delete window[cbName]; }      catch(e) {}
+      try { if (s.parentNode) s.parentNode.removeChild(s); } catch(e) {}
+    }
+
+    // ── 타임아웃 (30초 - 모바일 느린 네트워크 대응) ──
+    const timer = setTimeout(() => {
+      if (done) return;
+      done = true;
+      cleanup();
+      reject(new Error('서버 응답 시간 초과 (30초)\nGAS URL과 배포 설정을 확인하세요.'));
+    }, 30000);
+
+    // ── 콜백 등록 ──────────────────────────────
+    window[cbName] = function(data) {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      cleanup();
+      resolve(data);
+    };
+
+    // ── 스크립트 로드 실패 ──────────────────────
+    s.onerror = function() {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      cleanup();
+      reject(new Error('스크립트 로드 실패\n인터넷 연결 또는 GAS URL을 확인하세요.'));
+    };
+
+    // ── URL 구성 및 요청 ────────────────────────
     const p = new URLSearchParams({ ...params, callback: cbName });
-    let done = false;
-    window[cbName] = (data) => {
-      done = true; delete window[cbName];
-      document.head.removeChild(s); resolve(data);
-    };
-    s.onerror = () => {
-      if (!done) {
-        done = true; delete window[cbName];
-        if (document.head.contains(s)) document.head.removeChild(s);
-        reject(new Error('네트워크 오류'));
-      }
-    };
-    setTimeout(() => {
-      if (!done) {
-        done = true; delete window[cbName];
-        if (document.head.contains(s)) document.head.removeChild(s);
-        reject(new Error('타임아웃'));
-      }
-    }, 15000);
-    s.src = GAS_URL + '?' + p.toString();
-    document.head.appendChild(s);
+    s.src   = GAS_URL + '?' + p.toString();
+    s.async = true;
+    s.defer = false;
+
+    // head 또는 body 중 사용 가능한 곳에 추가 (모바일 안전)
+    (document.head || document.body || document.documentElement).appendChild(s);
   });
 }
 
@@ -776,20 +790,18 @@ function switchAuthTab(mode) {
   if (mode === 'login') {
     document.getElementById('authHint').textContent =
       '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
-    document.getElementById('authBtn').textContent  = '수업 입장하기 →';
-    // ★ 수정1: 기존 로그인 placeholder - (신규:0000) 없이 단순하게
+    document.getElementById('authBtn').textContent   = '수업 입장하기 →';
     document.getElementById('loginPw').placeholder  = '비밀번호';
     document.getElementById('loginPw').style.display = 'block';
   } else {
-    // ★ 수정2: 신규 등록 - 비밀번호 입력란 숨김, 학번+이름만 입력
     document.getElementById('authHint').textContent =
       '✏️ 학번과 이름만 입력하면 됩니다.\n등록 후 다음 화면에서 비밀번호를 설정합니다.';
-    document.getElementById('authBtn').textContent  = '등록하기 →';
+    document.getElementById('authBtn').textContent   = '등록하기 →';
     document.getElementById('loginPw').style.display = 'none';
   }
 }
 
-// ── 로그인 or 신규등록 처리 ────────────────────
+// ── 로그인 or 신규등록 ─────────────────────────
 async function handleAuth() {
   const studentId = document.getElementById('loginId').value.trim();
   const name      = document.getElementById('loginName').value.trim();
@@ -799,15 +811,12 @@ async function handleAuth() {
   errEl.style.display = 'none';
   sucEl.style.display = 'none';
 
-  // ★ 유효성 검사
   if (authMode === 'register') {
-    // 신규 등록: 학번 + 이름만 필요 (비밀번호 0000 자동설정)
     if (!studentId || !name) {
       errEl.textContent   = '학번과 이름을 입력하세요.';
       errEl.style.display = 'block'; return;
     }
   } else {
-    // 로그인: 학번 + 이름 + 비밀번호 모두 필요
     if (!studentId || !name || !password) {
       errEl.textContent   = '학번, 이름, 비밀번호를 모두 입력하세요.';
       errEl.style.display = 'block'; return;
@@ -815,11 +824,10 @@ async function handleAuth() {
   }
 
   errEl.style.color   = 'var(--warning)';
-  errEl.textContent   = '처리 중...';
+  errEl.textContent   = '⏳ 처리 중... 잠시만 기다려주세요.';
   errEl.style.display = 'block';
 
   try {
-    // 신규등록은 비밀번호 서버에서 0000 자동설정이므로 미전달
     const res = await gasCall({
       action: authMode,
       studentId,
@@ -832,7 +840,6 @@ async function handleAuth() {
     if (res.status === 'success') {
       if (authMode === 'register') {
         errEl.style.display = 'none';
-        sucEl.style.display = 'none';
         enterApp(studentId, name);
         setTimeout(() => openPwForceModal(), 600);
       } else {
@@ -843,9 +850,10 @@ async function handleAuth() {
       errEl.textContent   = res.message || '처리에 실패했습니다.';
       errEl.style.display = 'block';
     }
-  } catch {
+  } catch(err) {
     errEl.style.color   = 'var(--danger)';
-    errEl.textContent   = '서버에 연결할 수 없습니다. 인터넷을 확인하세요.';
+    errEl.textContent   = '❌ ' + (err.message || '서버 연결 실패') +
+                          '\n\n※ GAS 배포 URL과 액세스 권한("모든 사용자")을 확인하세요.';
     errEl.style.display = 'block';
   }
 }
@@ -861,21 +869,18 @@ function enterApp(id, name) {
   loadDashboard();
 }
 
-// ── 강제 비밀번호 변경 모달 열기 ───────────────
+// ── 강제 비밀번호 변경 모달 ────────────────────
 function openPwForceModal() {
   document.getElementById('pwForce1').value             = '';
   document.getElementById('pwForce2').value             = '';
   document.getElementById('pwForceError').style.display = 'none';
   document.getElementById('pwForceModal').classList.add('show');
 }
-
-// ── 강제 비밀번호 저장 ─────────────────────────
 async function saveForcePw() {
   const pw1   = document.getElementById('pwForce1').value.trim();
   const pw2   = document.getElementById('pwForce2').value.trim();
   const errEl = document.getElementById('pwForceError');
   errEl.style.display = 'none';
-
   if (!pw1 || pw1.length < 4) {
     errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -884,11 +889,9 @@ async function saveForcePw() {
     errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
-
   errEl.style.color   = 'var(--warning)';
-  errEl.textContent   = '저장 중...';
+  errEl.textContent   = '⏳ 저장 중...';
   errEl.style.display = 'block';
-
   try {
     const res = await gasCall({
       action:      'changePassword',
@@ -896,19 +899,18 @@ async function saveForcePw() {
       name:        currentStudent.name,
       newPassword: pw1
     });
-
     if (res.status === 'success') {
       document.getElementById('pwForceModal').classList.remove('show');
       showToast(`🎉 ${currentStudent.name}님 등록 완료! 다음부터 새 비밀번호로 로그인하세요.`);
       loadDashboard();
     } else {
       errEl.style.color   = 'var(--danger)';
-      errEl.textContent   = res.message || '저장에 실패했습니다. 다시 시도하세요.';
+      errEl.textContent   = res.message || '저장에 실패했습니다.';
       errEl.style.display = 'block';
     }
-  } catch {
+  } catch(err) {
     errEl.style.color   = 'var(--danger)';
-    errEl.textContent   = '서버 연결 실패. 다시 시도하세요.';
+    errEl.textContent   = '❌ ' + (err.message || '서버 연결 실패');
     errEl.style.display = 'block';
   }
 }
@@ -916,6 +918,8 @@ async function saveForcePw() {
 // ── 서버 상태 확인 ─────────────────────────────
 async function checkServer() {
   const el = document.getElementById('serverStatus');
+  el.textContent = '● 연결 확인 중';
+  el.className   = 'server-status checking';
   try {
     await gasCall({ action: 'initSheets' });
     el.textContent = '● 서버 연결됨';
@@ -955,7 +959,6 @@ async function saveNewPw() {
   const pw2   = document.getElementById('pwNew2').value.trim();
   const errEl = document.getElementById('pwNewError');
   errEl.style.display = 'none';
-
   if (!pw1 || pw1.length < 4) {
     errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -978,8 +981,8 @@ async function saveNewPw() {
       errEl.textContent   = res.message || '저장 실패';
       errEl.style.display = 'block';
     }
-  } catch {
-    errEl.textContent   = '서버 연결 실패.';
+  } catch(err) {
+    errEl.textContent   = '❌ ' + (err.message || '서버 연결 실패');
     errEl.style.display = 'block';
   }
 }
@@ -1018,7 +1021,6 @@ function toggleCamera() {
 function closeGuide() { document.getElementById('guideModal').classList.remove('show'); }
 async function startCameraAfterGuide() { closeGuide(); await startCamera(); }
 
-// ★ 수정3: MediaPipe Pose로 실제 관절 인식
 async function startCamera() {
   try {
     stream = await navigator.mediaDevices.getUserMedia({
@@ -1031,7 +1033,6 @@ async function startCamera() {
     isCameraOn = true;
     document.querySelector('[onclick="toggleCamera()"]').textContent = '📷 카메라 끄기';
 
-    // MediaPipe Pose 초기화
     poseDetector = new Pose({
       locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
     });
@@ -1047,14 +1048,10 @@ async function startCamera() {
       canvasEl.width  = videoEl.videoWidth  || 640;
       canvasEl.height = videoEl.videoHeight || 480;
       ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-
       if (results.poseLandmarks) {
         lastKeypoints = results.poseLandmarks;
-        // 골격 그리기
-        drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS,
-          { color: '#6c63ff', lineWidth: 2 });
-        drawLandmarks(ctx, results.poseLandmarks,
-          { color: '#ff6584', lineWidth: 1, radius: 4 });
+        drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, { color:'#6c63ff', lineWidth:2 });
+        drawLandmarks(ctx, results.poseLandmarks, { color:'#ff6584', lineWidth:1, radius:4 });
       } else {
         lastKeypoints = null;
       }
@@ -1065,20 +1062,20 @@ async function startCamera() {
       width: 640, height: 480
     });
     mpCamera.start();
-    showToast('📷 카메라 & AI 자세 인식이 활성화되었습니다.');
-  } catch (err) {
+    showToast('📷 카메라 & AI 자세 인식 활성화!');
+  } catch(err) {
     showToast('⚠️ 카메라 접근에 실패했습니다.');
     console.error(err);
   }
 }
 
 function stopCamera() {
-  if (mpCamera)  { mpCamera.stop();  mpCamera  = null; }
-  if (poseDetector) { poseDetector.close(); poseDetector = null; }
-  if (stream)    { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  if (mpCamera)     { try { mpCamera.stop();      } catch(e) {} mpCamera     = null; }
+  if (poseDetector) { try { poseDetector.close(); } catch(e) {} poseDetector = null; }
+  if (stream)       { stream.getTracks().forEach(t => t.stop()); stream = null; }
   document.getElementById('videoEl').srcObject = null;
   const canvasEl = document.getElementById('canvasEl');
-  canvasEl.getContext('2d').clearRect(0,0,canvasEl.width,canvasEl.height);
+  canvasEl.getContext('2d').clearRect(0, 0, canvasEl.width, canvasEl.height);
   document.getElementById('camPlaceholder').style.display = 'flex';
   isCameraOn    = false;
   lastKeypoints = null;
@@ -1093,11 +1090,12 @@ function startMeasure() {
   isMeasuring = true; totalSeconds = 0; goodPostureSeconds = 0; repCount = 0;
   measureTimer = setInterval(() => {
     totalSeconds++;
-    analyzePoseByKeypoints(); // ★ 관절 기반 자세 평가
+    analyzePoseByKeypoints();
     updateMeasureUI();
   }, 1000);
   showToast('▶ 측정을 시작합니다!');
 }
+
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false; clearInterval(measureTimer); measureTimer = null;
@@ -1106,17 +1104,22 @@ async function stopMeasure() {
   if (currentStudent && totalSeconds > 5) {
     try {
       await gasCall({
-        action:   'saveExercise',
-        date:     new Date().toLocaleDateString('ko-KR'),
-        studentId: currentStudent.id, name: currentStudent.name,
-        exercise: ex.name, reps: repCount, duration: totalSeconds,
-        goodPostureDuration: goodPostureSeconds, accuracy
+        action:              'saveExercise',
+        date:                new Date().toLocaleDateString('ko-KR'),
+        studentId:           currentStudent.id,
+        name:                currentStudent.name,
+        exercise:            ex.name,
+        reps:                repCount,
+        duration:            totalSeconds,
+        goodPostureDuration: goodPostureSeconds,
+        accuracy
       });
       showToast(`✅ ${ex.name} 기록 저장! (${repCount} Reps)`);
     } catch { showToast('⚠️ 저장 실패.'); }
   }
   resetMeasure();
 }
+
 function resetMeasure() {
   repCount = 0; totalSeconds = 0; goodPostureSeconds = 0; currentAccuracy = 0;
   document.getElementById('repCount').textContent     = '0';
@@ -1125,6 +1128,7 @@ function resetMeasure() {
   document.getElementById('accuracyBar').style.width  = '0%';
   document.getElementById('feedbackBox').textContent  = '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
+
 function updateMeasureUI() {
   const m = String(Math.floor(totalSeconds / 60)).padStart(2,'0');
   const s = String(totalSeconds % 60).padStart(2,'0');
@@ -1135,15 +1139,8 @@ function updateMeasureUI() {
   document.getElementById('accuracyBar').style.width  = acc + '%';
 }
 
-// ════════════════════════════════════════════════
-// ★ 수정3: 관절 좌표 기반 자세 평가 함수
-// MediaPipe Pose 랜드마크 인덱스:
-//  0=코, 11=왼어깨, 12=오른어깨, 13=왼팔꿈치, 14=오른팔꿈치
-//  15=왼손목, 16=오른손목, 23=왼엉덩이, 24=오른엉덩이
-//  25=왼무릎, 26=오른무릎, 27=왼발목, 28=오른발목
-// ════════════════════════════════════════════════
+// ── 관절 각도 계산 ─────────────────────────────
 function getAngle(a, b, c) {
-  // b가 꼭짓점인 세 점의 각도 (도)
   const ab = { x: a.x - b.x, y: a.y - b.y };
   const cb = { x: c.x - b.x, y: c.y - b.y };
   const dot = ab.x * cb.x + ab.y * cb.y;
@@ -1152,215 +1149,97 @@ function getAngle(a, b, c) {
   return Math.acos(Math.min(1, Math.max(-1, dot / mag))) * (180 / Math.PI);
 }
 
+// ── 관절 기반 자세 평가 ────────────────────────
 function analyzePoseByKeypoints() {
-  const fb = document.getElementById('feedbackBox');
-
-  // 관절이 감지되지 않은 경우
+  const fb  = document.getElementById('feedbackBox');
   if (!lastKeypoints) {
     fb.textContent = '⏳ 관절을 인식하지 못했습니다. 전신이 카메라에 보이도록 거리를 조절하세요.';
     return;
   }
-
   const kp  = lastKeypoints;
   const ex  = EXERCISES[currentExerciseIdx];
-
-  // 신뢰도 낮은 관절 필터 (visibility < 0.5 이면 인식 불안정)
   const vis = (idx) => kp[idx] && kp[idx].visibility > 0.5;
-
-  let isGood   = false;
-  let feedback = '';
+  let isGood = false, feedback = '';
 
   switch (ex.key) {
-
-    // ── 에어 스쿼트 ──────────────────────────
     case 'squat': {
       if (!vis(23)||!vis(25)||!vis(27)||!vis(24)||!vis(26)||!vis(28)) {
-        fb.textContent = '⏳ 하체 관절(엉덩이·무릎·발목)을 인식하지 못했습니다. 측면으로 서주세요.';
-        return;
+        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 측면으로 서주세요.'; return;
       }
-      // 왼쪽 무릎각 (엉덩이-무릎-발목)
-      const kneeAngleL = getAngle(kp[23], kp[25], kp[27]);
-      // 오른쪽 무릎각
-      const kneeAngleR = getAngle(kp[24], kp[26], kp[28]);
-      const kneeAngle  = Math.min(kneeAngleL, kneeAngleR);
-      // 엉덩이-어깨 상체 기울기 (왼쪽)
-      const torsoAngle = getAngle(kp[11], kp[23], kp[25]);
-
-      if (kneeAngle > 160) {
-        feedback = '⚠️ 아직 서 있는 상태입니다. 스쿼트 동작을 시작하세요.';
-      } else if (kneeAngle <= 160 && kneeAngle > 100) {
-        feedback = '📐 스쿼트 내려가는 중... 허벅지가 바닥과 평행이 될 때까지 더 내려가세요.';
-      } else if (kneeAngle <= 100 && kneeAngle >= 70) {
-        if (torsoAngle < 50) {
-          feedback = '⚠️ 상체가 너무 앞으로 숙여졌습니다. 가슴을 들어주세요!';
-        } else {
-          isGood = true;
-          feedback = '✅ 스쿼트 자세 완벽! 무릎 각도 ' + Math.round(kneeAngle) + '° - 훌륭합니다!';
-          if (totalSeconds % 3 === 0) repCount++;
-        }
-      } else if (kneeAngle < 70) {
-        feedback = '⚠️ 너무 깊이 앉았습니다. 무릎에 무리가 갈 수 있어요.';
-      }
+      const kneeAngle = Math.min(getAngle(kp[23],kp[25],kp[27]), getAngle(kp[24],kp[26],kp[28]));
+      const torsoAngle = getAngle(kp[11],kp[23],kp[25]);
+      if      (kneeAngle > 160)              feedback = '⚠️ 아직 서 있는 상태입니다. 스쿼트 동작을 시작하세요.';
+      else if (kneeAngle > 100)              feedback = '📐 더 깊이 내려가세요! 허벅지가 바닥과 평행이 목표!';
+      else if (kneeAngle >= 70 && torsoAngle < 50) feedback = '⚠️ 상체가 너무 앞으로 숙여졌습니다. 가슴을 들어주세요!';
+      else if (kneeAngle >= 70) { isGood = true; feedback = '✅ 스쿼트 자세 완벽! 무릎 각도 ' + Math.round(kneeAngle) + '° - 훌륭합니다!'; if(totalSeconds%3===0) repCount++; }
+      else                       feedback = '⚠️ 너무 깊이 앉았습니다. 조금 올라오세요.';
       break;
     }
-
-    // ── 런지 ─────────────────────────────────
     case 'lunge': {
       if (!vis(23)||!vis(25)||!vis(27)||!vis(24)||!vis(26)||!vis(28)) {
-        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 측면으로 서주세요.';
-        return;
+        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 측면으로 서주세요.'; return;
       }
-      const kneeL = getAngle(kp[23], kp[25], kp[27]);
-      const kneeR = getAngle(kp[24], kp[26], kp[28]);
-      // 앞무릎이 약 90도에 가까울 때가 런지 자세
-      const frontKnee = Math.min(kneeL, kneeR);
-      const backKnee  = Math.max(kneeL, kneeR);
-      // 상체 수직 여부 (어깨 y와 엉덩이 y 비교)
-      const shoulderY = (kp[11].y + kp[12].y) / 2;
-      const hipY      = (kp[23].y + kp[24].y) / 2;
+      const frontKnee   = Math.min(getAngle(kp[23],kp[25],kp[27]), getAngle(kp[24],kp[26],kp[28]));
       const torsoUpright = Math.abs(kp[11].x - kp[23].x) < 0.08;
-
-      if (frontKnee > 150) {
-        feedback = '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
-      } else if (frontKnee <= 150 && frontKnee > 110) {
-        feedback = '📐 더 깊이 내려가세요! 앞무릎 90도가 목표입니다.';
-      } else if (frontKnee <= 110 && frontKnee >= 75) {
-        if (!torsoUpright) {
-          feedback = '⚠️ 상체가 앞으로 기울었습니다. 허리를 곧게 세워주세요.';
-        } else {
-          isGood = true;
-          feedback = '✅ 런지 자세 훌륭해요! 앞무릎 각도 ' + Math.round(frontKnee) + '° - 좋습니다!';
-          if (totalSeconds % 4 === 0) repCount++;
-        }
-      } else {
-        feedback = '⚠️ 앞무릎이 너무 많이 굽혔습니다. 조금 올라오세요.';
-      }
+      if      (frontKnee > 150) feedback = '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
+      else if (frontKnee > 110) feedback = '📐 더 깊이 내려가세요! 앞무릎 90도가 목표입니다.';
+      else if (frontKnee >= 75 && !torsoUpright) feedback = '⚠️ 상체가 앞으로 기울었습니다. 허리를 곧게 세워주세요.';
+      else if (frontKnee >= 75) { isGood = true; feedback = '✅ 런지 자세 훌륭해요! 앞무릎 ' + Math.round(frontKnee) + '° - 좋습니다!'; if(totalSeconds%4===0) repCount++; }
+      else feedback = '⚠️ 앞무릎이 너무 굽었습니다. 조금 올라오세요.';
       break;
     }
-
-    // ── 플랭크 ───────────────────────────────
     case 'plank': {
-      if (!vis(11)||!vis(12)||!vis(23)||!vis(24)||!vis(25)||!vis(26)) {
-        fb.textContent = '⏳ 상체 관절을 인식하지 못했습니다. 측면이 잘 보이도록 위치를 조정하세요.';
-        return;
+      if (!vis(11)||!vis(23)||!vis(25)) {
+        fb.textContent = '⏳ 상체 관절을 인식하지 못했습니다. 측면이 잘 보이도록 위치를 조정하세요.'; return;
       }
-      // 어깨-엉덩이-무릎 직선 여부
       const bodyAngle = getAngle(kp[11], kp[23], kp[25]);
-      // 어깨와 팔꿈치 수직 여부 (vis(13) 왼팔꿈치)
-      const shoulderMidY = (kp[11].y + kp[12].y) / 2;
-      const hipMidY      = (kp[23].y + kp[24].y) / 2;
-      const kneeMidY     = (kp[25].y + kp[26].y) / 2;
-
-      // 엉덩이가 어깨-무릎 선보다 높으면 엉덩이 up, 낮으면 처짐
-      const hipHigher = hipMidY < Math.min(shoulderMidY, kneeMidY) - 0.05;
-      const hipLower  = hipMidY > Math.max(shoulderMidY, kneeMidY) + 0.05;
-
-      if (bodyAngle > 160) {
-        isGood = true;
-        feedback = '✅ 플랭크 자세 완벽! 몸이 일직선입니다. 코어를 유지하세요! 💪';
-      } else if (hipHigher) {
-        feedback = '⚠️ 엉덩이가 너무 높습니다. 엉덩이를 내려 몸을 일직선으로 만드세요.';
-      } else if (hipLower) {
-        feedback = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
-      } else {
-        feedback = '📐 거의 좋습니다! 몸을 더 일직선으로 만들어주세요.';
-      }
+      const hipY      = (kp[23].y + (kp[24] ? kp[24].y : kp[23].y)) / 2;
+      const shdY      = (kp[11].y + (kp[12] ? kp[12].y : kp[11].y)) / 2;
+      const kneY      = (kp[25].y + (kp[26] ? kp[26].y : kp[25].y)) / 2;
+      if      (bodyAngle > 160)                           { isGood = true; feedback = '✅ 플랭크 자세 완벽! 몸이 일직선입니다. 코어를 유지하세요! 💪'; }
+      else if (hipY < Math.min(shdY, kneY) - 0.05)       feedback = '⚠️ 엉덩이가 너무 높습니다. 내려서 일직선을 만드세요.';
+      else if (hipY > Math.max(shdY, kneY) + 0.05)       feedback = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주세요!';
+      else                                                 feedback = '📐 거의 좋습니다! 몸을 더 일직선으로 만들어주세요.';
       if (isGood) goodPostureSeconds++;
       break;
     }
-
-    // ── 푸시업 ───────────────────────────────
     case 'pushup': {
-      if (!vis(11)||!vis(13)||!vis(15)||!vis(12)||!vis(14)||!vis(16)) {
-        fb.textContent = '⏳ 팔 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
-        return;
+      if (!vis(11)||!vis(13)||!vis(15)) {
+        fb.textContent = '⏳ 팔 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.'; return;
       }
-      // 팔꿈치 각도 (어깨-팔꿈치-손목)
-      const elbowAngleL = getAngle(kp[11], kp[13], kp[15]);
-      const elbowAngleR = getAngle(kp[12], kp[14], kp[16]);
-      const elbowAngle  = Math.min(elbowAngleL, elbowAngleR);
-      // 몸 직선 (어깨-엉덩이-발목)
-      const bodyLine = vis(23) && vis(27)
-        ? getAngle(kp[11], kp[23], kp[27]) : 180;
-
-      if (elbowAngle > 160) {
-        feedback = '📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!';
-      } else if (elbowAngle <= 160 && elbowAngle > 90) {
-        feedback = '📐 더 내려가세요! 팔꿈치 90도가 목표입니다.';
-      } else if (elbowAngle <= 90) {
-        if (bodyLine < 150) {
-          feedback = '⚠️ 엉덩이가 틀어졌습니다. 몸을 일직선으로 유지하세요.';
-        } else {
-          isGood = true;
-          feedback = '✅ 푸시업 완벽! 팔꿈치 각도 ' + Math.round(elbowAngle) + '° - 훌륭합니다!';
-          if (totalSeconds % 4 === 0) repCount++;
-        }
-      }
+      const elbowAngle = Math.min(getAngle(kp[11],kp[13],kp[15]), vis(12)&&vis(14)&&vis(16) ? getAngle(kp[12],kp[14],kp[16]) : 180);
+      const bodyLine   = (vis(23)&&vis(27)) ? getAngle(kp[11],kp[23],kp[27]) : 180;
+      if      (elbowAngle > 160) feedback = '📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!';
+      else if (elbowAngle > 90)  feedback = '📐 더 내려가세요! 팔꿈치 90도가 목표입니다.';
+      else if (bodyLine < 150)   feedback = '⚠️ 엉덩이가 틀어졌습니다. 몸을 일직선으로 유지하세요.';
+      else { isGood = true; feedback = '✅ 푸시업 완벽! 팔꿈치 각도 ' + Math.round(elbowAngle) + '° - 훌륭합니다!'; if(totalSeconds%4===0) repCount++; }
       break;
     }
-
-    // ── 버피 ─────────────────────────────────
     case 'burpee': {
       if (!vis(11)||!vis(23)||!vis(25)||!vis(27)) {
-        fb.textContent = '⏳ 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
-        return;
+        fb.textContent = '⏳ 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.'; return;
       }
-      const hipY      = (kp[23].y + kp[24].y) / 2;
-      const shoulderY = (kp[11].y + kp[12].y) / 2;
-      const kneeAngle = vis(25) && vis(27) ? getAngle(kp[23], kp[25], kp[27]) : 180;
-      const bodyAngle = vis(23) && vis(25)
-        ? getAngle(kp[11], kp[23], kp[25]) : 180;
-
-      // 플랭크 상태 (엉덩이가 낮고 몸이 수평)
-      const isPlankPos = hipY > 0.5 && Math.abs(hipY - shoulderY) < 0.15;
-      // 스쿼트 상태
-      const isSquatPos = kneeAngle < 120;
-      // 점프 상태 (발목이 화면 상단)
-      const ankleY = vis(27) ? kp[27].y : 1;
-      const isJump = ankleY < 0.4 && hipY < 0.5;
-
-      if (isJump) {
-        isGood = true;
-        feedback = '✅ 점프! 잘 하고 있어요! 버피 동작 훌륭합니다 🔥';
-        if (totalSeconds % 5 === 0) repCount++;
-      } else if (isPlankPos) {
-        isGood = true;
-        feedback = '✅ 플랭크 자세 확인! 다음 동작(푸시업 or 점프)으로 이어가세요.';
-      } else if (isSquatPos) {
-        feedback = '📐 스쿼트 자세 확인! 플랭크로 전환하거나 위로 점프하세요.';
-      } else {
-        feedback = '⚠️ 착지 시 무릎을 부드럽게 굽혀 충격을 흡수하세요.';
-      }
+      const hipY2   = (kp[23].y + (kp[24] ? kp[24].y : kp[23].y)) / 2;
+      const shdY2   = (kp[11].y + (kp[12] ? kp[12].y : kp[11].y)) / 2;
+      const kneeA   = getAngle(kp[23], kp[25], kp[27]);
+      const ankleY2 = kp[27].y;
+      const isPlank = hipY2 > 0.5 && Math.abs(hipY2 - shdY2) < 0.15;
+      const isJump2 = ankleY2 < 0.4 && hipY2 < 0.5;
+      if      (isJump2)    { isGood = true; feedback = '✅ 점프! 버피 동작 훌륭합니다 🔥'; if(totalSeconds%5===0) repCount++; }
+      else if (isPlank)    { isGood = true; feedback = '✅ 플랭크 자세 확인! 다음 동작으로 이어가세요.'; }
+      else if (kneeA < 120) feedback = '📐 스쿼트 확인! 플랭크로 전환하거나 점프하세요.';
+      else                  feedback = '⚠️ 착지 시 무릎을 부드럽게 굽혀 충격을 흡수하세요.';
       break;
     }
-
-    // ── 줄넘기 ───────────────────────────────
     case 'jump': {
       if (!vis(27)||!vis(28)||!vis(25)||!vis(26)) {
-        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
-        return;
+        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.'; return;
       }
-      const ankleL = kp[27].y;
-      const ankleR = kp[28].y;
-      const kneeL  = kp[25].y;
-      const kneeR  = kp[26].y;
-      // 발목이 무릎보다 높으면 점프 중
-      const isJumping = (ankleL < kneeL - 0.05) || (ankleR < kneeR - 0.05);
-      // 점프 높이 (발목 y가 낮을수록 높이 점프)
-      const jumpHeight = 1 - Math.min(ankleL, ankleR);
-
-      if (isJumping) {
-        if (jumpHeight > 0.5) {
-          feedback = '⚠️ 너무 높이 뛰고 있어요! 2~3cm만 뛰세요.';
-        } else {
-          isGood = true;
-          feedback = '✅ 줄넘기 리듬 훌륭해요! 발끝 착지 유지! 🪢';
-          if (totalSeconds % 2 === 0) repCount++;
-        }
-      } else {
-        // 발끝 착지 여부 (발가락이 발뒤꿈치보다 낮으면 발끝 착지)
-        feedback = '📐 리듬감 있게 발끝으로 가볍게 뛰어주세요!';
-      }
+      const isJumping  = (kp[27].y < kp[25].y - 0.05) || (kp[28].y < kp[26].y - 0.05);
+      const jumpHeight = 1 - Math.min(kp[27].y, kp[28].y);
+      if      (!isJumping)        feedback = '📐 리듬감 있게 발끝으로 가볍게 뛰어주세요!';
+      else if (jumpHeight > 0.5)  feedback = '⚠️ 너무 높이 뛰고 있어요! 2~3cm만 뛰세요.';
+      else { isGood = true; feedback = '✅ 줄넘기 리듬 훌륭해요! 발끝 착지 유지! 🪢'; if(totalSeconds%2===0) repCount++; }
       break;
     }
   }
@@ -1382,12 +1261,9 @@ function snapshotAnalysis() {
     a += `\n⚠️ 주의 실수:\n`;
     tips.mistakes.forEach((m,i) => a += `${i+1}. ${m}\n`);
     a += `\n💡 팁: ${tips.tips}`;
-    // 현재 관절 상태 추가
-    if (lastKeypoints) {
-      a += `\n\n🦴 현재 관절 인식: ✅ 정상 감지됨`;
-    } else {
-      a += `\n\n🦴 현재 관절 인식: ⚠️ 미감지 - 카메라 거리를 조절하세요.`;
-    }
+    a += lastKeypoints
+      ? '\n\n🦴 관절 인식: ✅ 정상 감지됨'
+      : '\n\n🦴 관절 인식: ⚠️ 미감지 - 카메라 거리를 조절하세요.';
     document.getElementById('snapshotContent').textContent = a;
   }, 1200);
 }
@@ -1433,7 +1309,7 @@ function generateWOD() {
   showToast('🤖 WOD가 생성되었습니다!');
 }
 
-// ★ 수정4: 백과사전 유튜브 링크 포함 렌더링
+// ── 백과사전 ───────────────────────────────────
 function renderWiki(filter = '') {
   const filtered = WIKI_DATA.filter(w => w.name.includes(filter) || w.target.includes(filter));
   document.getElementById('wikiList').innerHTML = filtered.map(w => `
@@ -1524,15 +1400,15 @@ function sendChat() {
 }
 function generateAIReply(msg) {
   const m = msg.toLowerCase();
-  if (m.includes('스쿼트'))           return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
-  if (m.includes('런지'))             return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
-  if (m.includes('플랭크'))           return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
+  if (m.includes('스쿼트'))                      return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
+  if (m.includes('런지'))                        return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
+  if (m.includes('플랭크'))                      return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
   if (m.includes('푸시업')||m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
-  if (m.includes('버피'))             return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→점프! 착지 시 무릎 굽혀 충격 흡수!';
-  if (m.includes('줄넘기'))           return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만 뛰어요.';
-  if (m.includes('심박수')||m.includes('wod')) return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
-  if (m.includes('초보')||m.includes('처음'))   return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
-  if (m.includes('피드백')||m.includes('오늘')) return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+  if (m.includes('버피'))                        return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→점프! 착지 시 무릎 굽혀 충격 흡수!';
+  if (m.includes('줄넘기'))                      return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만 뛰어요.';
+  if (m.includes('심박수')||m.includes('wod'))   return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
+  if (m.includes('초보')||m.includes('처음'))    return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
+  if (m.includes('피드백')||m.includes('오늘'))  return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
@@ -1565,8 +1441,9 @@ async function saveDailyLog() {
       showToast('✅ 오늘의 기록이 저장되었습니다!');
       generateAITotal();
     } else { showToast('⚠️ 저장 실패: ' + (res.message || '')); }
-  } catch { showToast('⚠️ 서버 연결 실패.'); }
+  } catch(err) { showToast('⚠️ 서버 연결 실패: ' + (err.message || '')); }
 }
+
 function generateAITotal() {
   const gp = document.getElementById('goodPoint').value;
   const ip = document.getElementById('improvePoint').value;
@@ -1590,7 +1467,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── Enter 키 ───────────────────────────────────
+// ── 초기화 ─────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   ['loginId','loginName','loginPw'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => {
@@ -1598,7 +1475,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   document.getElementById('logDate').textContent = '📅 ' + new Date().toLocaleDateString('ko-KR');
-  // 초기 탭 상태 적용
   switchAuthTab('login');
 });
 </script>
