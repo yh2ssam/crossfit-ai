@@ -44,7 +44,6 @@
   .login-logo { font-size: 3rem; margin-bottom: 8px; }
   .login-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
   .login-sub { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; }
-  /* ── 탭 토글 (로그인/신규등록) ── */
   .auth-toggle {
     display: flex; background: var(--surface2);
     border-radius: 12px; padding: 4px; margin-bottom: 20px; gap: 4px;
@@ -87,7 +86,7 @@
     background: var(--surface2); border-radius: 10px;
     padding: 10px 14px; margin-bottom: 16px; line-height: 1.6; text-align: left;
   }
-  /* ── 앱 레이아웃 ── */
+  /* ── 앱 ── */
   #appScreen { display: none; }
   .header {
     background: var(--surface); border-bottom: 1px solid var(--border);
@@ -172,15 +171,15 @@
     position: relative; background: #000; border-radius: 12px;
     overflow: hidden; margin-bottom: 12px; aspect-ratio: 4/3;
   }
-  #videoEl { width: 100%; height: 100%; object-fit: cover; display: block; transform: scaleX(-1); }
-  #canvasEl { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: scaleX(-1); }
+  #videoEl { width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); }
+  #canvasEl { position:absolute; top:0; left:0; width:100%; height:100%; transform:scaleX(-1); }
   .camera-placeholder {
     position: absolute; inset: 0; display: flex;
     flex-direction: column; align-items: center; justify-content: center;
     color: var(--text2); font-size: 0.9rem; gap: 8px;
   }
   .camera-placeholder .cam-icon { font-size: 3rem; }
-  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 12px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 12px; }
   .stat-item { background: var(--surface2); border-radius: 12px; padding: 16px; text-align: center; }
   .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); }
   .stat-label { font-size: 0.75rem; color: var(--text2); margin-top: 4px; }
@@ -225,7 +224,7 @@
     font-weight: 600; margin-right: 4px; margin-top: 6px;
   }
   .tag-good { background: rgba(67,233,123,0.15); color: var(--accent3); }
-  .dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+  .dash-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 16px; }
   .dash-stat { background: var(--surface2); border-radius: 12px; padding: 20px; text-align: center; }
   .dash-stat-value { font-size: 2.2rem; font-weight: 900; color: var(--accent); }
   .dash-stat-label { font-size: 0.78rem; color: var(--text2); margin-top: 4px; }
@@ -291,6 +290,7 @@
     border: 1px solid rgba(108,99,255,0.2); border-radius: 12px; padding: 16px;
     font-size: 0.85rem; line-height: 1.7; color: var(--text); margin-top: 12px; white-space: pre-wrap;
   }
+  /* ── 모달 ── */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     display: flex; align-items: center; justify-content: center;
@@ -304,7 +304,7 @@
   }
   .modal-overlay.show .modal-box { transform: scale(1); }
   .modal-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-  .modal-sub { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; }
+  .modal-sub { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
   .modal-input {
     width: 100%; padding: 12px 16px; background: var(--surface2);
     border: 1px solid var(--border); border-radius: 10px;
@@ -334,8 +334,8 @@
   }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .server-status { font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
-  .server-status.ok { color: var(--success); border-color: var(--success); }
-  .server-status.err { color: var(--danger); border-color: var(--danger); }
+  .server-status.ok  { color: var(--success); border-color: var(--success); }
+  .server-status.err { color: var(--danger);  border-color: var(--danger);  }
   .server-status.checking { color: var(--warning); border-color: var(--warning); }
   .snapshot-result {
     background: var(--surface2); border-radius: 12px; padding: 16px; margin-top: 12px;
@@ -343,12 +343,12 @@
   }
   @media (max-width: 480px) {
     .login-card { width: 95%; padding: 36px 24px; }
-    .dash-grid { grid-template-columns: repeat(2, 1fr); }
-    .exercise-grid { grid-template-columns: repeat(3, 1fr); }
-    .form-row { grid-template-columns: 1fr; }
-    .wod-time { font-size: 3rem; }
-    .section { padding: 12px; }
-    .header { padding: 0 12px; }
+    .dash-grid  { grid-template-columns: repeat(2,1fr); }
+    .exercise-grid { grid-template-columns: repeat(3,1fr); }
+    .form-row   { grid-template-columns: 1fr; }
+    .wod-time   { font-size: 3rem; }
+    .section    { padding: 12px; }
+    .header     { padding: 0 12px; }
   }
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -364,17 +364,11 @@
     <div class="login-title">명문고등학교 체육2</div>
     <div class="login-sub">CrossFit AI Performance Lab</div>
 
-    <!-- 로그인 / 신규등록 탭 -->
     <div class="auth-toggle">
-      <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">
-        🔓 기존 학생 로그인
-      </button>
-      <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">
-        ✏️ 최초 등록 (신규)
-      </button>
+      <button class="auth-tab active" id="tabLogin"    onclick="switchAuthTab('login')">🔓 기존 학생 로그인</button>
+      <button class="auth-tab"        id="tabRegister" onclick="switchAuthTab('register')">✏️ 최초 등록 (신규)</button>
     </div>
 
-    <!-- 안내 문구 -->
     <div class="login-hint" id="authHint">
       📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.
     </div>
@@ -400,25 +394,25 @@
     <div class="header-right">
       <div id="serverStatus" class="server-status checking">● 연결 확인 중</div>
       <div class="header-student"><span id="headerName">-</span></div>
-      <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+      <button class="theme-btn"  onclick="toggleTheme()">🌙</button>
       <button class="logout-btn" onclick="doLogout()">로그아웃</button>
     </div>
   </div>
 
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('exercise')"><span class="tab-icon">🏋️</span>운동/진단</button>
-    <button class="tab-btn" onclick="showTab('wiki')"><span class="tab-icon">📚</span>백과사전</button>
-    <button class="tab-btn" onclick="showTab('dashboard')"><span class="tab-icon">📊</span>대시보드</button>
-    <button class="tab-btn" onclick="showTab('ai')"><span class="tab-icon">🤖</span>AI/WOD</button>
-    <button class="tab-btn" onclick="showTab('log')"><span class="tab-icon">📝</span>오늘기록</button>
+    <button class="tab-btn"        onclick="showTab('wiki')">    <span class="tab-icon">📚</span>백과사전</button>
+    <button class="tab-btn"        onclick="showTab('dashboard')"><span class="tab-icon">📊</span>대시보드</button>
+    <button class="tab-btn"        onclick="showTab('ai')">      <span class="tab-icon">🤖</span>AI/WOD</button>
+    <button class="tab-btn"        onclick="showTab('log')">     <span class="tab-icon">📝</span>오늘기록</button>
   </div>
 
-  <!-- ── 섹션 1: 운동/진단 ── -->
+  <!-- 섹션1: 운동/진단 -->
   <div id="sec-exercise" class="section active">
     <div class="card">
       <div class="card-title">⏱️ 15분 WOD 타이머</div>
       <div class="wod-timer-display">
-        <div class="wod-time" id="wodDisplay">15:00</div>
+        <div class="wod-time"   id="wodDisplay">15:00</div>
         <div class="wod-status" id="wodStatus">준비</div>
       </div>
       <div class="btn-row">
@@ -432,11 +426,11 @@
       <div class="card-title">🦵 운동 선택</div>
       <div class="exercise-grid" id="exerciseGrid">
         <button class="exercise-btn active" onclick="selectExercise(0)"><span class="ex-icon">🦵</span>에어스쿼트</button>
-        <button class="exercise-btn" onclick="selectExercise(1)"><span class="ex-icon">🏃</span>런지</button>
-        <button class="exercise-btn" onclick="selectExercise(2)"><span class="ex-icon">💪</span>플랭크</button>
-        <button class="exercise-btn" onclick="selectExercise(3)"><span class="ex-icon">⬆️</span>푸시업</button>
-        <button class="exercise-btn" onclick="selectExercise(4)"><span class="ex-icon">🔥</span>버피</button>
-        <button class="exercise-btn" onclick="selectExercise(5)"><span class="ex-icon">🪢</span>줄넘기</button>
+        <button class="exercise-btn"        onclick="selectExercise(1)"><span class="ex-icon">🏃</span>런지</button>
+        <button class="exercise-btn"        onclick="selectExercise(2)"><span class="ex-icon">💪</span>플랭크</button>
+        <button class="exercise-btn"        onclick="selectExercise(3)"><span class="ex-icon">⬆️</span>푸시업</button>
+        <button class="exercise-btn"        onclick="selectExercise(4)"><span class="ex-icon">🔥</span>버피</button>
+        <button class="exercise-btn"        onclick="selectExercise(5)"><span class="ex-icon">🪢</span>줄넘기</button>
       </div>
     </div>
     <div class="card">
@@ -470,7 +464,7 @@
     </div>
   </div>
 
-  <!-- ── 섹션 2: 백과사전 ── -->
+  <!-- 섹션2: 백과사전 -->
   <div id="sec-wiki" class="section">
     <div class="card">
       <div class="card-title">📚 크로스핏 운동 백과사전</div>
@@ -481,7 +475,7 @@
     </div>
   </div>
 
-  <!-- ── 섹션 3: 대시보드 ── -->
+  <!-- 섹션3: 대시보드 -->
   <div id="sec-dashboard" class="section">
     <div class="card">
       <div class="card-title">📊 나의 누적 기록</div>
@@ -501,7 +495,7 @@
     </div>
   </div>
 
-  <!-- ── 섹션 4: AI/WOD ── -->
+  <!-- 섹션4: AI/WOD -->
   <div id="sec-ai" class="section">
     <div class="card">
       <div class="card-title">🤖 AI 체육 선생님</div>
@@ -532,7 +526,7 @@
     </div>
   </div>
 
-  <!-- ── 섹션 5: 오늘의 기록 ── -->
+  <!-- 섹션5: 오늘의 기록 -->
   <div id="sec-log" class="section">
     <div class="card">
       <div class="card-title">📝 Daily Workout Log</div>
@@ -589,7 +583,22 @@
   </div>
 </div>
 
-<!-- ─── 비밀번호 변경 모달 ─── -->
+<!-- ─── 최초 등록 후 비밀번호 강제 변경 모달 ─── -->
+<div class="modal-overlay" id="pwForceModal">
+  <div class="modal-box">
+    <div class="modal-title">🔐 비밀번호 새로 설정</div>
+    <div class="modal-sub">
+      등록이 완료되었습니다! 🎉<br>
+      다음 로그인에 사용할 비밀번호를 지금 설정해주세요.
+    </div>
+    <input id="pwForce1" class="modal-input" type="password" placeholder="새 비밀번호 (4자리 이상)">
+    <input id="pwForce2" class="modal-input" type="password" placeholder="새 비밀번호 확인">
+    <div id="pwForceError" class="modal-error"></div>
+    <button class="btn btn-primary" style="width:100%;" onclick="saveForcePw()">✅ 설정 완료</button>
+  </div>
+</div>
+
+<!-- ─── 비밀번호 변경 모달 (선택) ─── -->
 <div class="modal-overlay" id="pwChangeModal">
   <div class="modal-box">
     <div class="modal-title">🔐 비밀번호 변경</div>
@@ -645,33 +654,33 @@
 // ════════════════════════════════════════════════
 // ★ GAS URL (배포 후 여기에 입력)
 // ════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyoMyeNNWz7o052xqz2WrsQ9mJHwnf5IIFdoMzuFQBlSwOxlfwetushv715w_yeSUKB5g/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx6PLQ3LdcMOjNA9fo59eRTnX3fhXx-3LinU6j-y7FBLODvnwnPe4zwXz4_SFps2raE2g/exec';
 
 // ── 전역 상태 ──────────────────────────────────
-let currentStudent   = null;
-let authMode         = 'login'; // 'login' | 'register'
-let isLightMode      = false;
+let currentStudent     = null;
+let authMode           = 'login';
+let isLightMode        = false;
 let currentExerciseIdx = 0;
-let isCameraOn       = false;
-let isMeasuring      = false;
-let measureTimer     = null;
-let totalSeconds     = 0;
+let isCameraOn         = false;
+let isMeasuring        = false;
+let measureTimer       = null;
+let totalSeconds       = 0;
 let goodPostureSeconds = 0;
-let repCount         = 0;
-let currentAccuracy  = 0;
-let wodInterval      = null;
-let wodSeconds       = 900;
-let wodRunning       = false;
-let wodSetsCount     = 0;
-let stream           = null;
+let repCount           = 0;
+let currentAccuracy    = 0;
+let wodInterval        = null;
+let wodSeconds         = 900;
+let wodRunning         = false;
+let wodSetsCount       = 0;
+let stream             = null;
 
 const EXERCISES = [
-  { name: '에어 스쿼트', icon: '🦵', key: 'squat'  },
-  { name: '런지',        icon: '🏃', key: 'lunge'  },
-  { name: '플랭크',      icon: '💪', key: 'plank'  },
-  { name: '푸시업',      icon: '⬆️', key: 'pushup' },
-  { name: '버피',        icon: '🔥', key: 'burpee' },
-  { name: '줄넘기',      icon: '🪢', key: 'jump'   },
+  { name:'에어 스쿼트', icon:'🦵', key:'squat'  },
+  { name:'런지',        icon:'🏃', key:'lunge'  },
+  { name:'플랭크',      icon:'💪', key:'plank'  },
+  { name:'푸시업',      icon:'⬆️', key:'pushup' },
+  { name:'버피',        icon:'🔥', key:'burpee' },
+  { name:'줄넘기',      icon:'🪢', key:'jump'   },
 ];
 
 const WIKI_DATA = [
@@ -713,14 +722,18 @@ function gasCall(params) {
       document.head.removeChild(s); resolve(data);
     };
     s.onerror = () => {
-      if (!done) { done = true; delete window[cbName];
+      if (!done) {
+        done = true; delete window[cbName];
         if (document.head.contains(s)) document.head.removeChild(s);
-        reject(new Error('네트워크 오류')); }
+        reject(new Error('네트워크 오류'));
+      }
     };
     setTimeout(() => {
-      if (!done) { done = true; delete window[cbName];
+      if (!done) {
+        done = true; delete window[cbName];
         if (document.head.contains(s)) document.head.removeChild(s);
-        reject(new Error('타임아웃')); }
+        reject(new Error('타임아웃'));
+      }
     }, 15000);
     s.src = GAS_URL + '?' + p.toString();
     document.head.appendChild(s);
@@ -730,7 +743,7 @@ function gasCall(params) {
 // ── 로그인/등록 탭 전환 ────────────────────────
 function switchAuthTab(mode) {
   authMode = mode;
-  document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
+  document.getElementById('tabLogin').classList.toggle('active',    mode === 'login');
   document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
   document.getElementById('loginError').style.display   = 'none';
   document.getElementById('loginSuccess').style.display = 'none';
@@ -738,13 +751,13 @@ function switchAuthTab(mode) {
   if (mode === 'login') {
     document.getElementById('authHint').textContent =
       '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
-    document.getElementById('authBtn').textContent = '수업 입장하기 →';
-    document.getElementById('loginPw').placeholder = '비밀번호';
+    document.getElementById('authBtn').textContent  = '수업 입장하기 →';
+    document.getElementById('loginPw').placeholder  = '비밀번호';
   } else {
     document.getElementById('authHint').textContent =
       '✏️ 처음 오는 학생은 학번 + 이름 + 사용할 비밀번호를 입력해 등록하세요.\n이후 동일한 정보로 로그인합니다.';
-    document.getElementById('authBtn').textContent = '등록하기 →';
-    document.getElementById('loginPw').placeholder = '사용할 비밀번호 (4자리 이상)';
+    document.getElementById('authBtn').textContent  = '등록하기 →';
+    document.getElementById('loginPw').placeholder  = '사용할 비밀번호 (4자리 이상)';
   }
 }
 
@@ -767,33 +780,33 @@ async function handleAuth() {
     errEl.style.display = 'block'; return;
   }
 
-  errEl.textContent = '처리 중...';
-  errEl.style.color = 'var(--warning)';
+  errEl.style.color   = 'var(--warning)';
+  errEl.textContent   = '처리 중...';
   errEl.style.display = 'block';
 
   try {
     const res = await gasCall({ action: authMode, studentId, name, password });
-
     errEl.style.color = 'var(--danger)';
 
     if (res.status === 'success') {
       if (authMode === 'register') {
-        // 등록 성공 → 로그인 탭으로 안내
+        // ★ 등록 성공 → 즉시 앱 진입 후 비밀번호 강제 변경 모달
         errEl.style.display = 'none';
-        sucEl.textContent = '✅ 등록 완료! 이제 로그인 탭에서 입장하세요.';
-        sucEl.style.display = 'block';
-        setTimeout(() => switchAuthTab('login'), 1500);
+        sucEl.style.display = 'none';
+        enterApp(studentId, name);
+        setTimeout(() => openPwForceModal(), 600);
       } else {
         // 로그인 성공
+        errEl.style.display = 'none';
         enterApp(res.studentId || studentId, res.name || name);
       }
     } else {
-      errEl.textContent = res.message || '처리에 실패했습니다.';
+      errEl.textContent   = res.message || '처리에 실패했습니다.';
       errEl.style.display = 'block';
     }
   } catch {
-    errEl.style.color = 'var(--danger)';
-    errEl.textContent = '서버에 연결할 수 없습니다. 인터넷을 확인하세요.';
+    errEl.style.color   = 'var(--danger)';
+    errEl.textContent   = '서버에 연결할 수 없습니다. 인터넷을 확인하세요.';
     errEl.style.display = 'block';
   }
 }
@@ -801,13 +814,64 @@ async function handleAuth() {
 // ── 앱 화면 진입 ───────────────────────────────
 function enterApp(id, name) {
   currentStudent = { id, name };
-  document.getElementById('headerName').textContent = `${name} (${id})`;
-  document.getElementById('loginScreen').style.display  = 'none';
-  document.getElementById('appScreen').style.display    = 'block';
-  document.getElementById('logDate').textContent = '📅 ' + new Date().toLocaleDateString('ko-KR');
+  document.getElementById('headerName').textContent    = `${name} (${id})`;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display   = 'block';
+  document.getElementById('logDate').textContent       = '📅 ' + new Date().toLocaleDateString('ko-KR');
   checkServer();
   loadDashboard();
-  showToast(`환영해요, ${name}! 💪`);
+}
+
+// ── 강제 비밀번호 변경 모달 열기 ───────────────
+function openPwForceModal() {
+  document.getElementById('pwForce1').value           = '';
+  document.getElementById('pwForce2').value           = '';
+  document.getElementById('pwForceError').style.display = 'none';
+  document.getElementById('pwForceModal').classList.add('show');
+}
+
+// ── 강제 비밀번호 저장 (구글시트 업데이트) ─────
+async function saveForcePw() {
+  const pw1   = document.getElementById('pwForce1').value.trim();
+  const pw2   = document.getElementById('pwForce2').value.trim();
+  const errEl = document.getElementById('pwForceError');
+  errEl.style.display = 'none';
+
+  if (!pw1 || pw1.length < 4) {
+    errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
+    errEl.style.display = 'block'; return;
+  }
+  if (pw1 !== pw2) {
+    errEl.textContent   = '비밀번호가 일치하지 않습니다.';
+    errEl.style.display = 'block'; return;
+  }
+
+  errEl.style.color   = 'var(--warning)';
+  errEl.textContent   = '저장 중...';
+  errEl.style.display = 'block';
+
+  try {
+    const res = await gasCall({
+      action:      'changePassword',
+      studentId:   currentStudent.id,
+      name:        currentStudent.name,
+      newPassword: pw1
+    });
+
+    if (res.status === 'success') {
+      document.getElementById('pwForceModal').classList.remove('show');
+      showToast(`🎉 ${currentStudent.name}님 등록 완료! 다음부터 새 비밀번호로 로그인하세요.`);
+      loadDashboard();
+    } else {
+      errEl.style.color   = 'var(--danger)';
+      errEl.textContent   = res.message || '저장에 실패했습니다. 다시 시도하세요.';
+      errEl.style.display = 'block';
+    }
+  } catch {
+    errEl.style.color   = 'var(--danger)';
+    errEl.textContent   = '서버 연결 실패. 다시 시도하세요.';
+    errEl.style.display = 'block';
+  }
 }
 
 // ── 서버 상태 확인 ─────────────────────────────
@@ -816,10 +880,10 @@ async function checkServer() {
   try {
     await gasCall({ action: 'initSheets' });
     el.textContent = '● 서버 연결됨';
-    el.className = 'server-status ok';
+    el.className   = 'server-status ok';
   } catch {
     el.textContent = '● 서버 오프라인';
-    el.className = 'server-status err';
+    el.className   = 'server-status err';
   }
 }
 
@@ -837,10 +901,10 @@ function doLogout() {
   switchAuthTab('login');
 }
 
-// ── 비밀번호 변경 ──────────────────────────────
+// ── 비밀번호 변경 (선택) ──────────────────────
 function openPwModal() {
-  document.getElementById('pwNew1').value = '';
-  document.getElementById('pwNew2').value = '';
+  document.getElementById('pwNew1').value             = '';
+  document.getElementById('pwNew2').value             = '';
   document.getElementById('pwNewError').style.display = 'none';
   document.getElementById('pwChangeModal').classList.add('show');
 }
@@ -852,18 +916,33 @@ async function saveNewPw() {
   const pw2   = document.getElementById('pwNew2').value.trim();
   const errEl = document.getElementById('pwNewError');
   errEl.style.display = 'none';
-  if (!pw1 || pw1.length < 4) { errEl.textContent = '비밀번호를 4자리 이상 입력하세요.'; errEl.style.display='block'; return; }
-  if (pw1 !== pw2)             { errEl.textContent = '비밀번호가 일치하지 않습니다.';    errEl.style.display='block'; return; }
+
+  if (!pw1 || pw1.length < 4) {
+    errEl.textContent = '비밀번호를 4자리 이상 입력하세요.';
+    errEl.style.display = 'block'; return;
+  }
+  if (pw1 !== pw2) {
+    errEl.textContent = '비밀번호가 일치하지 않습니다.';
+    errEl.style.display = 'block'; return;
+  }
   try {
     const res = await gasCall({
-      action: 'changePassword',
-      studentId: currentStudent.id,
-      name: currentStudent.name,
+      action:      'changePassword',
+      studentId:   currentStudent.id,
+      name:        currentStudent.name,
       newPassword: pw1
     });
-    if (res.status === 'success') { closePwModal(); showToast('✅ 비밀번호가 변경되었습니다!'); }
-    else { errEl.textContent = res.message || '저장 실패'; errEl.style.display='block'; }
-  } catch { errEl.textContent = '서버 연결 실패.'; errEl.style.display='block'; }
+    if (res.status === 'success') {
+      closePwModal();
+      showToast('✅ 비밀번호가 변경되었습니다!');
+    } else {
+      errEl.textContent   = res.message || '저장 실패';
+      errEl.style.display = 'block';
+    }
+  } catch {
+    errEl.textContent   = '서버 연결 실패.';
+    errEl.style.display = 'block';
+  }
 }
 
 // ── 탭 전환 ────────────────────────────────────
@@ -888,7 +967,7 @@ function toggleTheme() {
 // ── 운동 선택 ──────────────────────────────────
 function selectExercise(idx) {
   currentExerciseIdx = idx;
-  document.querySelectorAll('.exercise-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.exercise-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
   resetMeasure();
 }
 
@@ -901,7 +980,9 @@ function closeGuide() { document.getElementById('guideModal').classList.remove('
 async function startCameraAfterGuide() { closeGuide(); await startCamera(); }
 async function startCamera() {
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'user', width:{ideal:640}, height:{ideal:480} } });
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode:'user', width:{ideal:640}, height:{ideal:480} }
+    });
     document.getElementById('videoEl').srcObject = stream;
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
@@ -923,20 +1004,25 @@ function startMeasure() {
   if (!isCameraOn) { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
   if (isMeasuring) return;
   isMeasuring = true; totalSeconds = 0; goodPostureSeconds = 0;
-  measureTimer = setInterval(() => { totalSeconds++; simulatePoseAnalysis(); updateMeasureUI(); }, 1000);
+  measureTimer = setInterval(() => {
+    totalSeconds++; simulatePoseAnalysis(); updateMeasureUI();
+  }, 1000);
   showToast('▶ 측정을 시작합니다!');
 }
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false; clearInterval(measureTimer); measureTimer = null;
-  const ex = EXERCISES[currentExerciseIdx];
-  const accuracy = totalSeconds > 0 ? Math.round((goodPostureSeconds/totalSeconds)*100) : 0;
+  const ex       = EXERCISES[currentExerciseIdx];
+  const accuracy = totalSeconds > 0 ? Math.round((goodPostureSeconds / totalSeconds) * 100) : 0;
   if (currentStudent && totalSeconds > 5) {
     try {
-      await gasCall({ action:'saveExercise', date: new Date().toLocaleDateString('ko-KR'),
+      await gasCall({
+        action: 'saveExercise',
+        date:   new Date().toLocaleDateString('ko-KR'),
         studentId: currentStudent.id, name: currentStudent.name,
         exercise: ex.name, reps: repCount, duration: totalSeconds,
-        goodPostureDuration: goodPostureSeconds, accuracy });
+        goodPostureDuration: goodPostureSeconds, accuracy
+      });
       showToast(`✅ ${ex.name} 기록 저장! (${repCount} Reps)`);
     } catch { showToast('⚠️ 저장 실패.'); }
   }
@@ -951,98 +1037,125 @@ function resetMeasure() {
   document.getElementById('feedbackBox').textContent  = '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
 function updateMeasureUI() {
-  const m = String(Math.floor(totalSeconds/60)).padStart(2,'0');
-  const s = String(totalSeconds%60).padStart(2,'0');
+  const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
   document.getElementById('timerDisplay').textContent = `${m}:${s}`;
   document.getElementById('repCount').textContent     = repCount;
-  const acc = totalSeconds > 0 ? Math.round((goodPostureSeconds/totalSeconds)*100) : 0;
+  const acc = totalSeconds > 0 ? Math.round((goodPostureSeconds / totalSeconds) * 100) : 0;
   document.getElementById('accuracyPct').textContent  = acc + '%';
   document.getElementById('accuracyBar').style.width  = acc + '%';
 }
 
 // ── AI 자세 시뮬레이션 ─────────────────────────
 function simulatePoseAnalysis() {
-  const ex = EXERCISES[currentExerciseIdx];
+  const ex   = EXERCISES[currentExerciseIdx];
   const rand = Math.random();
   let isGood = false, feedback = '';
-  switch(ex.key) {
+  switch (ex.key) {
     case 'squat':
-      if(rand>0.25){isGood=true;feedback='✅ 스쿼트 자세 양호! 무릎이 발끝 방향을 잘 유지하고 있습니다.';if(totalSeconds%3===0)repCount++;}
-      else feedback=['⚠️ 무릎이 안쪽으로 모이고 있습니다.','⚠️ 더 깊이 앉아주세요!','⚠️ 발뒤꿈치가 들리지 않도록 하세요.'][Math.floor(rand*3)];
+      if (rand > 0.25) {
+        isGood = true; feedback = '✅ 스쿼트 자세 양호! 무릎이 발끝 방향을 잘 유지하고 있습니다.';
+        if (totalSeconds % 3 === 0) repCount++;
+      } else {
+        feedback = ['⚠️ 무릎이 안쪽으로 모이고 있습니다.','⚠️ 더 깊이 앉아주세요!','⚠️ 발뒤꿈치가 들리지 않도록 하세요.'][Math.floor(rand * 3)];
+      }
       break;
     case 'lunge':
-      if(rand>0.3){isGood=true;feedback='✅ 런지 자세 훌륭해요!';if(totalSeconds%4===0)repCount++;}
-      else feedback='⚠️ 상체가 앞으로 기울고 있어요. 허리를 곧게 세워주세요.';
+      if (rand > 0.3) {
+        isGood = true; feedback = '✅ 런지 자세 훌륭해요!';
+        if (totalSeconds % 4 === 0) repCount++;
+      } else { feedback = '⚠️ 상체가 앞으로 기울고 있어요. 허리를 곧게 세워주세요.'; }
       break;
     case 'plank':
-      if(rand>0.2){isGood=true;feedback='✅ 플랭크 자세 완벽!';}
-      else feedback=['⚠️ 엉덩이가 위로 올라가고 있어요.','⚠️ 허리가 처지고 있어요. 코어에 힘!'][Math.floor(rand*2)];
+      if (rand > 0.2) {
+        isGood = true; feedback = '✅ 플랭크 자세 완벽!';
+      } else { feedback = ['⚠️ 엉덩이가 위로 올라가고 있어요.','⚠️ 허리가 처지고 있어요. 코어에 힘!'][Math.floor(rand * 2)]; }
       break;
     case 'pushup':
-      if(rand>0.3){isGood=true;feedback='✅ 푸시업 자세 좋아요!';if(totalSeconds%4===0)repCount++;}
-      else feedback='⚠️ 팔꿈치가 너무 옆으로 벌어지고 있어요.';
+      if (rand > 0.3) {
+        isGood = true; feedback = '✅ 푸시업 자세 좋아요!';
+        if (totalSeconds % 4 === 0) repCount++;
+      } else { feedback = '⚠️ 팔꿈치가 너무 옆으로 벌어지고 있어요.'; }
       break;
     case 'burpee':
-      if(rand>0.35){isGood=true;feedback='✅ 버피 동작 잘 하고 있어요!';if(totalSeconds%5===0)repCount++;}
-      else feedback='⚠️ 착지 시 무릎을 부드럽게 굽혀 충격을 흡수하세요.';
+      if (rand > 0.35) {
+        isGood = true; feedback = '✅ 버피 동작 잘 하고 있어요!';
+        if (totalSeconds % 5 === 0) repCount++;
+      } else { feedback = '⚠️ 착지 시 무릎을 부드럽게 굽혀 충격을 흡수하세요.'; }
       break;
     case 'jump':
-      if(rand>0.2){isGood=true;feedback='✅ 줄넘기 리듬 훌륭해요!';if(totalSeconds%2===0)repCount++;}
-      else feedback='⚠️ 너무 높이 뛰고 있어요. 2~3cm만 뛰세요.';
+      if (rand > 0.2) {
+        isGood = true; feedback = '✅ 줄넘기 리듬 훌륭해요!';
+        if (totalSeconds % 2 === 0) repCount++;
+      } else { feedback = '⚠️ 너무 높이 뛰고 있어요. 2~3cm만 뛰세요.'; }
       break;
   }
-  if(isGood) goodPostureSeconds++;
+  if (isGood) goodPostureSeconds++;
   document.getElementById('feedbackBox').textContent = feedback;
 }
 
 // ── 스냅샷 분석 ────────────────────────────────
 function snapshotAnalysis() {
-  if(!isCameraOn){showToast('⚠️ 카메라를 먼저 켜주세요!');return;}
+  if (!isCameraOn) { showToast('⚠️ 카메라를 먼저 켜주세요!'); return; }
   const ex = EXERCISES[currentExerciseIdx];
   document.getElementById('snapshotModal').classList.add('show');
   document.getElementById('snapshotContent').textContent = 'AI가 현재 프레임을 분석 중입니다...';
-  setTimeout(()=>{
-    const tips = WIKI_DATA.find(w=>w.name===ex.name);
+  setTimeout(() => {
+    const tips = WIKI_DATA.find(w => w.name === ex.name);
     let a = `📊 ${ex.name} 자세 정밀 분석 결과\n\n✅ 올바른 자세:\n`;
-    tips.correct.forEach((c,i)=>a+=`${i+1}. ${c}\n`);
-    a+=`\n⚠️ 주의 실수:\n`;
-    tips.mistakes.forEach((m,i)=>a+=`${i+1}. ${m}\n`);
-    a+=`\n💡 팁: ${tips.tips}`;
+    tips.correct.forEach((c, i)  => a += `${i+1}. ${c}\n`);
+    a += `\n⚠️ 주의 실수:\n`;
+    tips.mistakes.forEach((m, i) => a += `${i+1}. ${m}\n`);
+    a += `\n💡 팁: ${tips.tips}`;
     document.getElementById('snapshotContent').textContent = a;
   }, 1500);
 }
-function closeSnapshot(){ document.getElementById('snapshotModal').classList.remove('show'); }
+function closeSnapshot() { document.getElementById('snapshotModal').classList.remove('show'); }
 
 // ── WOD ────────────────────────────────────────
-function wodStart(){
-  if(wodRunning)return; wodRunning=true;
-  document.getElementById('wodStatus').textContent='운동 중 🔥';
-  wodInterval=setInterval(()=>{
-    if(wodSeconds<=0){wodPause();document.getElementById('wodDisplay').textContent='00:00';document.getElementById('wodStatus').textContent='완료! 🎉';showToast('🎉 15분 WOD 완료!');return;}
+function wodStart() {
+  if (wodRunning) return;
+  wodRunning = true;
+  document.getElementById('wodStatus').textContent = '운동 중 🔥';
+  wodInterval = setInterval(() => {
+    if (wodSeconds <= 0) {
+      wodPause();
+      document.getElementById('wodDisplay').textContent = '00:00';
+      document.getElementById('wodStatus').textContent  = '완료! 🎉';
+      showToast('🎉 15분 WOD 완료!'); return;
+    }
     wodSeconds--;
-    document.getElementById('wodDisplay').textContent=String(Math.floor(wodSeconds/60)).padStart(2,'0')+':'+String(wodSeconds%60).padStart(2,'0');
-  },1000);
+    document.getElementById('wodDisplay').textContent =
+      String(Math.floor(wodSeconds / 60)).padStart(2,'0') + ':' +
+      String(wodSeconds % 60).padStart(2,'0');
+  }, 1000);
 }
-function wodPause(){
-  wodRunning=false; clearInterval(wodInterval);
-  if(wodSeconds>0&&wodSeconds<900) document.getElementById('wodStatus').textContent='일시정지';
+function wodPause() {
+  wodRunning = false; clearInterval(wodInterval);
+  if (wodSeconds > 0 && wodSeconds < 900)
+    document.getElementById('wodStatus').textContent = '일시정지';
 }
-function wodReset(){
-  wodPause(); wodSeconds=900;
-  document.getElementById('wodDisplay').textContent='15:00';
-  document.getElementById('wodStatus').textContent='준비';
+function wodReset() {
+  wodPause(); wodSeconds = 900;
+  document.getElementById('wodDisplay').textContent = '15:00';
+  document.getElementById('wodStatus').textContent  = '준비';
 }
-function generateWOD(){
+function generateWOD() {
   wodReset();
-  const wods=['🔥 에어스쿼트 15개+푸시업 10개+버피 5개 × 3세트','🔥 런지 20개+플랭크 30초+줄넘기 50개 × 3세트','🔥 버피 10개+에어스쿼트 20개+줄넘기 30개 × 3세트','🔥 푸시업 15개+런지 20개+플랭크 45초 × 3세트'];
-  document.getElementById('wodStatus').textContent=wods[Math.floor(Math.random()*wods.length)];
+  const wods = [
+    '🔥 에어스쿼트 15개+푸시업 10개+버피 5개 × 3세트',
+    '🔥 런지 20개+플랭크 30초+줄넘기 50개 × 3세트',
+    '🔥 버피 10개+에어스쿼트 20개+줄넘기 30개 × 3세트',
+    '🔥 푸시업 15개+런지 20개+플랭크 45초 × 3세트',
+  ];
+  document.getElementById('wodStatus').textContent = wods[Math.floor(Math.random() * wods.length)];
   showToast('🤖 WOD가 생성되었습니다!');
 }
 
 // ── 백과사전 ───────────────────────────────────
-function renderWiki(filter=''){
-  const filtered=WIKI_DATA.filter(w=>w.name.includes(filter)||w.target.includes(filter));
-  document.getElementById('wikiList').innerHTML=filtered.map(w=>`
+function renderWiki(filter = '') {
+  const filtered = WIKI_DATA.filter(w => w.name.includes(filter) || w.target.includes(filter));
+  document.getElementById('wikiList').innerHTML = filtered.map(w => `
     <div class="ex-card">
       <div class="ex-card-header">
         <div class="ex-card-icon">${w.icon}</div>
@@ -1050,127 +1163,150 @@ function renderWiki(filter=''){
       </div>
       <div class="ex-card-body">
         <strong>✅ 올바른 자세:</strong>
-        <ul>${w.correct.map(c=>`<li>${c}</li>`).join('')}</ul>
+        <ul>${w.correct.map(c => `<li>${c}</li>`).join('')}</ul>
         <strong style="display:block;margin-top:8px;">⚠️ 피해야 할 실수:</strong>
-        <ul>${w.mistakes.map(m=>`<li>${m}</li>`).join('')}</ul>
+        <ul>${w.mistakes.map(m => `<li>${m}</li>`).join('')}</ul>
         <div style="margin-top:8px;"><span class="ex-tag tag-good">💡 ${w.tips}</span></div>
       </div>
     </div>`).join('');
 }
-function filterWiki(){ renderWiki(document.getElementById('wikiSearch').value.trim()); }
+function filterWiki() { renderWiki(document.getElementById('wikiSearch').value.trim()); }
 
 // ── 대시보드 ───────────────────────────────────
-async function loadDashboard(){
-  if(!currentStudent) return;
-  try{
-    const res=await gasCall({action:'getStudentData',studentId:currentStudent.id});
-    if(res.status!=='success') return;
-    const r=res.exerciseRecords||[];
-    const n=r.length;
-    const totalReps=r.reduce((s,x)=>s+(x.reps||0),0);
-    const avgAcc=n>0?Math.round(r.reduce((s,x)=>s+(x.accuracy||0),0)/n):0;
-    const totalMins=Math.round(r.reduce((s,x)=>s+(x.duration||0),0)/60);
-    document.getElementById('dTotalSessions').textContent=n;
-    document.getElementById('dTotalReps').textContent=totalReps;
-    document.getElementById('dAvgAccuracy').textContent=avgAcc+'%';
-    document.getElementById('dTotalTime').textContent=totalMins+'분';
-    const recEl=document.getElementById('recentRecords');
-    const recent=r.slice(-10).reverse();
-    recEl.innerHTML=recent.length===0
-      ?'<div class="empty-state">아직 기록이 없습니다</div>'
-      :'<div class="record-list">'+recent.map(x=>`<div class="record-item"><div class="r-left">${x.date} · ${x.exercise}</div><div class="r-right">${x.reps} Reps · ${x.accuracy}%</div></div>`).join('')+'</div>';
-  }catch{ showToast('⚠️ 데이터를 불러오지 못했습니다.'); }
+async function loadDashboard() {
+  if (!currentStudent) return;
+  try {
+    const res = await gasCall({ action:'getStudentData', studentId: currentStudent.id });
+    if (res.status !== 'success') return;
+    const r         = res.exerciseRecords || [];
+    const n         = r.length;
+    const totalReps = r.reduce((s,x) => s + (x.reps     || 0), 0);
+    const avgAcc    = n > 0 ? Math.round(r.reduce((s,x) => s + (x.accuracy || 0), 0) / n) : 0;
+    const totalMins = Math.round(r.reduce((s,x) => s + (x.duration || 0), 0) / 60);
+    document.getElementById('dTotalSessions').textContent = n;
+    document.getElementById('dTotalReps').textContent     = totalReps;
+    document.getElementById('dAvgAccuracy').textContent   = avgAcc + '%';
+    document.getElementById('dTotalTime').textContent     = totalMins + '분';
+    const recEl  = document.getElementById('recentRecords');
+    const recent = r.slice(-10).reverse();
+    recEl.innerHTML = recent.length === 0
+      ? '<div class="empty-state">아직 기록이 없습니다</div>'
+      : '<div class="record-list">' +
+        recent.map(x => `
+          <div class="record-item">
+            <div class="r-left">${x.date} · ${x.exercise}</div>
+            <div class="r-right">${x.reps} Reps · ${x.accuracy}%</div>
+          </div>`).join('') + '</div>';
+  } catch { showToast('⚠️ 데이터를 불러오지 못했습니다.'); }
 }
 
 // ── 성취 기준 ──────────────────────────────────
-async function loadAchievement(){
-  const box=document.getElementById('achievementBox');
-  box.textContent='데이터 분석 중...';
-  try{
-    const res=await gasCall({action:'getStudentData',studentId:currentStudent.id});
-    const r=res.exerciseRecords||[];
-    const n=r.length;
-    const avgAcc=n>0?Math.round(r.reduce((s,x)=>s+(x.accuracy||0),0)/n):0;
-    let grade=n>=10&&avgAcc>=85?'🏆 A+ 매우 우수':n>=7&&avgAcc>=70?'🥇 A 우수':n>=5&&avgAcc>=60?'🥈 B 보통':'🥉 C 노력 필요';
-    box.textContent=`📊 성취 기준 평가 결과\n\n• 총 운동 세션: ${n}회\n• 평균 자세 정확도: ${avgAcc}%\n• 성취 등급: ${grade}\n\n💡 꾸준히 운동하면 자세 정확도와 체력이 함께 성장해요!`;
-  }catch{ box.textContent='데이터를 불러올 수 없습니다.'; }
+async function loadAchievement() {
+  const box = document.getElementById('achievementBox');
+  box.textContent = '데이터 분석 중...';
+  try {
+    const res = await gasCall({ action:'getStudentData', studentId: currentStudent.id });
+    const r   = res.exerciseRecords || [];
+    const n   = r.length;
+    const avgAcc = n > 0 ? Math.round(r.reduce((s,x) => s + (x.accuracy || 0), 0) / n) : 0;
+    const grade  =
+      (n >= 10 && avgAcc >= 85) ? '🏆 A+ 매우 우수' :
+      (n >= 7  && avgAcc >= 70) ? '🥇 A 우수'       :
+      (n >= 5  && avgAcc >= 60) ? '🥈 B 보통'        : '🥉 C 노력 필요';
+    box.textContent =
+      `📊 성취 기준 평가 결과\n\n• 총 운동 세션: ${n}회\n• 평균 자세 정확도: ${avgAcc}%\n• 성취 등급: ${grade}\n\n💡 꾸준히 운동하면 자세 정확도와 체력이 함께 성장해요!`;
+  } catch { box.textContent = '데이터를 불러올 수 없습니다.'; }
 }
 
 // ── AI 채팅 ────────────────────────────────────
-function quickChat(msg){ document.getElementById('chatInput').value=msg; sendChat(); }
-function sendChat(){
-  const input=document.getElementById('chatInput');
-  const msg=input.value.trim(); if(!msg) return; input.value='';
-  const chat=document.getElementById('aiChat');
-  chat.innerHTML+=`<div class="ai-msg user-msg"><div class="ai-bubble user-bubble">${msg}</div></div>`;
-  setTimeout(()=>{
-    chat.innerHTML+=`<div class="ai-msg"><div class="ai-avatar">🏫</div><div class="ai-bubble">${generateAIReply(msg)}</div></div>`;
-    chat.scrollTop=chat.scrollHeight;
-  },800);
-  chat.scrollTop=chat.scrollHeight;
+function quickChat(msg) { document.getElementById('chatInput').value = msg; sendChat(); }
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg   = input.value.trim(); if (!msg) return; input.value = '';
+  const chat  = document.getElementById('aiChat');
+  chat.innerHTML += `<div class="ai-msg user-msg"><div class="ai-bubble user-bubble">${msg}</div></div>`;
+  setTimeout(() => {
+    chat.innerHTML += `<div class="ai-msg"><div class="ai-avatar">🏫</div><div class="ai-bubble">${generateAIReply(msg)}</div></div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 800);
+  chat.scrollTop = chat.scrollHeight;
 }
-function generateAIReply(msg){
-  const m=msg.toLowerCase();
-  if(m.includes('스쿼트')) return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
-  if(m.includes('런지'))   return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
-  if(m.includes('플랭크'))  return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
-  if(m.includes('푸시업')||m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
-  if(m.includes('버피'))   return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→점프! 착지 시 무릎 굽혀 충격 흡수!';
-  if(m.includes('줄넘기'))  return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만 뛰어요.';
-  if(m.includes('심박수')||m.includes('wod')) return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
-  if(m.includes('초보')||m.includes('처음')) return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
-  if(m.includes('피드백')||m.includes('오늘')) return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+function generateAIReply(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('스쿼트'))  return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
+  if (m.includes('런지'))    return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
+  if (m.includes('플랭크'))  return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
+  if (m.includes('푸시업') || m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
+  if (m.includes('버피'))    return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→점프! 착지 시 무릎 굽혀 충격 흡수!';
+  if (m.includes('줄넘기'))  return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만 뛰어요.';
+  if (m.includes('심박수') || m.includes('wod')) return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
+  if (m.includes('초보') || m.includes('처음'))  return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
+  if (m.includes('피드백') || m.includes('오늘')) return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
 // ── 일일 기록 ──────────────────────────────────
-function changeWodSets(d){ wodSetsCount=Math.max(0,wodSetsCount+d); document.getElementById('wodSetsVal').textContent=wodSetsCount; }
-async function saveDailyLog(){
-  if(!currentStudent) return;
-  try{
-    const res=await gasCall({
-      action:'saveDailyLog', date:new Date().toLocaleDateString('ko-KR'),
-      studentId:currentStudent.id, name:currentStudent.name, wodSets:wodSetsCount,
-      totalReps:document.getElementById('repCount').textContent||0,
-      peakHR:document.getElementById('peakHR').value||0, avgHR:document.getElementById('avgHR').value||0,
-      goodPoint:document.getElementById('goodPoint').value, improvePoint:document.getElementById('improvePoint').value,
-      breakfast:document.getElementById('breakfast').value, lunch:document.getElementById('lunch').value,
-      dinner:document.getElementById('dinner').value, water:document.getElementById('water').value||0,
-      sleep:document.getElementById('sleep').value||0
-    });
-    if(res.status==='success'){showToast('✅ 오늘의 기록이 저장되었습니다!');generateAITotal();}
-    else showToast('⚠️ 저장 실패: '+(res.message||''));
-  }catch{ showToast('⚠️ 서버 연결 실패.'); }
+function changeWodSets(d) {
+  wodSetsCount = Math.max(0, wodSetsCount + d);
+  document.getElementById('wodSetsVal').textContent = wodSetsCount;
 }
-function generateAITotal(){
-  const gp=document.getElementById('goodPoint').value;
-  const ip=document.getElementById('improvePoint').value;
-  const w=document.getElementById('water').value;
-  const sl=document.getElementById('sleep').value;
-  const hr=document.getElementById('peakHR').value;
-  let msg='👨‍🏫 AI 선생님의 오늘 총평\n\n';
-  msg+=gp?`✅ "${gp}" 정말 잘했어요!\n\n`:'오늘도 참여해줘서 고마워요! 😊\n\n';
-  msg+=ip?`📈 "${ip}" 개선하려는 의지 훌륭해요!\n\n`:'';
-  msg+=(parseFloat(w)>=1.5)?'💧 수분 섭취 훌륭해요!\n':'💧 물을 더 마시면 운동 효율이 올라가요!\n';
-  msg+=(parseFloat(sl)>=7)?'🌙 충분한 수면 굿!\n':'🌙 수면 7시간 이상을 목표로 해봐요!\n';
-  if(hr) msg+=`❤️ 최고 심박수 ${hr}BPM. 잘 했어요!\n`;
-  msg+='\n💪 내일도 파이팅!';
-  document.getElementById('aiTotalBox').textContent=msg;
+async function saveDailyLog() {
+  if (!currentStudent) return;
+  try {
+    const res = await gasCall({
+      action:       'saveDailyLog',
+      date:         new Date().toLocaleDateString('ko-KR'),
+      studentId:    currentStudent.id,
+      name:         currentStudent.name,
+      wodSets:      wodSetsCount,
+      totalReps:    document.getElementById('repCount').textContent     || 0,
+      peakHR:       document.getElementById('peakHR').value             || 0,
+      avgHR:        document.getElementById('avgHR').value              || 0,
+      goodPoint:    document.getElementById('goodPoint').value,
+      improvePoint: document.getElementById('improvePoint').value,
+      breakfast:    document.getElementById('breakfast').value,
+      lunch:        document.getElementById('lunch').value,
+      dinner:       document.getElementById('dinner').value,
+      water:        document.getElementById('water').value              || 0,
+      sleep:        document.getElementById('sleep').value              || 0,
+    });
+    if (res.status === 'success') {
+      showToast('✅ 오늘의 기록이 저장되었습니다!');
+      generateAITotal();
+    } else { showToast('⚠️ 저장 실패: ' + (res.message || '')); }
+  } catch { showToast('⚠️ 서버 연결 실패.'); }
+}
+function generateAITotal() {
+  const gp = document.getElementById('goodPoint').value;
+  const ip = document.getElementById('improvePoint').value;
+  const w  = document.getElementById('water').value;
+  const sl = document.getElementById('sleep').value;
+  const hr = document.getElementById('peakHR').value;
+  let msg  = '👨‍🏫 AI 선생님의 오늘 총평\n\n';
+  msg += gp ? `✅ "${gp}" 정말 잘했어요!\n\n` : '오늘도 참여해줘서 고마워요! 😊\n\n';
+  msg += ip ? `📈 "${ip}" 개선하려는 의지 훌륭해요!\n\n` : '';
+  msg += (parseFloat(w)  >= 1.5) ? '💧 수분 섭취 훌륭해요!\n' : '💧 물을 더 마시면 운동 효율이 올라가요!\n';
+  msg += (parseFloat(sl) >= 7)   ? '🌙 충분한 수면 굿!\n'     : '🌙 수면 7시간 이상을 목표로 해봐요!\n';
+  if (hr) msg += `❤️ 최고 심박수 ${hr}BPM. 잘 했어요!\n`;
+  msg += '\n💪 내일도 파이팅!';
+  document.getElementById('aiTotalBox').textContent = msg;
 }
 
 // ── 토스트 ─────────────────────────────────────
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 // ── Enter 키 ───────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  ['loginId','loginName','loginPw'].forEach(id=>{
-    document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')handleAuth();});
+document.addEventListener('DOMContentLoaded', () => {
+  ['loginId','loginName','loginPw'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleAuth();
+    });
   });
-  document.getElementById('logDate').textContent='📅 '+new Date().toLocaleDateString('ko-KR');
+  document.getElementById('logDate').textContent = '📅 ' + new Date().toLocaleDateString('ko-KR');
 });
 </script>
 </body>
