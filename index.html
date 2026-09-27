@@ -6,380 +6,171 @@
 <title>명문고 체육2 CrossFit AI</title>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --surface2: #1a1a24;
-    --border: #2a2a3a;
-    --accent: #6c63ff;
-    --accent2: #ff6584;
-    --accent3: #43e97b;
-    --text: #e8e8f0;
-    --text2: #9090a8;
-    --card: #16161f;
-    --success: #43e97b;
-    --warning: #ffd93d;
-    --danger: #ff6b6b;
+    --bg:#0a0a0f; --surface:#13131a; --surface2:#1a1a24; --border:#2a2a3a;
+    --accent:#6c63ff; --accent2:#ff6584; --accent3:#43e97b;
+    --text:#e8e8f0; --text2:#9090a8; --card:#16161f;
+    --success:#43e97b; --warning:#ffd93d; --danger:#ff6b6b;
   }
   .light-mode {
-    --bg: #f0f2f8; --surface: #ffffff; --surface2: #f5f6fa;
-    --border: #dde1f0; --text: #1a1a2e; --text2: #5a5a7a; --card: #ffffff;
+    --bg:#f0f2f8; --surface:#ffffff; --surface2:#f5f6fa;
+    --border:#dde1f0; --text:#1a1a2e; --text2:#5a5a7a; --card:#ffffff;
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Segoe UI', -apple-system, sans-serif;
-    background: var(--bg); color: var(--text);
-    min-height: 100vh; transition: background 0.3s, color 0.3s;
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;}
+  #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0a0f 0%,#1a0a2e 50%,#0a0a0f 100%);}
+  .login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:48px 40px;width:380px;text-align:center;box-shadow:0 20px 60px rgba(108,99,255,.15);}
+  .login-logo{font-size:3rem;margin-bottom:8px;}
+  .login-title{font-size:1.4rem;font-weight:700;margin-bottom:4px;}
+  .login-sub{font-size:.85rem;color:var(--text2);margin-bottom:20px;}
+  .auth-toggle{display:flex;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:20px;gap:4px;}
+  .auth-tab{flex:1;padding:10px;border:none;border-radius:10px;background:transparent;color:var(--text2);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;}
+  .auth-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+  .login-input{width:100%;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:1rem;margin-bottom:12px;outline:none;transition:border .2s;}
+  .login-input:focus{border-color:var(--accent);}
+  .login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:4px;}
+  .login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,99,255,.4);}
+  .login-error{color:var(--danger);font-size:.85rem;margin-top:8px;display:none;line-height:1.5;white-space:pre-line;}
+  .login-success{color:var(--success);font-size:.85rem;margin-top:8px;display:none;}
+  .login-footer{font-size:.75rem;color:var(--text2);margin-top:24px;}
+  .login-hint{font-size:.78rem;color:var(--text2);background:var(--surface2);border-radius:10px;padding:10px 14px;margin-bottom:16px;line-height:1.6;text-align:left;white-space:pre-line;}
+  #appScreen{display:none;}
+  .header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .header-left{display:flex;align-items:center;gap:12px;}
+  .header-logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .header-right{display:flex;align-items:center;gap:12px;}
+  .header-student{font-size:.85rem;color:var(--text2);}
+  .header-student span{color:var(--accent);font-weight:700;}
+  .theme-btn,.logout-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.8rem;cursor:pointer;transition:all .2s;}
+  .theme-btn:hover,.logout-btn:hover{border-color:var(--accent);}
+  .tab-bar{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:1;min-width:80px;padding:14px 8px;border:none;background:transparent;color:var(--text2);font-size:.75rem;cursor:pointer;transition:all .2s;border-bottom:3px solid transparent;white-space:nowrap;}
+  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab-btn .tab-icon{font-size:1.2rem;display:block;margin-bottom:2px;}
+  .section{display:none;padding:20px;max-width:900px;margin:0 auto;}
+  .section.active{display:block;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .card-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .wod-timer-display{text-align:center;padding:32px 20px;background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(255,101,132,.1));border-radius:16px;margin-bottom:16px;}
+  .wod-time{font-size:4rem;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .wod-status{font-size:.9rem;color:var(--text2);margin-top:8px;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{padding:10px 20px;border-radius:10px;border:none;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;flex:1;min-width:80px;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+  .btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+  .btn-success{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#0a2a1a;}
+  .btn-danger{background:linear-gradient(135deg,var(--danger),#ff8e8e);color:#fff;}
+  .btn:hover{transform:translateY(-1px);opacity:.9;}
+  .exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .exercise-btn{padding:14px 8px;border-radius:12px;border:2px solid var(--border);background:var(--surface2);color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
+  .exercise-btn.active{border-color:var(--accent);background:rgba(108,99,255,.15);color:var(--accent);}
+  .exercise-btn .ex-icon{font-size:1.5rem;display:block;margin-bottom:4px;}
+  .camera-wrap{position:relative;background:#000;border-radius:12px;overflow:hidden;margin-bottom:12px;aspect-ratio:4/3;}
+  #videoEl{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1);}
+  #canvasEl{position:absolute;top:0;left:0;width:100%;height:100%;transform:scaleX(-1);}
+  .camera-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);font-size:.9rem;gap:8px;}
+  .camera-placeholder .cam-icon{font-size:3rem;}
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px;}
+  .stat-item{background:var(--surface2);border-radius:12px;padding:16px;text-align:center;}
+  .stat-value{font-size:2rem;font-weight:800;color:var(--accent);}
+  .stat-label{font-size:.75rem;color:var(--text2);margin-top:4px;}
+  .accuracy-wrap{margin-bottom:12px;}
+  .accuracy-bar-bg{background:var(--surface2);border-radius:100px;height:12px;overflow:hidden;}
+  .accuracy-bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent3),var(--accent));transition:width .5s;width:0%;}
+  .accuracy-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--text2);margin-bottom:6px;}
+  .feedback-box{background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.2);border-radius:12px;padding:14px;font-size:.85rem;color:var(--text2);min-height:60px;line-height:1.6;}
+  .search-wrap{display:flex;gap:10px;margin-bottom:16px;}
+  .search-input{flex:1;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.9rem;outline:none;}
+  .search-input:focus{border-color:var(--accent);}
+  .ex-card-list{display:grid;gap:12px;}
+  .ex-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;transition:all .2s;}
+  .ex-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .ex-card-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .ex-card-icon{font-size:2rem;}
+  .ex-card-name{font-size:1rem;font-weight:700;}
+  .ex-card-target{font-size:.8rem;color:var(--accent);margin-top:2px;}
+  .ex-card-body{font-size:.82rem;color:var(--text2);line-height:1.6;}
+  .ex-card-body ul{padding-left:16px;margin-top:6px;}
+  .ex-card-body li{margin-bottom:3px;}
+  .ex-tag{display:inline-block;padding:3px 8px;border-radius:6px;font-size:.72rem;font-weight:600;margin-right:4px;margin-top:6px;}
+  .tag-good{background:rgba(67,233,123,.15);color:var(--accent3);}
+  .yt-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 14px;border-radius:8px;background:#ff0000;color:#fff;font-size:.8rem;font-weight:700;text-decoration:none;transition:opacity .2s;}
+  .yt-btn:hover{opacity:.85;}
+  .dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px;}
+  .dash-stat{background:var(--surface2);border-radius:12px;padding:20px;text-align:center;}
+  .dash-stat-value{font-size:2.2rem;font-weight:900;color:var(--accent);}
+  .dash-stat-label{font-size:.78rem;color:var(--text2);margin-top:4px;}
+  .record-list{display:grid;gap:8px;}
+  .record-item{background:var(--surface2);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;}
+  .record-item .r-left{color:var(--text2);}
+  .record-item .r-right{font-weight:700;color:var(--accent);}
+  .empty-state{text-align:center;color:var(--text2);padding:40px;font-size:.9rem;}
+  .ai-chat{background:var(--surface2);border-radius:12px;min-height:200px;max-height:360px;overflow-y:auto;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:12px;}
+  .ai-msg{display:flex;gap:10px;align-items:flex-start;}
+  .ai-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1rem;}
+  .ai-bubble{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:.85rem;color:var(--text);line-height:1.6;max-width:calc(100% - 50px);}
+  .user-msg{flex-direction:row-reverse;}
+  .user-bubble{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;}
+  .chat-input-wrap{display:flex;gap:10px;}
+  .chat-input{flex:1;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.9rem;outline:none;}
+  .quick-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+  .quick-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.78rem;cursor:pointer;transition:all .2s;}
+  .quick-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .form-group{margin-bottom:16px;}
+  .form-label{font-size:.85rem;color:var(--text2);margin-bottom:8px;display:block;}
+  .form-input,.form-textarea{width:100%;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;outline:none;transition:border .2s;}
+  .form-input:focus,.form-textarea:focus{border-color:var(--accent);}
+  .form-textarea{min-height:80px;resize:vertical;font-family:inherit;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .counter-wrap{display:flex;align-items:center;gap:12px;}
+  .counter-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  .counter-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .counter-value{font-size:1.5rem;font-weight:700;min-width:40px;text-align:center;}
+  .ai-total-box{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(255,101,132,.1));border:1px solid rgba(108,99,255,.2);border-radius:12px;padding:16px;font-size:.85rem;line-height:1.7;color:var(--text);margin-top:12px;white-space:pre-wrap;}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s;}
+  .modal-overlay.show{opacity:1;pointer-events:auto;}
+  .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;width:340px;text-align:center;transform:scale(.9);transition:transform .3s;}
+  .modal-overlay.show .modal-box{transform:scale(1);}
+  .modal-title{font-size:1.2rem;font-weight:700;margin-bottom:8px;}
+  .modal-sub{font-size:.85rem;color:var(--text2);margin-bottom:20px;line-height:1.6;}
+  .modal-input{width:100%;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:10px;transition:border .2s;}
+  .modal-input:focus{border-color:var(--accent);}
+  .modal-error{color:var(--danger);font-size:.82rem;margin-bottom:10px;display:none;}
+  .modal-btn-row{display:flex;gap:10px;margin-top:8px;}
+  .guide-list{text-align:left;margin:16px 0;}
+  .guide-item{display:flex;gap:12px;align-items:flex-start;background:var(--surface2);border-radius:10px;padding:12px;margin-bottom:8px;font-size:.85rem;}
+  .guide-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+  .guide-text strong{display:block;font-size:.9rem;margin-bottom:2px;}
+  .guide-text span{color:var(--text2);}
+  #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:.85rem;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .server-status{font-size:.78rem;padding:4px 10px;border-radius:20px;border:1px solid var(--border);}
+  .server-status.ok{color:var(--success);border-color:var(--success);}
+  .server-status.err{color:var(--danger);border-color:var(--danger);}
+  .server-status.checking{color:var(--warning);border-color:var(--warning);}
+  .cam-toggle-wrap{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
+  .cam-facing-toggle{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;}
+  .cam-facing-btn{flex:1;padding:9px 8px;border:none;background:transparent;color:var(--text2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;}
+  .cam-facing-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+  .mobile-only{display:none;}
+  @media(max-width:768px){.mobile-only{display:flex;}}
+  @media(max-width:480px){
+    .login-card{width:95%;padding:36px 24px;}
+    .dash-grid{grid-template-columns:repeat(2,1fr);}
+    .exercise-grid{grid-template-columns:repeat(3,1fr);}
+    .form-row{grid-template-columns:1fr;}
+    .wod-time{font-size:3rem;}
+    .section{padding:12px;}
+    .header{padding:0 12px;}
   }
-  #loginScreen {
-    min-height: 100vh; display: flex;
-    align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0a0a0f 100%);
-  }
-  .login-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 24px; padding: 48px 40px; width: 380px;
-    text-align: center; box-shadow: 0 20px 60px rgba(108,99,255,0.15);
-  }
-  .login-logo { font-size: 3rem; margin-bottom: 8px; }
-  .login-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
-  .login-sub { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; }
-  .auth-toggle {
-    display: flex; background: var(--surface2);
-    border-radius: 12px; padding: 4px; margin-bottom: 20px; gap: 4px;
-  }
-  .auth-tab {
-    flex: 1; padding: 10px; border: none; border-radius: 10px;
-    background: transparent; color: var(--text2);
-    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-  }
-  .auth-tab.active {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-  }
-  .login-input {
-    width: 100%; padding: 14px 16px;
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 12px; color: var(--text); font-size: 1rem;
-    margin-bottom: 12px; outline: none; transition: border 0.2s;
-  }
-  .login-input:focus { border-color: var(--accent); }
-  .login-btn {
-    width: 100%; padding: 14px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none; border-radius: 12px; color: white;
-    font-size: 1rem; font-weight: 700; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s; margin-top: 4px;
-  }
-  .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.4); }
-  .login-error {
-    color: var(--danger); font-size: 0.85rem;
-    margin-top: 8px; display: none; line-height: 1.5; white-space: pre-line;
-  }
-  .login-success { color: var(--success); font-size: 0.85rem; margin-top: 8px; display: none; }
-  .login-footer { font-size: 0.75rem; color: var(--text2); margin-top: 24px; }
-  .login-hint {
-    font-size: 0.78rem; color: var(--text2);
-    background: var(--surface2); border-radius: 10px;
-    padding: 10px 14px; margin-bottom: 16px; line-height: 1.6; text-align: left;
-    white-space: pre-line;
-  }
-  #appScreen { display: none; }
-  .header {
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    padding: 0 20px; height: 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .header-left { display: flex; align-items: center; gap: 12px; }
-  .header-logo {
-    font-size: 1.3rem; font-weight: 800;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .header-right { display: flex; align-items: center; gap: 12px; }
-  .header-student { font-size: 0.85rem; color: var(--text2); }
-  .header-student span { color: var(--accent); font-weight: 700; }
-  .theme-btn, .logout-btn {
-    padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--surface2); color: var(--text); font-size: 0.8rem;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .theme-btn:hover, .logout-btn:hover { border-color: var(--accent); }
-  .tab-bar {
-    display: flex; background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-  }
-  .tab-bar::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    flex: 1; min-width: 80px; padding: 14px 8px;
-    border: none; background: transparent; color: var(--text2);
-    font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
-    border-bottom: 3px solid transparent; white-space: nowrap;
-  }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab-btn .tab-icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
-  .section { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
-  .section.active { display: block; }
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 20px; margin-bottom: 16px;
-  }
-  .card-title {
-    font-size: 1rem; font-weight: 700; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .wod-timer-display {
-    text-align: center; padding: 32px 20px;
-    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.1));
-    border-radius: 16px; margin-bottom: 16px;
-  }
-  .wod-time {
-    font-size: 4rem; font-weight: 900; letter-spacing: 4px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .wod-status { font-size: 0.9rem; color: var(--text2); margin-top: 8px; }
-  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .btn {
-    padding: 10px 20px; border-radius: 10px; border: none;
-    font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-    flex: 1; min-width: 80px;
-  }
-  .btn-primary   { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
-  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  .btn-success   { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #0a2a1a; }
-  .btn-danger    { background: linear-gradient(135deg, var(--danger), #ff8e8e); color: white; }
-  .btn:hover { transform: translateY(-1px); opacity: 0.9; }
-  .exercise-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
-  }
-  .exercise-btn {
-    padding: 14px 8px; border-radius: 12px; border: 2px solid var(--border);
-    background: var(--surface2); color: var(--text); font-size: 0.8rem;
-    font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center;
-  }
-  .exercise-btn.active {
-    border-color: var(--accent); background: rgba(108,99,255,0.15); color: var(--accent);
-  }
-  .exercise-btn .ex-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
-  .camera-wrap {
-    position: relative; background: #000; border-radius: 12px;
-    overflow: hidden; margin-bottom: 12px; aspect-ratio: 4/3;
-  }
-  #videoEl  { width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); }
-  #canvasEl { position:absolute; top:0; left:0; width:100%; height:100%; transform:scaleX(-1); }
-  .camera-placeholder {
-    position: absolute; inset: 0; display: flex;
-    flex-direction: column; align-items: center; justify-content: center;
-    color: var(--text2); font-size: 0.9rem; gap: 8px;
-  }
-  .camera-placeholder .cam-icon { font-size: 3rem; }
-  .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 12px; }
-  .stat-item { background: var(--surface2); border-radius: 12px; padding: 16px; text-align: center; }
-  .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); }
-  .stat-label { font-size: 0.75rem; color: var(--text2); margin-top: 4px; }
-  .accuracy-wrap { margin-bottom: 12px; }
-  .accuracy-bar-bg { background: var(--surface2); border-radius: 100px; height: 12px; overflow: hidden; }
-  .accuracy-bar-fill {
-    height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg, var(--accent3), var(--accent));
-    transition: width 0.5s; width: 0%;
-  }
-  .accuracy-label {
-    display: flex; justify-content: space-between;
-    font-size: 0.8rem; color: var(--text2); margin-bottom: 6px;
-  }
-  .feedback-box {
-    background: rgba(108,99,255,0.08); border: 1px solid rgba(108,99,255,0.2);
-    border-radius: 12px; padding: 14px; font-size: 0.85rem; color: var(--text2);
-    min-height: 60px; line-height: 1.6;
-  }
-  .search-wrap { display: flex; gap: 10px; margin-bottom: 16px; }
-  .search-input {
-    flex: 1; padding: 12px 16px; background: var(--surface2);
-    border: 1px solid var(--border); border-radius: 12px;
-    color: var(--text); font-size: 0.9rem; outline: none;
-  }
-  .search-input:focus { border-color: var(--accent); }
-  .ex-card-list { display: grid; gap: 12px; }
-  .ex-card {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px; transition: all 0.2s;
-  }
-  .ex-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .ex-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .ex-card-icon { font-size: 2rem; }
-  .ex-card-name { font-size: 1rem; font-weight: 700; }
-  .ex-card-target { font-size: 0.8rem; color: var(--accent); margin-top: 2px; }
-  .ex-card-body { font-size: 0.82rem; color: var(--text2); line-height: 1.6; }
-  .ex-card-body ul { padding-left: 16px; margin-top: 6px; }
-  .ex-card-body li { margin-bottom: 3px; }
-  .ex-tag {
-    display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 0.72rem;
-    font-weight: 600; margin-right: 4px; margin-top: 6px;
-  }
-  .tag-good { background: rgba(67,233,123,0.15); color: var(--accent3); }
-  .yt-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 10px; padding: 8px 14px; border-radius: 8px;
-    background: #ff0000; color: #fff; font-size: 0.8rem; font-weight: 700;
-    text-decoration: none; transition: opacity 0.2s;
-  }
-  .yt-btn:hover { opacity: 0.85; }
-  .dash-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 16px; }
-  .dash-stat { background: var(--surface2); border-radius: 12px; padding: 20px; text-align: center; }
-  .dash-stat-value { font-size: 2.2rem; font-weight: 900; color: var(--accent); }
-  .dash-stat-label { font-size: 0.78rem; color: var(--text2); margin-top: 4px; }
-  .record-list { display: grid; gap: 8px; }
-  .record-item {
-    background: var(--surface2); border-radius: 10px; padding: 12px 16px;
-    display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
-  }
-  .record-item .r-left  { color: var(--text2); }
-  .record-item .r-right { font-weight: 700; color: var(--accent); }
-  .empty-state { text-align: center; color: var(--text2); padding: 40px; font-size: 0.9rem; }
-  .ai-chat {
-    background: var(--surface2); border-radius: 12px;
-    min-height: 200px; max-height: 360px; overflow-y: auto;
-    padding: 16px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 12px;
-  }
-  .ai-msg { display: flex; gap: 10px; align-items: flex-start; }
-  .ai-avatar {
-    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center; font-size: 1rem;
-  }
-  .ai-bubble {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 10px 14px; font-size: 0.85rem;
-    color: var(--text); line-height: 1.6; max-width: calc(100% - 50px);
-  }
-  .user-msg { flex-direction: row-reverse; }
-  .user-bubble { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; border: none; }
-  .chat-input-wrap { display: flex; gap: 10px; }
-  .chat-input {
-    flex: 1; padding: 12px 16px; background: var(--surface2);
-    border: 1px solid var(--border); border-radius: 12px;
-    color: var(--text); font-size: 0.9rem; outline: none;
-  }
-  .quick-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-  .quick-btn {
-    padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border);
-    background: var(--surface2); color: var(--text2); font-size: 0.78rem;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .quick-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .form-group { margin-bottom: 16px; }
-  .form-label { font-size: 0.85rem; color: var(--text2); margin-bottom: 8px; display: block; }
-  .form-input, .form-textarea {
-    width: 100%; padding: 12px 16px; background: var(--surface2);
-    border: 1px solid var(--border); border-radius: 10px;
-    color: var(--text); font-size: 0.9rem; outline: none; transition: border 0.2s;
-  }
-  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
-  .form-textarea { min-height: 80px; resize: vertical; font-family: inherit; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .counter-wrap { display: flex; align-items: center; gap: 12px; }
-  .counter-btn {
-    width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
-    background: var(--surface2); color: var(--text); font-size: 1.2rem;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-  }
-  .counter-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .counter-value { font-size: 1.5rem; font-weight: 700; min-width: 40px; text-align: center; }
-  .ai-total-box {
-    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.1));
-    border: 1px solid rgba(108,99,255,0.2); border-radius: 12px; padding: 16px;
-    font-size: 0.85rem; line-height: 1.7; color: var(--text); margin-top: 12px; white-space: pre-wrap;
-  }
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-  }
-  .modal-overlay.show { opacity: 1; pointer-events: auto; }
-  .modal-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px; width: 340px; text-align: center;
-    transform: scale(0.9); transition: transform 0.3s;
-  }
-  .modal-overlay.show .modal-box { transform: scale(1); }
-  .modal-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-  .modal-sub   { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
-  .modal-input {
-    width: 100%; padding: 12px 16px; background: var(--surface2);
-    border: 1px solid var(--border); border-radius: 10px;
-    color: var(--text); font-size: 0.9rem; outline: none; margin-bottom: 10px; transition: border 0.2s;
-  }
-  .modal-input:focus { border-color: var(--accent); }
-  .modal-error { color: var(--danger); font-size: 0.82rem; margin-bottom: 10px; display: none; }
-  .modal-btn-row { display: flex; gap: 10px; margin-top: 8px; }
-  .guide-list { text-align: left; margin: 16px 0; }
-  .guide-item {
-    display: flex; gap: 12px; align-items: flex-start;
-    background: var(--surface2); border-radius: 10px; padding: 12px; margin-bottom: 8px; font-size: 0.85rem;
-  }
-  .guide-num {
-    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
-  }
-  .guide-text strong { display: block; font-size: 0.9rem; margin-bottom: 2px; }
-  .guide-text span   { color: var(--text2); }
-  #toast {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 12px 20px; font-size: 0.85rem; color: var(--text);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 999;
-    opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap;
-  }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .server-status { font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
-  .server-status.ok       { color: var(--success); border-color: var(--success); }
-  .server-status.err      { color: var(--danger);  border-color: var(--danger);  }
-  .server-status.checking { color: var(--warning); border-color: var(--warning); }
-  .snapshot-result {
-    background: var(--surface2); border-radius: 12px; padding: 16px; margin-top: 12px;
-    font-size: 0.85rem; line-height: 1.7; color: var(--text); white-space: pre-wrap; display: none;
-  }
-  .cam-toggle-wrap {
-    display: flex; align-items: center; justify-content: center;
-    gap: 10px; margin-bottom: 10px;
-  }
-  .cam-facing-toggle {
-    display: flex; background: var(--surface2);
-    border: 1px solid var(--border); border-radius: 10px;
-    overflow: hidden; flex: 1;
-  }
-  .cam-facing-btn {
-    flex: 1; padding: 9px 8px; border: none;
-    background: transparent; color: var(--text2);
-    font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-  }
-  .cam-facing-btn.active {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-  }
-  .mobile-only { display: none; }
-  @media (max-width: 768px) { .mobile-only { display: flex; } }
-  @media (max-width: 480px) {
-    .login-card    { width: 95%; padding: 36px 24px; }
-    .dash-grid     { grid-template-columns: repeat(2,1fr); }
-    .exercise-grid { grid-template-columns: repeat(3,1fr); }
-    .form-row      { grid-template-columns: 1fr; }
-    .wod-time      { font-size: 3rem; }
-    .section       { padding: 12px; }
-    .header        { padding: 0 12px; }
-  }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 </style>
 </head>
 <body>
 
-<!-- ───────── 로그인 ───────── -->
+<!-- ═══════════ 로그인 ═══════════ -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">🏋️</div>
@@ -400,7 +191,7 @@
   </div>
 </div>
 
-<!-- ───────── 앱 ───────── -->
+<!-- ═══════════ 앱 ═══════════ -->
 <div id="appScreen">
   <div class="header">
     <div class="header-left">
@@ -464,7 +255,7 @@
         </div>
       </div>
       <div class="btn-row" style="margin-bottom:12px;">
-        <button class="btn btn-secondary" onclick="toggleCamera()">📷 카메라 켜기</button>
+        <button class="btn btn-secondary" id="camToggleBtn" onclick="toggleCamera()">📷 카메라 켜기</button>
         <button class="btn btn-primary"   onclick="startMeasure()">▶ 측정 시작</button>
         <button class="btn btn-danger"    onclick="stopMeasure()">⏹ 완료 & 저장</button>
       </div>
@@ -486,7 +277,6 @@
         <div class="accuracy-bar-bg"><div class="accuracy-bar-fill" id="accuracyBar"></div></div>
       </div>
       <div class="feedback-box" id="feedbackBox">운동을 시작하면 실시간 자세 피드백이 제공됩니다.</div>
-      <div class="snapshot-result" id="snapshotResult"></div>
     </div>
   </div>
 
@@ -538,7 +328,7 @@
         </div>
       </div>
       <div class="chat-input-wrap">
-        <input id="chatInput" class="chat-input" placeholder="질문을 입력하세요..." onkeydown="if(event.key==='Enter') sendChat()">
+        <input id="chatInput" class="chat-input" placeholder="질문을 입력하세요..." onkeydown="if(event.key==='Enter')sendChat()">
         <button class="btn btn-primary" onclick="sendChat()">전송</button>
       </div>
     </div>
@@ -556,7 +346,7 @@
   <div id="sec-log" class="section">
     <div class="card">
       <div class="card-title">📝 Daily Workout Log</div>
-      <div style="font-size:0.85rem;color:var(--text2);margin-bottom:16px;" id="logDate"></div>
+      <div style="font-size:.85rem;color:var(--text2);margin-bottom:16px;" id="logDate"></div>
       <div class="form-group">
         <label class="form-label">✅ 성공한 WOD 세트 (Rounds)</label>
         <div class="counter-wrap">
@@ -564,7 +354,7 @@
           <div class="counter-value" id="wodSetsVal">0</div>
           <button class="counter-btn" onclick="changeWodSets(1)">+</button>
         </div>
-        <div style="font-size:0.78rem;color:var(--text2);margin-top:6px;">수행한 총 Reps 기준 자동 계산</div>
+        <div style="font-size:.78rem;color:var(--text2);margin-top:6px;">수행한 총 Reps 기준 자동 계산</div>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -602,7 +392,7 @@
       </div>
       <button class="btn btn-primary" style="width:100%;" onclick="saveDailyLog()">💾 기록 저장 & AI 조언 받기</button>
       <div style="margin-top:16px;">
-        <div class="card-title" style="font-size:0.9rem;">👨‍🏫 AI 선생님의 오늘 총평</div>
+        <div class="card-title" style="font-size:.9rem;">👨‍🏫 AI 선생님의 오늘 총평</div>
         <div class="ai-total-box" id="aiTotalBox">기록을 저장하면 AI 선생님의 총평이 여기에 표시됩니다.</div>
       </div>
     </div>
@@ -678,11 +468,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
 <script>
 // ════════════════════════════════════════════════
-// GAS URL
+// GAS URL  ← 배포 후 본인 URL로 교체
 // ════════════════════════════════════════════════
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbx4YtMLGHTxSCdaSfhKMLHHYl-ZvE36MvdPB5k39TGXa4ovedJICZwoDC1McIj2nvjeBA/exec';
 
-// ── 전역 상태 ──────────────────────────────────
+// ════════════════════════════════════════════════
+// 전역 상태
+// ════════════════════════════════════════════════
 let currentStudent     = null;
 let authMode           = 'login';
 let isLightMode        = false;
@@ -693,7 +485,6 @@ let measureTimer       = null;
 let totalSeconds       = 0;
 let goodPostureSeconds = 0;
 let repCount           = 0;
-let currentAccuracy    = 0;
 let wodInterval        = null;
 let wodSeconds         = 900;
 let wodRunning         = false;
@@ -704,48 +495,40 @@ let mpCamera           = null;
 let lastKeypoints      = null;
 let currentFacingMode  = 'user';
 
-// ── 런지 up↔down 사이클용 ──────────────────────
-let lungePhase         = 'up';
-let lastLungeCountTime = 0;
+// ── 각 운동 UP↔DOWN 페이즈 ────────────────────
+let squatPhase  = 'up';
+let lungePhase  = 'up';
+let pushupPhase = 'up';
 
-// ── 푸시업 up↔down 사이클용 ────────────────────
-let pushupPhase         = 'up';
-let lastPushupCountTime = 0;
+// ── 버피 단계 페이즈 ──────────────────────────
+let burpeePhase        = 'stand';
+let burpeeStageReached = { squat:false, plank:false, pushup:false, squat2:false };
 
-// ── 버피 6단계 사이클용 ────────────────────────
-let burpeePhase         = 'stand';
-let burpeeStageReached  = { squat:false, plank:false, pushup:false, squat2:false };
-let lastBurpeeCountTime = 0;
+// ── 줄넘기 페이즈 ─────────────────────────────
+let jumpPhase        = 'land';
+let jumpBaselineHipY = null;
+let jumpHipYHistory  = [];
 
-// ── 줄넘기 air↔land 사이클용 ──────────────────
-let jumpPhase           = 'land';
-let lastJumpCountTime   = 0;
-let jumpBaselineHipY    = null;
-let jumpHipYHistory     = [];
-
-// ── 부분점수 누적 ──────────────────────────────
+// ── 정확도 누적 ───────────────────────────────
 let accuracyScoreSum = 0;
 let accuracyTicks    = 0;
 
 // ════════════════════════════════════════════════
-// POSE_CONFIG
+// POSE_CONFIG  (RepInterval 없음 — 완전 제거)
 // ════════════════════════════════════════════════
 let POSE_CONFIG = {
-  visibilityThreshold: 0.35,
-  squatGoodMin:        65,
-  squatGoodMax:        115,
-  lungeGoodMin:        65,
-  lungeGoodMax:        115,
-  pushupGoodMax:       110,
-  plankBodyAngleMin:   145,
-  squatRepInterval:    2,
-  lungeRepInterval:    3,
-  pushupRepInterval:   3,
-  burpeeRepInterval:   4,
-  jumpRepInterval:     1,
+  visibilityThreshold : 0.35,
+  squatGoodMin        : 65,
+  squatGoodMax        : 115,
+  lungeGoodMin        : 65,
+  lungeGoodMax        : 115,
+  pushupGoodMax       : 110,
+  plankBodyAngleMin   : 145,
 };
 
-// ── 운동 목록 ──────────────────────────────────
+// ════════════════════════════════════════════════
+// 운동 목록
+// ════════════════════════════════════════════════
 const EXERCISES = [
   { name:'에어 스쿼트', icon:'🦵', key:'squat'  },
   { name:'런지',        icon:'🏃', key:'lunge'  },
@@ -755,6 +538,9 @@ const EXERCISES = [
   { name:'줄넘기',      icon:'🪢', key:'jump'   },
 ];
 
+// ════════════════════════════════════════════════
+// 백과사전 데이터
+// ════════════════════════════════════════════════
 const WIKI_DATA = [
   { name:'에어 스쿼트', icon:'🦵', target:'대퇴사두근, 햄스트링, 둔근, 코어',
     correct:['발은 어깨너비로 벌리기','발끝은 30도 외회전','무릎은 발끝 방향 유지','허벅지가 바닥과 평행될 때까지 앉기','가슴과 어깨는 수직 유지'],
@@ -789,28 +575,11 @@ const WIKI_DATA = [
 ];
 
 // ════════════════════════════════════════════════
-// POSE_CONFIG 서버에서 불러오기
-// ════════════════════════════════════════════════
-async function loadPoseConfig() {
-  try {
-    const res = await gasCall({ action: 'getConfig' });
-    if (res.status === 'success' && res.config) {
-      Object.keys(res.config).forEach(k => {
-        if (k in POSE_CONFIG) {
-          const v = parseFloat(res.config[k]);
-          if (!isNaN(v)) POSE_CONFIG[k] = v;
-        }
-      });
-    }
-  } catch(e) { /* 기본값 사용 */ }
-}
-
-// ════════════════════════════════════════════════
-// gasCall
+// gasCall (JSONP)
 // ════════════════════════════════════════════════
 function gasCall(params) {
   return new Promise((resolve, reject) => {
-    const cbName = 'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const cbName = 'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
     const s = document.createElement('script');
     let done = false;
     function cleanup() {
@@ -832,13 +601,32 @@ function gasCall(params) {
       reject(new Error('스크립트 로드 실패'));
     };
     const p = new URLSearchParams({ ...params, callback: cbName });
-    s.src = GAS_URL + '?' + p.toString();
+    s.src   = GAS_URL + '?' + p.toString();
     s.async = true;
     (document.head || document.body).appendChild(s);
   });
 }
 
-// ── 로그인/등록 탭 전환 ────────────────────────
+// ════════════════════════════════════════════════
+// POSE_CONFIG 서버 동기화
+// ════════════════════════════════════════════════
+async function loadPoseConfig() {
+  try {
+    const res = await gasCall({ action: 'getConfig' });
+    if (res.status === 'success' && res.config) {
+      Object.keys(res.config).forEach(k => {
+        if (k in POSE_CONFIG) {
+          const v = parseFloat(res.config[k]);
+          if (!isNaN(v)) POSE_CONFIG[k] = v;
+        }
+      });
+    }
+  } catch(e) { /* 기본값 사용 */ }
+}
+
+// ════════════════════════════════════════════════
+// 인증
+// ════════════════════════════════════════════════
 function switchAuthTab(mode) {
   authMode = mode;
   document.getElementById('tabLogin').classList.toggle('active',    mode === 'login');
@@ -846,34 +634,35 @@ function switchAuthTab(mode) {
   document.getElementById('loginError').style.display   = 'none';
   document.getElementById('loginSuccess').style.display = 'none';
   if (mode === 'login') {
-    document.getElementById('authHint').textContent     = '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
-    document.getElementById('authBtn').textContent      = '수업 입장하기 →';
-    document.getElementById('loginPw').placeholder      = '비밀번호';
-    document.getElementById('loginPw').style.display    = 'block';
+    document.getElementById('authHint').textContent  = '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
+    document.getElementById('authBtn').textContent   = '수업 입장하기 →';
+    document.getElementById('loginPw').placeholder   = '비밀번호';
+    document.getElementById('loginPw').style.display = 'block';
   } else {
-    document.getElementById('authHint').textContent     = '✏️ 학번과 이름만 입력하면 됩니다.\n등록 후 다음 화면에서 비밀번호를 설정합니다.';
-    document.getElementById('authBtn').textContent      = '등록하기 →';
-    document.getElementById('loginPw').style.display    = 'none';
+    document.getElementById('authHint').textContent  = '✏️ 학번과 이름만 입력하면 됩니다.\n등록 후 다음 화면에서 비밀번호를 설정합니다.';
+    document.getElementById('authBtn').textContent   = '등록하기 →';
+    document.getElementById('loginPw').style.display = 'none';
   }
 }
 
-// ── 로그인 or 신규등록 ─────────────────────────
 async function handleAuth() {
   const studentId = document.getElementById('loginId').value.trim();
   const name      = document.getElementById('loginName').value.trim();
   const password  = document.getElementById('loginPw').value.trim();
   const errEl     = document.getElementById('loginError');
-  const sucEl     = document.getElementById('loginSuccess');
   errEl.style.display = 'none';
-  sucEl.style.display = 'none';
+  document.getElementById('loginSuccess').style.display = 'none';
+
   if (authMode === 'register') {
     if (!studentId || !name) { errEl.textContent = '학번과 이름을 입력하세요.'; errEl.style.display = 'block'; return; }
   } else {
     if (!studentId || !name || !password) { errEl.textContent = '학번, 이름, 비밀번호를 모두 입력하세요.'; errEl.style.display = 'block'; return; }
   }
+
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 처리 중... 잠시만 기다려주세요.';
   errEl.style.display = 'block';
+
   try {
     const res = await gasCall({ action: authMode, studentId, name, ...(authMode === 'login' ? { password } : {}) });
     errEl.style.color = 'var(--danger)';
@@ -895,7 +684,6 @@ async function handleAuth() {
   }
 }
 
-// ── 앱 진입 ───────────────────────────────────
 function enterApp(id, name) {
   currentStudent = { id, name };
   document.getElementById('headerName').textContent    = `${name} (${id})`;
@@ -907,7 +695,9 @@ function enterApp(id, name) {
   loadPoseConfig();
 }
 
-// ── 강제 비밀번호 변경 ─────────────────────────
+// ════════════════════════════════════════════════
+// 비밀번호 모달
+// ════════════════════════════════════════════════
 function openPwForceModal() {
   document.getElementById('pwForce1').value             = '';
   document.getElementById('pwForce2').value             = '';
@@ -930,34 +720,6 @@ async function saveForcePw() {
     } else { errEl.style.color = 'var(--danger)'; errEl.textContent = res.message || '저장 실패'; errEl.style.display = 'block'; }
   } catch(err) { errEl.style.color = 'var(--danger)'; errEl.textContent = '❌ ' + (err.message || '서버 연결 실패'); errEl.style.display = 'block'; }
 }
-
-// ── 서버 상태 확인 ─────────────────────────────
-async function checkServer() {
-  const el = document.getElementById('serverStatus');
-  el.textContent = '● 연결 확인 중'; el.className = 'server-status checking';
-  try {
-    await gasCall({ action: 'initSheets' });
-    el.textContent = '● 서버 연결됨'; el.className = 'server-status ok';
-  } catch {
-    el.textContent = '● 서버 오프라인'; el.className = 'server-status err';
-  }
-}
-
-// ── 로그아웃 ───────────────────────────────────
-function doLogout() {
-  stopMeasure(); stopCamera(); wodPause();
-  currentStudent = null;
-  document.getElementById('appScreen').style.display   = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('loginId').value   = '';
-  document.getElementById('loginName').value = '';
-  document.getElementById('loginPw').value   = '';
-  document.getElementById('loginError').style.display   = 'none';
-  document.getElementById('loginSuccess').style.display = 'none';
-  switchAuthTab('login');
-}
-
-// ── 비밀번호 변경 ──────────────────────────────
 function openPwModal() {
   document.getElementById('pwNew1').value             = '';
   document.getElementById('pwNew2').value             = '';
@@ -979,7 +741,29 @@ async function saveNewPw() {
   } catch(err) { errEl.textContent = '❌ ' + (err.message || '서버 연결 실패'); errEl.style.display = 'block'; }
 }
 
-// ── 탭 전환 ────────────────────────────────────
+// ════════════════════════════════════════════════
+// 서버 / 로그아웃 / 탭 / 테마
+// ════════════════════════════════════════════════
+async function checkServer() {
+  const el = document.getElementById('serverStatus');
+  el.textContent = '● 연결 확인 중'; el.className = 'server-status checking';
+  try {
+    await gasCall({ action:'initSheets' });
+    el.textContent = '● 서버 연결됨'; el.className = 'server-status ok';
+  } catch {
+    el.textContent = '● 서버 오프라인'; el.className = 'server-status err';
+  }
+}
+function doLogout() {
+  stopMeasure(); stopCamera(); wodPause();
+  currentStudent = null;
+  document.getElementById('appScreen').style.display   = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  ['loginId','loginName','loginPw'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('loginError').style.display   = 'none';
+  document.getElementById('loginSuccess').style.display = 'none';
+  switchAuthTab('login');
+}
 function showTab(tab) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -990,8 +774,6 @@ function showTab(tab) {
   if (tab === 'dashboard') loadDashboard();
   if (tab === 'ai')        loadAchievement();
 }
-
-// ── 테마 ───────────────────────────────────────
 function toggleTheme() {
   isLightMode = !isLightMode;
   document.body.classList.toggle('light-mode', isLightMode);
@@ -999,43 +781,52 @@ function toggleTheme() {
 }
 
 // ════════════════════════════════════════════════
-// 운동 선택 & 페이즈 초기화
+// 페이즈 초기화 (공통)
+// ════════════════════════════════════════════════
+function resetPhases() {
+  squatPhase  = 'up';
+  lungePhase  = 'up';
+  pushupPhase = 'up';
+  burpeePhase = 'stand';
+  burpeeStageReached = { squat:false, plank:false, pushup:false, squat2:false };
+  jumpPhase        = 'land';
+  jumpBaselineHipY = null;
+  jumpHipYHistory  = [];
+}
+
+// ════════════════════════════════════════════════
+// 운동 선택
 // ════════════════════════════════════════════════
 function selectExercise(idx) {
   if (idx === currentExerciseIdx) return;
   if (isMeasuring) { showToast('⏹ 운동 전환 — 이전 기록을 자동 저장합니다.'); stopMeasure(); }
   currentExerciseIdx = idx;
   document.querySelectorAll('.exercise-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
-  // 페이즈 초기화
-  lungePhase = 'up'; lastLungeCountTime = 0;
-  pushupPhase = 'up'; lastPushupCountTime = 0;
-  burpeePhase = 'stand'; burpeeStageReached = { squat:false, plank:false, pushup:false, squat2:false }; lastBurpeeCountTime = 0;
-  jumpPhase = 'land'; lastJumpCountTime = 0; jumpBaselineHipY = null; jumpHipYHistory = [];
+  resetPhases();
   resetMeasure();
   document.getElementById('repLabel').textContent = EXERCISES[idx].key === 'plank' ? '초 (sec)' : 'Reps';
 }
 
-// ── 전/후면 카메라 전환 ────────────────────────
+// ════════════════════════════════════════════════
+// 카메라
+// ════════════════════════════════════════════════
 async function switchFacing(mode) {
   document.getElementById('btnFacingUser').classList.toggle('active', mode === 'user');
   document.getElementById('btnFacingEnv').classList.toggle('active',  mode === 'environment');
   currentFacingMode = mode;
-  const videoEl  = document.getElementById('videoEl');
-  const canvasEl = document.getElementById('canvasEl');
-  videoEl.style.transform  = mode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
-  canvasEl.style.transform = mode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
+  const v = document.getElementById('videoEl');
+  const c = document.getElementById('canvasEl');
+  const flip = mode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
+  v.style.transform = flip; c.style.transform = flip;
   if (isCameraOn) { stopCamera(); await new Promise(r => setTimeout(r, 600)); await startCamera(); }
 }
-
-// ── 카메라 켜기/끄기 ───────────────────────────
 function toggleCamera() {
   if (isCameraOn) stopCamera();
   else document.getElementById('guideModal').classList.add('show');
 }
-function closeGuide() { document.getElementById('guideModal').classList.remove('show'); }
+function closeGuide()  { document.getElementById('guideModal').classList.remove('show'); }
 async function startCameraAfterGuide() { closeGuide(); await startCamera(); }
 
-// ── startCamera ────────────────────────────────
 async function startCamera() {
   try {
     const videoEl  = document.getElementById('videoEl');
@@ -1044,14 +835,20 @@ async function startCamera() {
       video: { facingMode:{ ideal:currentFacingMode }, width:{ ideal:640 }, height:{ ideal:480 }, frameRate:{ ideal:30 } }
     });
     videoEl.srcObject = stream;
-    videoEl.style.transform  = currentFacingMode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
-    canvasEl.style.transform = currentFacingMode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
+    const flip = currentFacingMode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
+    videoEl.style.transform  = flip;
+    canvasEl.style.transform = flip;
     await new Promise(resolve => { if (videoEl.readyState >= 2) resolve(); else videoEl.onloadeddata = resolve; });
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
-    document.querySelector('[onclick="toggleCamera()"]').textContent = '📷 카메라 끄기';
+    document.getElementById('camToggleBtn').textContent = '📷 카메라 끄기';
+
     poseDetector = new Pose({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}` });
-    poseDetector.setOptions({ modelComplexity:1, smoothLandmarks:true, smoothSegmentation:false, enableSegmentation:false, selfieMode:false, minDetectionConfidence:0.5, minTrackingConfidence:0.5 });
+    poseDetector.setOptions({
+      modelComplexity:1, smoothLandmarks:true,
+      smoothSegmentation:false, enableSegmentation:false,
+      selfieMode:false, minDetectionConfidence:0.5, minTrackingConfidence:0.5
+    });
     poseDetector.onResults(results => {
       canvasEl.width  = videoEl.videoWidth  || 640;
       canvasEl.height = videoEl.videoHeight || 480;
@@ -1060,20 +857,23 @@ async function startCamera() {
       if (results.poseLandmarks) {
         lastKeypoints = results.poseLandmarks;
         drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, { color:'#6c63ff', lineWidth:3 });
-        drawLandmarks(ctx, results.poseLandmarks, { color:'#ff6584', fillColor:'#ffb3c1', lineWidth:2, radius:6 });
+        drawLandmarks(ctx,  results.poseLandmarks, { color:'#ff6584', fillColor:'#ffb3c1', lineWidth:2, radius:6 });
         results.poseLandmarks.forEach(lm => {
           if (lm.visibility < 0.5) {
             ctx.beginPath();
-            ctx.arc(lm.x * canvasEl.width, lm.y * canvasEl.height, 5, 0, 2*Math.PI);
+            ctx.arc(lm.x * canvasEl.width, lm.y * canvasEl.height, 5, 0, 2 * Math.PI); // ★ 버그 수정
             ctx.fillStyle = 'rgba(255,200,0,0.5)'; ctx.fill();
           }
         });
       } else { lastKeypoints = null; }
     });
+
     let animFrameId = null;
     async function sendFrame() {
       if (!isCameraOn || !poseDetector) return;
-      if (videoEl.readyState >= 2 && !videoEl.paused) { try { await poseDetector.send({ image:videoEl }); } catch(e) {} }
+      if (videoEl.readyState >= 2 && !videoEl.paused) {
+        try { await poseDetector.send({ image: videoEl }); } catch(e) {}
+      }
       animFrameId = requestAnimationFrame(sendFrame);
     }
     mpCamera = { stop: () => { if (animFrameId) cancelAnimationFrame(animFrameId); } };
@@ -1087,8 +887,6 @@ async function startCamera() {
     showToast(msg);
   }
 }
-
-// ── 카메라 정지 ────────────────────────────────
 function stopCamera() {
   if (mpCamera)     { try { mpCamera.stop();      } catch(e) {} mpCamera     = null; }
   if (poseDetector) { try { poseDetector.close(); } catch(e) {} poseDetector = null; }
@@ -1099,27 +897,23 @@ function stopCamera() {
   canvasEl.getContext('2d').clearRect(0, 0, canvasEl.width, canvasEl.height);
   document.getElementById('camPlaceholder').style.display = 'flex';
   isCameraOn = false; lastKeypoints = null;
-  const btn = document.querySelector('[onclick="toggleCamera()"]');
-  if (btn) btn.textContent = '📷 카메라 켜기';
+  document.getElementById('camToggleBtn').textContent = '📷 카메라 켜기';
 }
 
-// ── 측정 시작 ──────────────────────────────────
+// ════════════════════════════════════════════════
+// 측정 시작 / 완료 / 리셋
+// ════════════════════════════════════════════════
 function startMeasure() {
   if (!isCameraOn) { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
   if (isMeasuring) return;
   isMeasuring = true;
   totalSeconds = 0; goodPostureSeconds = 0; repCount = 0;
   accuracyScoreSum = 0; accuracyTicks = 0;
-  lungePhase = 'up'; lastLungeCountTime = 0;
-  pushupPhase = 'up'; lastPushupCountTime = 0;
-  burpeePhase = 'stand'; burpeeStageReached = { squat:false, plank:false, pushup:false, squat2:false }; lastBurpeeCountTime = 0;
-  jumpPhase = 'land'; lastJumpCountTime = 0; jumpBaselineHipY = null; jumpHipYHistory = [];
+  resetPhases();
   document.getElementById('repLabel').textContent = EXERCISES[currentExerciseIdx].key === 'plank' ? '초 (sec)' : 'Reps';
   measureTimer = setInterval(() => { totalSeconds++; analyzePoseByKeypoints(); updateMeasureUI(); }, 1000);
   showToast('▶ 측정을 시작합니다!');
 }
-
-// ── 측정 완료 & 저장 ───────────────────────────
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false; clearInterval(measureTimer); measureTimer = null;
@@ -1133,14 +927,13 @@ async function stopMeasure() {
         exercise:ex.name, reps:repCount, duration:totalSeconds,
         goodPostureDuration:goodPostureSeconds, accuracy
       });
-      showToast(`✅ ${ex.name} 기록 저장! (${ex.key === 'plank' ? repCount+'초 유지' : repCount+' Reps'})`);
+      showToast(`✅ ${ex.name} 기록 저장! (${ex.key==='plank' ? repCount+'초 유지' : repCount+' Reps'})`);
     } catch { showToast('⚠️ 저장 실패.'); }
   }
   resetMeasure();
 }
-
 function resetMeasure() {
-  repCount = 0; totalSeconds = 0; goodPostureSeconds = 0; currentAccuracy = 0;
+  repCount = 0; totalSeconds = 0; goodPostureSeconds = 0;
   accuracyScoreSum = 0; accuracyTicks = 0;
   document.getElementById('repCount').textContent     = '0';
   document.getElementById('timerDisplay').textContent = '00:00';
@@ -1148,10 +941,9 @@ function resetMeasure() {
   document.getElementById('accuracyBar').style.width  = '0%';
   document.getElementById('feedbackBox').textContent  = '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
-
 function updateMeasureUI() {
-  const m = String(Math.floor(totalSeconds/60)).padStart(2,'0');
-  const s = String(totalSeconds%60).padStart(2,'0');
+  const m = String(Math.floor(totalSeconds / 60)).padStart(2,'0');
+  const s = String(totalSeconds % 60).padStart(2,'0');
   document.getElementById('timerDisplay').textContent = `${m}:${s}`;
   document.getElementById('repCount').textContent     = repCount;
   const acc = accuracyTicks > 0 ? Math.round(accuracyScoreSum / accuracyTicks) : 0;
@@ -1159,18 +951,20 @@ function updateMeasureUI() {
   document.getElementById('accuracyBar').style.width  = acc + '%';
 }
 
-// ── 관절 각도 계산 ─────────────────────────────
+// ════════════════════════════════════════════════
+// 관절 각도 계산  ★ 버그1 수정 완료
+// ════════════════════════════════════════════════
 function getAngle(a, b, c) {
-  const ab = { x:a.x-b.x, y:a.y-b.y };
-  const cb = { x:c.x-b.x, y:c.y-b.y };
-  const dot = ab.x*cb.x + ab.y*cb.y;
-  const mag = Math.sqrt(ab.x**2+ab.y**2) * Math.sqrt(cb.x**2+cb.y**2);
+  const ab  = { x: a.x - b.x, y: a.y - b.y };
+  const cb  = { x: c.x - b.x, y: c.y - b.y };
+  const dot = ab.x * cb.x + ab.y * cb.y;
+  const mag = Math.sqrt(ab.x ** 2 + ab.y ** 2) * Math.sqrt(cb.x ** 2 + cb.y ** 2); // ★ 수정
   if (mag === 0) return 0;
-  return Math.acos(Math.min(1, Math.max(-1, dot/mag))) * (180/Math.PI);
+  return Math.acos(Math.min(1, Math.max(-1, dot / mag))) * (180 / Math.PI);
 }
-function getBestAngle(kp, a1,b1,c1, a2,b2,c2) {
-  const v1 = (kp[a1].visibility+kp[b1].visibility+kp[c1].visibility)/3;
-  const v2 = (kp[a2].visibility+kp[b2].visibility+kp[c2].visibility)/3;
+function getBestAngle(kp, a1, b1, c1, a2, b2, c2) {
+  const v1 = (kp[a1].visibility + kp[b1].visibility + kp[c1].visibility) / 3;
+  const v2 = (kp[a2].visibility + kp[b2].visibility + kp[c2].visibility) / 3;
   return v1 >= v2 ? getAngle(kp[a1],kp[b1],kp[c1]) : getAngle(kp[a2],kp[b2],kp[c2]);
 }
 
@@ -1181,193 +975,218 @@ function analyzePoseByKeypoints() {
   const fb = document.getElementById('feedbackBox');
   if (!lastKeypoints) {
     fb.textContent = '⏳ 관절 인식 중... 카메라와 2~3m 거리를 두고 전신이 화면에 보이도록 서주세요.';
-    accuracyScoreSum += 0; accuracyTicks++; return;
+    accuracyTicks++; return;
   }
   const kp  = lastKeypoints;
   const ex  = EXERCISES[currentExerciseIdx];
   const VIS = POSE_CONFIG.visibilityThreshold;
-  const vis       = idx        => kp[idx] && kp[idx].visibility > VIS;
-  const visEither = (L, R)    => vis(L) || vis(R);
+  const vis       = idx    => kp[idx] && kp[idx].visibility > VIS;
+  const visEither = (L, R) => vis(L) || vis(R);
   let poseScore = 0, feedback = '';
 
   switch (ex.key) {
 
-    // ── 에어 스쿼트 ──────────────────────────────
+    // ── 에어 스쿼트 (UP↔DOWN 상태 전환) ─────────
     case 'squat': {
-      if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
+      if (!visEither(23,24) || !visEither(25,26) || !visEither(27,28)) {
         fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 서주세요.';
-        accuracyScoreSum += 0; accuracyTicks++; return;
+        accuracyTicks++; return;
       }
-      const kneeAngle = getBestAngle(kp,23,25,27,24,26,28);
-      const { squatGoodMin:mn, squatGoodMax:mx, squatRepInterval:ri } = POSE_CONFIG;
-      if (kneeAngle > 160)      { poseScore=20; feedback='⚠️ 서 있는 상태입니다. 스쿼트 동작을 시작하세요.'; }
-      else if (kneeAngle > mx)  { poseScore=Math.round(40+(160-kneeAngle)/(160-mx)*30); feedback=`📐 더 깊이 내려가세요! (현재 ${Math.round(kneeAngle)}°, 목표 ${mx}° 이하)`; }
-      else if (kneeAngle >= mn) { poseScore=100; feedback=`✅ 스쿼트 완벽! 무릎 각도 ${Math.round(kneeAngle)}° 👍`; if(totalSeconds%ri===0) repCount++; }
-      else                      { poseScore=60;  feedback='⚠️ 너무 깊이 앉았습니다. 조금 올라오세요.'; }
+      const knee = getBestAngle(kp, 23,25,27, 24,26,28);
+      const { squatGoodMin:mn, squatGoodMax:mx } = POSE_CONFIG;
+
+      if (knee > 160) {
+        if (squatPhase === 'down') { repCount++; feedback = `🎉 스쿼트 ${repCount}회 완료! 다시 내려가세요.`; poseScore = 100; }
+        else                       { feedback = '⚠️ 서 있는 상태입니다. 스쿼트 동작을 시작하세요.'; poseScore = 20; }
+        squatPhase = 'up';
+      } else if (knee > mx) {
+        poseScore = Math.round(40 + (160 - knee) / (160 - mx) * 30);
+        feedback  = `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
+        squatPhase = 'going_down';
+      } else if (knee >= mn) {
+        poseScore  = 100; feedback = `✅ 스쿼트 완벽! 무릎 각도 ${Math.round(knee)}° 👍 이제 올라오세요!`;
+        squatPhase = 'down';
+      } else {
+        poseScore  = 60; feedback = '⚠️ 너무 깊이 앉았습니다. 조금 올라오세요.';
+        squatPhase = 'down';
+      }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
 
-    // ── 런지 ─────────────────────────────────────
+    // ── 런지 (UP↔DOWN 상태 전환) ─────────────────
     case 'lunge': {
-      if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
+      if (!visEither(23,24) || !visEither(25,26) || !visEither(27,28)) {
         fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 서주세요.';
-        accuracyScoreSum += 0; accuracyTicks++; return;
+        accuracyTicks++; return;
       }
-      const kneeL = vis(23)&&vis(25)&&vis(27) ? getAngle(kp[23],kp[25],kp[27]) : 180;
-      const kneeR = vis(24)&&vis(26)&&vis(28) ? getAngle(kp[24],kp[26],kp[28]) : 180;
+      const kneeL     = vis(23)&&vis(25)&&vis(27) ? getAngle(kp[23],kp[25],kp[27]) : 180;
+      const kneeR     = vis(24)&&vis(26)&&vis(28) ? getAngle(kp[24],kp[26],kp[28]) : 180;
       const frontKnee = Math.min(kneeL, kneeR);
       const { lungeGoodMin:mn, lungeGoodMax:mx } = POSE_CONFIG;
+
       if (frontKnee > 155) {
-        if (lungePhase === 'down') {
-          const elapsed = totalSeconds - lastLungeCountTime;
-          if (elapsed >= 1) { repCount++; lastLungeCountTime=totalSeconds; poseScore=100; feedback=`🎉 런지 ${repCount}회 완료!`; }
-          else { poseScore=50; feedback='⚠️ 너무 빠릅니다! 천천히 내려가세요.'; }
-        } else { poseScore=20; feedback='⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.'; }
+        if (lungePhase === 'down') { repCount++; feedback = `🎉 런지 ${repCount}회 완료!`; poseScore = 100; }
+        else                       { feedback = '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.'; poseScore = 20; }
         lungePhase = 'up';
       } else if (frontKnee > mx) {
-        poseScore=Math.round(40+(155-frontKnee)/(155-mx)*30); feedback=`📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`; lungePhase='going_down';
+        poseScore  = Math.round(40 + (155 - frontKnee) / (155 - mx) * 30);
+        feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`;
+        lungePhase = 'going_down';
       } else if (frontKnee >= mn) {
-        poseScore=100; feedback=`✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`; lungePhase='down';
+        poseScore  = 100; feedback = `✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`;
+        lungePhase = 'down';
       } else {
-        poseScore=60; feedback='⚠️ 앞무릎이 너무 굽었습니다. 조금 올라오세요.'; lungePhase='down';
+        poseScore  = 60; feedback = '⚠️ 앞무릎이 너무 굽었습니다. 조금 올라오세요.';
+        lungePhase = 'down';
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
 
-    // ── 플랭크 ───────────────────────────────────
+    // ── 플랭크 (초 카운트) ────────────────────────
     case 'plank': {
-      if (!visEither(11,12)||!visEither(23,24)||!visEither(25,26)) {
+      if (!visEither(11,12) || !visEither(23,24) || !visEither(25,26)) {
         fb.textContent = '⏳ 상체 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
-        accuracyScoreSum += 0; accuracyTicks++; return;
+        accuracyTicks++; return;
       }
-      const shLm      = vis(11) ? kp[11] : kp[12];
-      const hipLm     = vis(23) ? kp[23] : kp[24];
-      const knLm      = vis(25) ? kp[25] : kp[26];
+      const shLm  = vis(11) ? kp[11] : kp[12];
+      const hipLm = vis(23) ? kp[23] : kp[24];
+      const knLm  = vis(25) ? kp[25] : kp[26];
       const bodyAngle = getAngle(shLm, hipLm, knLm);
       const { plankBodyAngleMin:minAngle } = POSE_CONFIG;
-      const hipY  = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2 : hipLm.y;
-      const shdY  = vis(11)&&vis(12) ? (kp[11].y+kp[12].y)/2 : shLm.y;
-      const kneY  = vis(25)&&vis(26) ? (kp[25].y+kp[26].y)/2 : knLm.y;
-      const hipHigher = hipY < Math.min(shdY,kneY) - 0.04;
-      const hipLower  = hipY > Math.max(shdY,kneY) + 0.04;
+      const hipY = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2 : hipLm.y;
+      const shdY = vis(11)&&vis(12) ? (kp[11].y+kp[12].y)/2 : shLm.y;
+      const kneY = vis(25)&&vis(26) ? (kp[25].y+kp[26].y)/2 : knLm.y;
+      const hipHigher = hipY < Math.min(shdY, kneY) - 0.04;
+      const hipLower  = hipY > Math.max(shdY, kneY) + 0.04;
+
       if (bodyAngle >= minAngle) {
-        poseScore=100; repCount++; goodPostureSeconds++;
-        feedback=`✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
+        poseScore = 100; repCount++; goodPostureSeconds++;
+        feedback  = `✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
       } else if (hipHigher) {
-        poseScore=Math.max(20,Math.round((bodyAngle/minAngle)*70)); feedback='⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
+        poseScore = Math.max(20, Math.round((bodyAngle / minAngle) * 70));
+        feedback  = '⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
       } else if (hipLower) {
-        poseScore=Math.max(20,Math.round((bodyAngle/minAngle)*70)); feedback='⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
+        poseScore = Math.max(20, Math.round((bodyAngle / minAngle) * 70));
+        feedback  = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
       } else {
-        poseScore=Math.round((bodyAngle/minAngle)*85); feedback=`📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, 목표 ${minAngle}° 이상)`;
+        poseScore = Math.round((bodyAngle / minAngle) * 85);
+        feedback  = `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, 목표 ${minAngle}° 이상)`;
       }
       break;
     }
 
-    // ── 푸시업 ───────────────────────────────────
+    // ── 푸시업 (UP↔DOWN 상태 전환) ───────────────
     case 'pushup': {
-      if (!visEither(11,12)||!visEither(13,14)||!visEither(15,16)) {
+      if (!visEither(11,12) || !visEither(13,14) || !visEither(15,16)) {
         fb.textContent = '⏳ 팔 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
-        accuracyScoreSum += 0; accuracyTicks++; return;
+        accuracyTicks++; return;
       }
-      const elbowAngle = getBestAngle(kp,11,13,15,12,14,16);
+      const elbow = getBestAngle(kp, 11,13,15, 12,14,16);
       const { pushupGoodMax:mx } = POSE_CONFIG;
-      if (elbowAngle > 155) {
-        if (pushupPhase === 'down') {
-          const elapsed = totalSeconds - lastPushupCountTime;
-          if (elapsed >= 1) { repCount++; lastPushupCountTime=totalSeconds; poseScore=100; feedback=`🎉 푸시업 ${repCount}회 완료!`; }
-          else { poseScore=50; feedback='⚠️ 너무 빠릅니다! 천천히 내려가세요.'; }
-        } else { poseScore=30; feedback='📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!'; }
+
+      if (elbow > 155) {
+        if (pushupPhase === 'down') { repCount++; feedback = `🎉 푸시업 ${repCount}회 완료!`; poseScore = 100; }
+        else                        { feedback = '📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!'; poseScore = 30; }
         pushupPhase = 'up';
-      } else if (elbowAngle > mx) {
-        poseScore=Math.round(40+(155-elbowAngle)/(155-mx)*40); feedback=`📐 더 내려가세요! (현재 ${Math.round(elbowAngle)}°, 목표 ${mx}° 이하)`; pushupPhase='going_down';
+      } else if (elbow > mx) {
+        poseScore   = Math.round(40 + (155 - elbow) / (155 - mx) * 40);
+        feedback    = `📐 더 내려가세요! (현재 ${Math.round(elbow)}°, 목표 ${mx}° 이하)`;
+        pushupPhase = 'going_down';
       } else {
-        poseScore=100; feedback=`✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbowAngle)}° 👍 이제 올라오세요!`; pushupPhase='down';
+        poseScore   = 100; feedback = `✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbow)}° 👍 이제 올라오세요!`;
+        pushupPhase = 'down';
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
 
-    // ── 버피 ─────────────────────────────────────
+    // ── 버피 (6단계 상태 전환) ────────────────────
     case 'burpee': {
-      if (!visEither(11,12)||!visEither(23,24)) {
+      if (!visEither(11,12) || !visEither(23,24)) {
         fb.textContent = '⏳ 상체 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
-        accuracyScoreSum += 0; accuracyTicks++; return;
+        accuracyTicks++; return;
       }
       const hipY2   = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2 : (vis(23)?kp[23].y:kp[24].y);
-      const ankleY  = vis(27)?kp[27].y:(vis(28)?kp[28].y:1.0);
+      const ankleY  = vis(27) ? kp[27].y : (vis(28) ? kp[28].y : 1.0);
       const kneeAB  = visEither(25,26)&&visEither(27,28) ? getBestAngle(kp,23,25,27,24,26,28) : 180;
       const elbowAB = visEither(11,12)&&visEither(13,14)&&visEither(15,16) ? getBestAngle(kp,11,13,15,12,14,16) : 180;
       const shLmB   = vis(11)?kp[11]:kp[12];
       const hipLmB  = vis(23)?kp[23]:kp[24];
       const knLmB   = vis(25)?kp[25]:kp[26];
       const bodyAB  = getAngle(shLmB, hipLmB, knLmB);
+
       const isJump      = ankleY < 0.35 && hipY2 < 0.55;
       const isStand     = kneeAB > 155 && hipY2 < 0.65;
       const isSquat     = kneeAB >= POSE_CONFIG.squatGoodMin && kneeAB <= POSE_CONFIG.squatGoodMax;
       const isPlankPos  = bodyAB >= POSE_CONFIG.plankBodyAngleMin && kneeAB > 140;
       const isPushupDwn = isPlankPos && elbowAB <= POSE_CONFIG.pushupGoodMax;
 
-      if (isJump && (burpeePhase==='squat2'||burpeePhase==='stand')) {
-        if (burpeePhase==='squat2' && burpeeStageReached.squat2) {
-          const elapsed = totalSeconds - lastBurpeeCountTime;
-          if (elapsed >= POSE_CONFIG.burpeeRepInterval) {
-            repCount++; lastBurpeeCountTime=totalSeconds; poseScore=100; feedback=`🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
-          } else { poseScore=80; feedback='✅ 점프! 조금 더 간격을 두세요.'; }
+      if (isJump && (burpeePhase === 'squat2' || burpeePhase === 'stand')) {
+        if (burpeePhase === 'squat2' && burpeeStageReached.squat2) {
+          repCount++; poseScore = 100; feedback = `🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
           burpeeStageReached = { squat:false, plank:false, pushup:false, squat2:false };
-        } else { poseScore=70; feedback='⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!'; }
+        } else { poseScore = 70; feedback = '⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!'; }
         burpeePhase = 'stand';
       } else if (isStand && !isJump) {
-        poseScore=40; feedback='🏃 버피 시작! 아래로 쪼그려 앉으세요!'; burpeePhase='stand';
+        poseScore = 40; feedback = '🏃 버피 시작! 아래로 쪼그려 앉으세요!'; burpeePhase = 'stand';
       } else if (isSquat && !isPlankPos) {
-        if (burpeePhase==='stand') {
-          burpeePhase='squat'; burpeeStageReached.squat=true; poseScore=90; feedback='✅ ① 스쿼트! 이제 발을 뒤로 뻗어 플랭크 자세로!';
-        } else if ((burpeePhase==='pushup'||burpeePhase==='plank') && burpeeStageReached.pushup) {
-          burpeePhase='squat2'; burpeeStageReached.squat2=true; poseScore=90; feedback='✅ ⑤ 스쿼트 복귀! 이제 일어서서 점프+박수! 👏';
-        } else if (burpeePhase==='squat2') {
-          poseScore=80; feedback='✅ ⑤ 스쿼트 자세 유지! 이제 점프하세요!';
-        } else { poseScore=50; feedback=`📐 스쿼트 감지 (현재 단계: ${burpeePhase})`; }
+        if (burpeePhase === 'stand') {
+          burpeePhase = 'squat'; burpeeStageReached.squat = true;
+          poseScore = 90; feedback = '✅ ① 스쿼트! 이제 발을 뒤로 뻗어 플랭크 자세로!';
+        } else if ((burpeePhase === 'pushup' || burpeePhase === 'plank') && burpeeStageReached.pushup) {
+          burpeePhase = 'squat2'; burpeeStageReached.squat2 = true;
+          poseScore = 90; feedback = '✅ ⑤ 스쿼트 복귀! 이제 일어서서 점프+박수! 👏';
+        } else if (burpeePhase === 'squat2') {
+          poseScore = 80; feedback = '✅ ⑤ 스쿼트 자세 유지! 이제 점프하세요!';
+        } else { poseScore = 50; feedback = `📐 스쿼트 감지 (현재 단계: ${burpeePhase})`; }
       } else if (isPushupDwn) {
-        if (burpeePhase==='plank' && burpeeStageReached.plank) {
-          burpeePhase='pushup'; burpeeStageReached.pushup=true; poseScore=100; feedback=`✅ ④ 푸시업! 팔꿈치 ${Math.round(elbowAB)}° 👍`;
-        } else if (burpeePhase==='pushup') { poseScore=100; feedback=`✅ ④ 푸시업 유지 중! ${Math.round(elbowAB)}°`; }
-        else { poseScore=60; feedback='⚠️ 플랭크 자세 먼저 완료하세요!'; }
+        if (burpeePhase === 'plank' && burpeeStageReached.plank) {
+          burpeePhase = 'pushup'; burpeeStageReached.pushup = true;
+          poseScore = 100; feedback = `✅ ④ 푸시업! 팔꿈치 ${Math.round(elbowAB)}° 👍`;
+        } else if (burpeePhase === 'pushup') {
+          poseScore = 100; feedback = `✅ ④ 푸시업 유지 중! ${Math.round(elbowAB)}°`;
+        } else { poseScore = 60; feedback = '⚠️ 플랭크 자세 먼저 완료하세요!'; }
       } else if (isPlankPos && !isPushupDwn) {
-        if (burpeePhase==='squat' && burpeeStageReached.squat) {
-          burpeePhase='plank'; burpeeStageReached.plank=true; poseScore=100; feedback=`✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
-        } else if (burpeePhase==='plank') { poseScore=90; feedback='✅ ③ 플랭크 유지 중! 이제 팔꿈치를 굽혀 푸시업하세요!'; }
-        else { poseScore=50; feedback='⚠️ 플랭크 감지 — 스쿼트 단계를 먼저 완료하세요.'; }
-      } else { poseScore=40; feedback=`🔄 동작 전환 중... [현재: ${burpeePhase}]`; }
+        if (burpeePhase === 'squat' && burpeeStageReached.squat) {
+          burpeePhase = 'plank'; burpeeStageReached.plank = true;
+          poseScore = 100; feedback = `✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
+        } else if (burpeePhase === 'plank') {
+          poseScore = 90; feedback = '✅ ③ 플랭크 유지 중! 이제 팔꿈치를 굽혀 푸시업하세요!';
+        } else { poseScore = 50; feedback = '⚠️ 플랭크 감지 — 스쿼트 단계를 먼저 완료하세요.'; }
+      } else { poseScore = 40; feedback = `🔄 동작 전환 중... [현재: ${burpeePhase}]`; }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
 
-    // ── 줄넘기 ───────────────────────────────────
+    // ── 줄넘기 (AIR↔LAND 상태 전환) ─────────────
     case 'jump': {
       if (!visEither(23,24)) {
         fb.textContent = '⏳ 엉덩이 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
-        accuracyScoreSum += 0; accuracyTicks++; return;
+        accuracyTicks++; return;
       }
       const rawHipY = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2 : (vis(23)?kp[23].y:kp[24].y);
       jumpHipYHistory.push(rawHipY);
       if (jumpHipYHistory.length > 3) jumpHipYHistory.shift();
-      const smoothHipY = jumpHipYHistory.reduce((a,b)=>a+b,0) / jumpHipYHistory.length;
+      const smoothHipY = jumpHipYHistory.reduce((a,b) => a+b, 0) / jumpHipYHistory.length;
+
       if (jumpBaselineHipY === null) {
         jumpBaselineHipY = smoothHipY;
-        poseScore=50; feedback='📏 기준 자세 측정 중... 제자리에 서 계세요!';
+        poseScore = 50; feedback = '📏 기준 자세 측정 중... 제자리에 서 계세요!';
         accuracyScoreSum += poseScore; accuracyTicks++;
         fb.textContent = feedback; return;
       }
-      jumpBaselineHipY = jumpBaselineHipY*0.99 + smoothHipY*0.01;
+      jumpBaselineHipY = jumpBaselineHipY * 0.99 + smoothHipY * 0.01;
       const isAir = smoothHipY < jumpBaselineHipY - 0.03;
+
       if (isAir) {
-        jumpPhase='air'; poseScore=100;
-        feedback=`🦘 점프 중! (높이 ${Math.round((jumpBaselineHipY-smoothHipY)*1000)}) 발끝 착지 준비!`;
+        jumpPhase = 'air'; poseScore = 100;
+        feedback  = `🦘 점프 중! (높이 ${Math.round((jumpBaselineHipY - smoothHipY) * 1000)}) 발끝 착지 준비!`;
       } else {
-        if (jumpPhase==='air') { repCount++; poseScore=100; feedback=`✅ 줄넘기 ${repCount}회! 리듬 유지! 🪢`; }
-        else { poseScore=60; feedback='🪢 리듬감 있게 발끝으로 가볍게 뛰어주세요!'; }
-        jumpPhase='land';
+        if (jumpPhase === 'air') { repCount++; poseScore = 100; feedback = `✅ 줄넘기 ${repCount}회! 리듬 유지! 🪢`; }
+        else                     { poseScore = 60; feedback = '🪢 리듬감 있게 발끝으로 가볍게 뛰어주세요!'; }
+        jumpPhase = 'land';
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
@@ -1379,7 +1198,9 @@ function analyzePoseByKeypoints() {
   fb.textContent = feedback || '📐 자세를 분석 중입니다...';
 }
 
-// ── 스냅샷 분석 ────────────────────────────────
+// ════════════════════════════════════════════════
+// 스냅샷 분석
+// ════════════════════════════════════════════════
 function snapshotAnalysis() {
   if (!isCameraOn) { showToast('⚠️ 카메라를 먼저 켜주세요!'); return; }
   const ex = EXERCISES[currentExerciseIdx];
@@ -1398,7 +1219,9 @@ function snapshotAnalysis() {
 }
 function closeSnapshot() { document.getElementById('snapshotModal').classList.remove('show'); }
 
-// ── WOD ────────────────────────────────────────
+// ════════════════════════════════════════════════
+// WOD 타이머
+// ════════════════════════════════════════════════
 function wodStart() {
   if (wodRunning) return;
   wodRunning = true;
@@ -1412,12 +1235,14 @@ function wodStart() {
     }
     wodSeconds--;
     document.getElementById('wodDisplay').textContent =
-      String(Math.floor(wodSeconds/60)).padStart(2,'0') + ':' + String(wodSeconds%60).padStart(2,'0');
+      String(Math.floor(wodSeconds / 60)).padStart(2,'0') + ':' +
+      String(wodSeconds % 60).padStart(2,'0');
   }, 1000);
 }
 function wodPause() {
   wodRunning = false; clearInterval(wodInterval);
-  if (wodSeconds > 0 && wodSeconds < 900) document.getElementById('wodStatus').textContent = '일시정지';
+  if (wodSeconds > 0 && wodSeconds < 900)
+    document.getElementById('wodStatus').textContent = '일시정지';
 }
 function wodReset() {
   wodPause(); wodSeconds = 900;
@@ -1432,11 +1257,13 @@ function generateWOD() {
     '🔥 버피 10개+에어스쿼트 20개+줄넘기 30개 × 3세트',
     '🔥 푸시업 15개+런지 20개+플랭크 45초 × 3세트',
   ];
-  document.getElementById('wodStatus').textContent = wods[Math.floor(Math.random()*wods.length)];
+  document.getElementById('wodStatus').textContent = wods[Math.floor(Math.random() * wods.length)];
   showToast('🤖 WOD가 생성되었습니다!');
 }
 
-// ── 백과사전 ───────────────────────────────────
+// ════════════════════════════════════════════════
+// 백과사전
+// ════════════════════════════════════════════════
 function renderWiki(filter = '') {
   const filtered = WIKI_DATA.filter(w => w.name.includes(filter) || w.target.includes(filter));
   document.getElementById('wikiList').innerHTML = filtered.map(w => `
@@ -1447,17 +1274,19 @@ function renderWiki(filter = '') {
       </div>
       <div class="ex-card-body">
         <strong>✅ 올바른 자세:</strong>
-        <ul>${w.correct.map(c=>`<li>${c}</li>`).join('')}</ul>
+        <ul>${w.correct.map(c => `<li>${c}</li>`).join('')}</ul>
         <strong style="display:block;margin-top:8px;">⚠️ 피해야 할 실수:</strong>
-        <ul>${w.mistakes.map(m=>`<li>${m}</li>`).join('')}</ul>
+        <ul>${w.mistakes.map(m => `<li>${m}</li>`).join('')}</ul>
         <div style="margin-top:8px;"><span class="ex-tag tag-good">💡 ${w.tips}</span></div>
-        <div><a class="yt-btn" href="${w.youtube}" target="_blank" rel="noopener noreferrer">▶ 유튜브 영상 보기</a></div>
+        <a class="yt-btn" href="${w.youtube}" target="_blank" rel="noopener noreferrer">▶ 유튜브 영상 보기</a>
       </div>
     </div>`).join('');
 }
 function filterWiki() { renderWiki(document.getElementById('wikiSearch').value.trim()); }
 
-// ── 대시보드 ───────────────────────────────────
+// ════════════════════════════════════════════════
+// 대시보드
+// ════════════════════════════════════════════════
 async function loadDashboard() {
   if (!currentStudent) return;
   try {
@@ -1465,29 +1294,23 @@ async function loadDashboard() {
     if (res.status !== 'success') return;
     const r         = res.exerciseRecords || [];
     const n         = r.length;
-    const totalReps = r.reduce((s,x) => s+(x.reps||0), 0);
-    const avgAcc    = n > 0 ? Math.round(r.reduce((s,x) => s+(x.accuracy||0), 0)/n) : 0;
-    const totalMins = Math.round(r.reduce((s,x) => s+(x.duration||0), 0)/60);
+    const totalReps = r.reduce((s,x) => s + (x.reps||0), 0);
+    const avgAcc    = n > 0 ? Math.round(r.reduce((s,x) => s + (x.accuracy||0), 0) / n) : 0;
+    const totalMins = Math.round(r.reduce((s,x) => s + (x.duration||0), 0) / 60);
     document.getElementById('dTotalSessions').textContent = n;
     document.getElementById('dTotalReps').textContent     = totalReps;
     document.getElementById('dAvgAccuracy').textContent   = avgAcc + '%';
     document.getElementById('dTotalTime').textContent     = totalMins + '분';
 
     const recEl = document.getElementById('recentRecords');
-    if (r.length === 0) { recEl.innerHTML = '<div class="empty-state">아직 기록이 없습니다</div>'; return; }
+    if (n === 0) { recEl.innerHTML = '<div class="empty-state">아직 기록이 없습니다</div>'; return; }
 
-    // ── ① 가장 최근 날짜 추출 ─────────────────
     const allDates   = r.map(x => x.date).filter(Boolean);
     const latestDate = allDates.reduce((a,b) => {
-      const da = new Date(a.replace(/\./g,'/').trim());
-      const db = new Date(b.replace(/\./g,'/').trim());
-      return db > da ? b : a;
+      return new Date(b.replace(/\./g,'/').trim()) > new Date(a.replace(/\./g,'/').trim()) ? b : a;
     }, allDates[0]);
 
-    // ── ② 최근 날짜 기록만 필터 ───────────────
     const todayRecords = r.filter(x => x.date === latestDate);
-
-    // ── ③ 운동 종목별 병합 ────────────────────
     const merged = {};
     todayRecords.forEach(x => {
       const key = x.exercise || '알 수 없음';
@@ -1498,7 +1321,6 @@ async function loadDashboard() {
       merged[key].count       += 1;
     });
 
-    // ── ④ 6대 운동 고정 순서 정렬 ─────────────
     const ORDER = ['에어 스쿼트','런지','플랭크','푸시업','버피','줄넘기'];
     const ICONS = { '에어 스쿼트':'🦵','런지':'🏃','플랭크':'💪','푸시업':'⬆️','버피':'🔥','줄넘기':'🪢' };
     const sortedKeys = Object.keys(merged).sort((a,b) => {
@@ -1508,31 +1330,28 @@ async function loadDashboard() {
       return ia - ib;
     });
 
-    // ── ⑤ HTML 렌더링 ─────────────────────────
     recEl.innerHTML = `
-      <div style="font-size:0.8rem;color:var(--text2);margin-bottom:10px;">📅 ${latestDate} 운동 기록</div>
+      <div style="font-size:.8rem;color:var(--text2);margin-bottom:10px;">📅 ${latestDate} 운동 기록</div>
       <div class="record-list">
         ${sortedKeys.map(exName => {
-          const m      = merged[exName];
-          const avgAc  = Math.round(m.accuracySum / m.count);
-          const icon   = ICONS[exName] || '🏋️';
-          const mins   = Math.round(m.duration / 60);
-          const unit   = exName === '플랭크' ? `${m.reps}초 유지` : `${m.reps} Reps`;
-          const sess   = m.count > 1 ? ` <span style="font-size:0.73rem;color:var(--text2);">(${m.count}세션 합산)</span>` : '';
-          return `
-            <div class="record-item">
-              <div class="r-left">${icon} ${exName}${sess}</div>
-              <div class="r-right">
-                ${unit} · ${avgAc}%
-                <span style="font-size:0.75rem;color:var(--text2);margin-left:6px;">${mins}분</span>
-              </div>
-            </div>`;
+          const m     = merged[exName];
+          const avgAc = Math.round(m.accuracySum / m.count);
+          const icon  = ICONS[exName] || '🏋️';
+          const mins  = Math.round(m.duration / 60);
+          const unit  = exName === '플랭크' ? `${m.reps}초 유지` : `${m.reps} Reps`;
+          const sess  = m.count > 1 ? `<span style="font-size:.73rem;color:var(--text2);">(${m.count}세션)</span>` : '';
+          return `<div class="record-item">
+            <div class="r-left">${icon} ${exName}${sess}</div>
+            <div class="r-right">${unit} · ${avgAc}% <span style="font-size:.75rem;color:var(--text2);margin-left:6px;">${mins}분</span></div>
+          </div>`;
         }).join('')}
       </div>`;
   } catch { showToast('⚠️ 데이터를 불러오지 못했습니다.'); }
 }
 
-// ── 성취 기준 ──────────────────────────────────
+// ════════════════════════════════════════════════
+// 성취 기준
+// ════════════════════════════════════════════════
 async function loadAchievement() {
   const box = document.getElementById('achievementBox');
   box.textContent = '데이터 분석 중...';
@@ -1540,16 +1359,19 @@ async function loadAchievement() {
     const res    = await gasCall({ action:'getStudentData', studentId:currentStudent.id });
     const r      = res.exerciseRecords || [];
     const n      = r.length;
-    const avgAcc = n > 0 ? Math.round(r.reduce((s,x)=>s+(x.accuracy||0),0)/n) : 0;
+    const avgAcc = n > 0 ? Math.round(r.reduce((s,x) => s + (x.accuracy||0), 0) / n) : 0;
     const grade  =
       (n>=10&&avgAcc>=85) ? '🏆 A+ 매우 우수' :
-      (n>=7 &&avgAcc>=70) ? '🥇 A 우수'        :
-      (n>=5 &&avgAcc>=60) ? '🥈 B 보통'         : '🥉 C 노력 필요';
-    box.textContent = `📊 성취 기준 평가 결과\n\n• 총 운동 세션: ${n}회\n• 평균 자세 정확도: ${avgAcc}%\n• 성취 등급: ${grade}\n\n💡 꾸준히 운동하면 자세 정확도와 체력이 함께 성장해요!`;
+      (n>=7 &&avgAcc>=70) ? '🥇 A  우수'       :
+      (n>=5 &&avgAcc>=60) ? '🥈 B  보통'        : '🥉 C  노력 필요';
+    box.textContent =
+      `📊 성취 기준 평가 결과\n\n• 총 운동 세션: ${n}회\n• 평균 자세 정확도: ${avgAcc}%\n• 성취 등급: ${grade}\n\n💡 꾸준히 운동하면 자세 정확도와 체력이 함께 성장해요!`;
   } catch { box.textContent = '데이터를 불러올 수 없습니다.'; }
 }
 
-// ── AI 채팅 ────────────────────────────────────
+// ════════════════════════════════════════════════
+// AI 채팅
+// ════════════════════════════════════════════════
 function quickChat(msg) { document.getElementById('chatInput').value = msg; sendChat(); }
 function sendChat() {
   const input = document.getElementById('chatInput');
@@ -1564,21 +1386,23 @@ function sendChat() {
 }
 function generateAIReply(msg) {
   const m = msg.toLowerCase();
-  if (m.includes('스쿼트'))                       return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
-  if (m.includes('런지'))                         return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
-  if (m.includes('플랭크'))                       return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
-  if (m.includes('푸시업')||m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
-  if (m.includes('버피'))                         return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→스쿼트→점프+박수! 6단계! 🎉';
-  if (m.includes('줄넘기'))                       return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만!';
-  if (m.includes('심박수')||m.includes('wod'))    return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
-  if (m.includes('초보')||m.includes('처음'))     return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
-  if (m.includes('피드백')||m.includes('오늘'))   return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+  if (m.includes('스쿼트'))                         return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
+  if (m.includes('런지'))                           return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
+  if (m.includes('플랭크'))                         return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
+  if (m.includes('푸시업') || m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
+  if (m.includes('버피'))                           return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→스쿼트→점프+박수! 6단계! 🎉';
+  if (m.includes('줄넘기'))                         return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만!';
+  if (m.includes('심박수') || m.includes('wod'))    return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
+  if (m.includes('초보') || m.includes('처음'))     return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
+  if (m.includes('피드백') || m.includes('오늘'))   return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
-// ── 일일 기록 ──────────────────────────────────
+// ════════════════════════════════════════════════
+// 일일 기록
+// ════════════════════════════════════════════════
 function changeWodSets(d) {
-  wodSetsCount = Math.max(0, wodSetsCount+d);
+  wodSetsCount = Math.max(0, wodSetsCount + d);
   document.getElementById('wodSetsVal').textContent = wodSetsCount;
 }
 async function saveDailyLog() {
@@ -1587,10 +1411,10 @@ async function saveDailyLog() {
     const res = await gasCall({
       action:'saveDailyLog', date:new Date().toLocaleDateString('ko-KR'),
       studentId:currentStudent.id, name:currentStudent.name,
-      wodSets:wodSetsCount,
-      totalReps: document.getElementById('repCount').textContent || 0,
-      peakHR:    document.getElementById('peakHR').value         || 0,
-      avgHR:     document.getElementById('avgHR').value          || 0,
+      wodSets:   wodSetsCount,
+      totalReps: document.getElementById('repCount').textContent  || 0,
+      peakHR:    document.getElementById('peakHR').value          || 0,
+      avgHR:     document.getElementById('avgHR').value           || 0,
       goodPoint:    document.getElementById('goodPoint').value,
       improvePoint: document.getElementById('improvePoint').value,
       breakfast:    document.getElementById('breakfast').value,
@@ -1619,18 +1443,18 @@ function generateAITotal() {
   document.getElementById('aiTotalBox').textContent = msg;
 }
 
-// ── 토스트 ─────────────────────────────────────
+// ════════════════════════════════════════════════
+// 토스트 / 초기화
+// ════════════════════════════════════════════════
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-
-// ── 초기화 ─────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  ['loginId','loginName','loginPw'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') handleAuth(); });
-  });
+  ['loginId','loginName','loginPw'].forEach(id =>
+    document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') handleAuth(); })
+  );
   document.getElementById('logDate').textContent = '📅 ' + new Date().toLocaleDateString('ko-KR');
   switchAuthTab('login');
 });
