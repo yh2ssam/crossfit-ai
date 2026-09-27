@@ -85,6 +85,7 @@
     font-size: 0.78rem; color: var(--text2);
     background: var(--surface2); border-radius: 10px;
     padding: 10px 14px; margin-bottom: 16px; line-height: 1.6; text-align: left;
+    white-space: pre-line;
   }
   /* ── 앱 ── */
   #appScreen { display: none; }
@@ -150,10 +151,10 @@
     font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
     flex: 1; min-width: 80px;
   }
-  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
-  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  .btn-success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #0a2a1a; }
-  .btn-danger { background: linear-gradient(135deg, var(--danger), #ff8e8e); color: white; }
+  .btn-primary  { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
+  .btn-secondary{ background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-success  { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #0a2a1a; }
+  .btn-danger   { background: linear-gradient(135deg, var(--danger), #ff8e8e); color: white; }
   .btn:hover { transform: translateY(-1px); opacity: 0.9; }
   .exercise-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
@@ -171,7 +172,7 @@
     position: relative; background: #000; border-radius: 12px;
     overflow: hidden; margin-bottom: 12px; aspect-ratio: 4/3;
   }
-  #videoEl { width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); }
+  #videoEl  { width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); }
   #canvasEl { position:absolute; top:0; left:0; width:100%; height:100%; transform:scaleX(-1); }
   .camera-placeholder {
     position: absolute; inset: 0; display: flex;
@@ -233,7 +234,7 @@
     background: var(--surface2); border-radius: 10px; padding: 12px 16px;
     display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
   }
-  .record-item .r-left { color: var(--text2); }
+  .record-item .r-left  { color: var(--text2); }
   .record-item .r-right { font-weight: 700; color: var(--accent); }
   .empty-state { text-align: center; color: var(--text2); padding: 40px; font-size: 0.9rem; }
   .ai-chat {
@@ -304,7 +305,7 @@
   }
   .modal-overlay.show .modal-box { transform: scale(1); }
   .modal-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-  .modal-sub { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
+  .modal-sub   { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
   .modal-input {
     width: 100%; padding: 12px 16px; background: var(--surface2);
     border: 1px solid var(--border); border-radius: 10px;
@@ -324,7 +325,7 @@
     color: white; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
   }
   .guide-text strong { display: block; font-size: 0.9rem; margin-bottom: 2px; }
-  .guide-text span { color: var(--text2); }
+  .guide-text span   { color: var(--text2); }
   #toast {
     position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
     background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
@@ -334,21 +335,21 @@
   }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .server-status { font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
-  .server-status.ok  { color: var(--success); border-color: var(--success); }
-  .server-status.err { color: var(--danger);  border-color: var(--danger);  }
+  .server-status.ok       { color: var(--success); border-color: var(--success); }
+  .server-status.err      { color: var(--danger);  border-color: var(--danger);  }
   .server-status.checking { color: var(--warning); border-color: var(--warning); }
   .snapshot-result {
     background: var(--surface2); border-radius: 12px; padding: 16px; margin-top: 12px;
     font-size: 0.85rem; line-height: 1.7; color: var(--text); white-space: pre-wrap; display: none;
   }
   @media (max-width: 480px) {
-    .login-card { width: 95%; padding: 36px 24px; }
-    .dash-grid  { grid-template-columns: repeat(2,1fr); }
+    .login-card  { width: 95%; padding: 36px 24px; }
+    .dash-grid   { grid-template-columns: repeat(2,1fr); }
     .exercise-grid { grid-template-columns: repeat(3,1fr); }
-    .form-row   { grid-template-columns: 1fr; }
-    .wod-time   { font-size: 3rem; }
-    .section    { padding: 12px; }
-    .header     { padding: 0 12px; }
+    .form-row    { grid-template-columns: 1fr; }
+    .wod-time    { font-size: 3rem; }
+    .section     { padding: 12px; }
+    .header      { padding: 0 12px; }
   }
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -369,13 +370,11 @@
       <button class="auth-tab"        id="tabRegister" onclick="switchAuthTab('register')">✏️ 최초 등록 (신규)</button>
     </div>
 
-    <div class="login-hint" id="authHint">
-      📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.
-    </div>
+    <div class="login-hint" id="authHint">📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.</div>
 
     <input id="loginId"   class="login-input" type="text"     placeholder="학번 (예: 10101)" maxlength="10">
     <input id="loginName" class="login-input" type="text"     placeholder="이름">
-    <input id="loginPw"   class="login-input" type="password" placeholder="비밀번호" maxlength="20">
+    <input id="loginPw"   class="login-input" type="password" placeholder="비밀번호 (신규: 0000)" maxlength="20">
 
     <div id="loginError"   class="login-error"></div>
     <div id="loginSuccess" class="login-success"></div>
@@ -589,7 +588,8 @@
     <div class="modal-title">🔐 비밀번호 새로 설정</div>
     <div class="modal-sub">
       등록이 완료되었습니다! 🎉<br>
-      다음 로그인에 사용할 비밀번호를 지금 설정해주세요.
+      초기 비밀번호(0000) 대신 사용할<br>
+      새 비밀번호를 지금 설정해주세요.
     </div>
     <input id="pwForce1" class="modal-input" type="password" placeholder="새 비밀번호 (4자리 이상)">
     <input id="pwForce2" class="modal-input" type="password" placeholder="새 비밀번호 확인">
@@ -654,7 +654,7 @@
 // ════════════════════════════════════════════════
 // ★ GAS URL (배포 후 여기에 입력)
 // ════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxBTe45NZ-wIRQF-20HQAuKk51gN_sioYHPUSo-CBppFoq4CFRSK_IRi_mZhLHyRvibVg/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx4YtMLGHTxSCdaSfhKMLHHYl-ZvE36MvdPB5k39TGXa4ovedJICZwoDC1McIj2nvjeBA/exec';
 
 // ── 전역 상태 ──────────────────────────────────
 let currentStudent     = null;
@@ -752,12 +752,12 @@ function switchAuthTab(mode) {
     document.getElementById('authHint').textContent =
       '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
     document.getElementById('authBtn').textContent  = '수업 입장하기 →';
-    document.getElementById('loginPw').placeholder  = '비밀번호';
+    document.getElementById('loginPw').placeholder  = '비밀번호 (신규: 0000)';
   } else {
     document.getElementById('authHint').textContent =
-      '✏️ 처음 오는 학생은 학번 + 이름 + 사용할 비밀번호를 입력해 등록하세요.\n이후 동일한 정보로 로그인합니다.';
+      '✏️ 처음 오는 학생은 학번 + 이름만 입력하면 됩니다.\n초기 비밀번호(0000)는 자동 설정되며, 등록 후 바로 변경합니다.';
     document.getElementById('authBtn').textContent  = '등록하기 →';
-    document.getElementById('loginPw').placeholder  = '사용할 비밀번호 (4자리 이상)';
+    document.getElementById('loginPw').placeholder  = '비워두세요 (초기 비밀번호 0000 자동설정)';
   }
 }
 
@@ -771,13 +771,19 @@ async function handleAuth() {
   errEl.style.display = 'none';
   sucEl.style.display = 'none';
 
-  if (!studentId || !name || !password) {
-    errEl.textContent = '학번, 이름, 비밀번호를 모두 입력하세요.';
-    errEl.style.display = 'block'; return;
-  }
-  if (authMode === 'register' && password.length < 4) {
-    errEl.textContent = '비밀번호는 4자리 이상 입력하세요.';
-    errEl.style.display = 'block'; return;
+  // ★ 유효성 검사
+  if (authMode === 'register') {
+    // 신규 등록: 학번 + 이름만 필요 (비밀번호 0000 자동설정)
+    if (!studentId || !name) {
+      errEl.textContent   = '학번과 이름을 입력하세요.';
+      errEl.style.display = 'block'; return;
+    }
+  } else {
+    // 로그인: 학번 + 이름 + 비밀번호 모두 필요
+    if (!studentId || !name || !password) {
+      errEl.textContent   = '학번, 이름, 비밀번호를 모두 입력하세요.';
+      errEl.style.display = 'block'; return;
+    }
   }
 
   errEl.style.color   = 'var(--warning)';
@@ -785,7 +791,14 @@ async function handleAuth() {
   errEl.style.display = 'block';
 
   try {
-    const res = await gasCall({ action: authMode, studentId, name, password });
+    // ★ 신규등록은 비밀번호 서버에서 0000 자동설정이므로 미전달
+    const res = await gasCall({
+      action: authMode,
+      studentId,
+      name,
+      ...(authMode === 'login' ? { password } : {})
+    });
+
     errEl.style.color = 'var(--danger)';
 
     if (res.status === 'success') {
@@ -824,8 +837,8 @@ function enterApp(id, name) {
 
 // ── 강제 비밀번호 변경 모달 열기 ───────────────
 function openPwForceModal() {
-  document.getElementById('pwForce1').value           = '';
-  document.getElementById('pwForce2').value           = '';
+  document.getElementById('pwForce1').value             = '';
+  document.getElementById('pwForce2').value             = '';
   document.getElementById('pwForceError').style.display = 'none';
   document.getElementById('pwForceModal').classList.add('show');
 }
@@ -918,11 +931,11 @@ async function saveNewPw() {
   errEl.style.display = 'none';
 
   if (!pw1 || pw1.length < 4) {
-    errEl.textContent = '비밀번호를 4자리 이상 입력하세요.';
+    errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
   }
   if (pw1 !== pw2) {
-    errEl.textContent = '비밀번호가 일치하지 않습니다.';
+    errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
   try {
@@ -983,7 +996,7 @@ async function startCamera() {
     stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode:'user', width:{ideal:640}, height:{ideal:480} }
     });
-    document.getElementById('videoEl').srcObject = stream;
+    document.getElementById('videoEl').srcObject    = stream;
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
     document.querySelector('[onclick="toggleCamera()"]').textContent = '📷 카메라 끄기';
@@ -1001,7 +1014,7 @@ function stopCamera() {
 
 // ── 측정 ───────────────────────────────────────
 function startMeasure() {
-  if (!isCameraOn) { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
+  if (!isCameraOn)  { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
   if (isMeasuring) return;
   isMeasuring = true; totalSeconds = 0; goodPostureSeconds = 0;
   measureTimer = setInterval(() => {
@@ -1017,8 +1030,8 @@ async function stopMeasure() {
   if (currentStudent && totalSeconds > 5) {
     try {
       await gasCall({
-        action: 'saveExercise',
-        date:   new Date().toLocaleDateString('ko-KR'),
+        action:   'saveExercise',
+        date:     new Date().toLocaleDateString('ko-KR'),
         studentId: currentStudent.id, name: currentStudent.name,
         exercise: ex.name, reps: repCount, duration: totalSeconds,
         goodPostureDuration: goodPostureSeconds, accuracy
@@ -1037,8 +1050,8 @@ function resetMeasure() {
   document.getElementById('feedbackBox').textContent  = '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
 function updateMeasureUI() {
-  const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-  const s = String(totalSeconds % 60).padStart(2, '0');
+  const m = String(Math.floor(totalSeconds / 60)).padStart(2,'0');
+  const s = String(totalSeconds % 60).padStart(2,'0');
   document.getElementById('timerDisplay').textContent = `${m}:${s}`;
   document.getElementById('repCount').textContent     = repCount;
   const acc = totalSeconds > 0 ? Math.round((goodPostureSeconds / totalSeconds) * 100) : 0;
@@ -1057,7 +1070,7 @@ function simulatePoseAnalysis() {
         isGood = true; feedback = '✅ 스쿼트 자세 양호! 무릎이 발끝 방향을 잘 유지하고 있습니다.';
         if (totalSeconds % 3 === 0) repCount++;
       } else {
-        feedback = ['⚠️ 무릎이 안쪽으로 모이고 있습니다.','⚠️ 더 깊이 앉아주세요!','⚠️ 발뒤꿈치가 들리지 않도록 하세요.'][Math.floor(rand * 3)];
+        feedback = ['⚠️ 무릎이 안쪽으로 모이고 있습니다.','⚠️ 더 깊이 앉아주세요!','⚠️ 발뒤꿈치가 들리지 않도록 하세요.'][Math.floor(rand*3)];
       }
       break;
     case 'lunge':
@@ -1069,7 +1082,7 @@ function simulatePoseAnalysis() {
     case 'plank':
       if (rand > 0.2) {
         isGood = true; feedback = '✅ 플랭크 자세 완벽!';
-      } else { feedback = ['⚠️ 엉덩이가 위로 올라가고 있어요.','⚠️ 허리가 처지고 있어요. 코어에 힘!'][Math.floor(rand * 2)]; }
+      } else { feedback = ['⚠️ 엉덩이가 위로 올라가고 있어요.','⚠️ 허리가 처지고 있어요. 코어에 힘!'][Math.floor(rand*2)]; }
       break;
     case 'pushup':
       if (rand > 0.3) {
@@ -1103,9 +1116,9 @@ function snapshotAnalysis() {
   setTimeout(() => {
     const tips = WIKI_DATA.find(w => w.name === ex.name);
     let a = `📊 ${ex.name} 자세 정밀 분석 결과\n\n✅ 올바른 자세:\n`;
-    tips.correct.forEach((c, i)  => a += `${i+1}. ${c}\n`);
+    tips.correct.forEach((c,i)  => a += `${i+1}. ${c}\n`);
     a += `\n⚠️ 주의 실수:\n`;
-    tips.mistakes.forEach((m, i) => a += `${i+1}. ${m}\n`);
+    tips.mistakes.forEach((m,i) => a += `${i+1}. ${m}\n`);
     a += `\n💡 팁: ${tips.tips}`;
     document.getElementById('snapshotContent').textContent = a;
   }, 1500);
@@ -1205,14 +1218,14 @@ async function loadAchievement() {
   const box = document.getElementById('achievementBox');
   box.textContent = '데이터 분석 중...';
   try {
-    const res = await gasCall({ action:'getStudentData', studentId: currentStudent.id });
-    const r   = res.exerciseRecords || [];
-    const n   = r.length;
+    const res    = await gasCall({ action:'getStudentData', studentId: currentStudent.id });
+    const r      = res.exerciseRecords || [];
+    const n      = r.length;
     const avgAcc = n > 0 ? Math.round(r.reduce((s,x) => s + (x.accuracy || 0), 0) / n) : 0;
     const grade  =
       (n >= 10 && avgAcc >= 85) ? '🏆 A+ 매우 우수' :
-      (n >= 7  && avgAcc >= 70) ? '🥇 A 우수'       :
-      (n >= 5  && avgAcc >= 60) ? '🥈 B 보통'        : '🥉 C 노력 필요';
+      (n >= 7  && avgAcc >= 70) ? '🥇 A 우수'        :
+      (n >= 5  && avgAcc >= 60) ? '🥈 B 보통'         : '🥉 C 노력 필요';
     box.textContent =
       `📊 성취 기준 평가 결과\n\n• 총 운동 세션: ${n}회\n• 평균 자세 정확도: ${avgAcc}%\n• 성취 등급: ${grade}\n\n💡 꾸준히 운동하면 자세 정확도와 체력이 함께 성장해요!`;
   } catch { box.textContent = '데이터를 불러올 수 없습니다.'; }
@@ -1233,15 +1246,15 @@ function sendChat() {
 }
 function generateAIReply(msg) {
   const m = msg.toLowerCase();
-  if (m.includes('스쿼트'))  return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
-  if (m.includes('런지'))    return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
-  if (m.includes('플랭크'))  return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
-  if (m.includes('푸시업') || m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
-  if (m.includes('버피'))    return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→점프! 착지 시 무릎 굽혀 충격 흡수!';
-  if (m.includes('줄넘기'))  return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만 뛰어요.';
-  if (m.includes('심박수') || m.includes('wod')) return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
-  if (m.includes('초보') || m.includes('처음'))  return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
-  if (m.includes('피드백') || m.includes('오늘')) return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+  if (m.includes('스쿼트'))           return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
+  if (m.includes('런지'))             return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
+  if (m.includes('플랭크'))           return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
+  if (m.includes('푸시업')||m.includes('팔굽혀')) return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
+  if (m.includes('버피'))             return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→점프! 착지 시 무릎 굽혀 충격 흡수!';
+  if (m.includes('줄넘기'))           return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기! 2~3cm만 뛰어요.';
+  if (m.includes('심박수')||m.includes('wod')) return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
+  if (m.includes('초보')||m.includes('처음'))   return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
+  if (m.includes('피드백')||m.includes('오늘')) return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
@@ -1259,16 +1272,16 @@ async function saveDailyLog() {
       studentId:    currentStudent.id,
       name:         currentStudent.name,
       wodSets:      wodSetsCount,
-      totalReps:    document.getElementById('repCount').textContent     || 0,
-      peakHR:       document.getElementById('peakHR').value             || 0,
-      avgHR:        document.getElementById('avgHR').value              || 0,
+      totalReps:    document.getElementById('repCount').textContent  || 0,
+      peakHR:       document.getElementById('peakHR').value          || 0,
+      avgHR:        document.getElementById('avgHR').value           || 0,
       goodPoint:    document.getElementById('goodPoint').value,
       improvePoint: document.getElementById('improvePoint').value,
       breakfast:    document.getElementById('breakfast').value,
       lunch:        document.getElementById('lunch').value,
       dinner:       document.getElementById('dinner').value,
-      water:        document.getElementById('water').value              || 0,
-      sleep:        document.getElementById('sleep').value              || 0,
+      water:        document.getElementById('water').value           || 0,
+      sleep:        document.getElementById('sleep').value           || 0,
     });
     if (res.status === 'success') {
       showToast('✅ 오늘의 기록이 저장되었습니다!');
