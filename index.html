@@ -23,7 +23,6 @@
   body{font-family:'Segoe UI',-apple-system,sans-serif;
        background:var(--bg);color:var(--text);min-height:100vh;
        transition:background .3s,color .3s;}
-
   /* ── 로그인 ── */
   #loginScreen{min-height:100vh;display:flex;align-items:center;
     justify-content:center;
@@ -61,7 +60,6 @@
   .login-hint{font-size:.78rem;color:var(--text2);
     background:var(--surface2);border-radius:10px;padding:10px 14px;
     margin-bottom:16px;line-height:1.6;text-align:left;white-space:pre-line;}
-
   /* ── 앱 레이아웃 ── */
   #appScreen{display:none;}
   .header{background:var(--surface);border-bottom:1px solid var(--border);
@@ -94,7 +92,6 @@
     border-radius:16px;padding:20px;margin-bottom:16px;}
   .card-title{font-size:1rem;font-weight:700;margin-bottom:16px;
     display:flex;align-items:center;gap:8px;}
-
   /* ── WOD 타이머 ── */
   .wod-timer-display{text-align:center;padding:28px 20px 16px;
     background:linear-gradient(135deg,
@@ -128,7 +125,6 @@
     background:linear-gradient(135deg,var(--danger),#ff8e8e);
     color:#fff;}
   .btn:hover{transform:translateY(-1px);opacity:.9;}
-
   /* ── 운동 선택 ── */
   .exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);
     gap:10px;margin-bottom:16px;}
@@ -139,7 +135,6 @@
   .exercise-btn.active{border-color:var(--accent);
     background:rgba(108,99,255,.15);color:var(--accent);}
   .exercise-btn .ex-icon{font-size:1.5rem;display:block;margin-bottom:4px;}
-
   /* ── 카메라 ── */
   .camera-wrap{position:relative;background:#000;border-radius:12px;
     overflow:hidden;margin-bottom:12px;aspect-ratio:4/3;}
@@ -151,7 +146,6 @@
     flex-direction:column;align-items:center;justify-content:center;
     color:var(--text2);font-size:.9rem;gap:8px;}
   .camera-placeholder .cam-icon{font-size:3rem;}
-
   /* ── 통계 ── */
   .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);
     gap:12px;margin-bottom:12px;}
@@ -171,7 +165,6 @@
     border:1px solid rgba(108,99,255,.2);border-radius:12px;
     padding:14px;font-size:.85rem;color:var(--text2);
     min-height:60px;line-height:1.6;}
-
   /* ── 백과사전 ── */
   .search-wrap{display:flex;gap:10px;margin-bottom:16px;}
   .search-input{flex:1;padding:12px 16px;background:var(--surface2);
@@ -197,7 +190,6 @@
     font-size:.8rem;font-weight:700;text-decoration:none;
     transition:opacity .2s;}
   .yt-btn:hover{opacity:.85;}
-
   /* ── 대시보드 ── */
   .dash-grid{display:grid;grid-template-columns:repeat(2,1fr);
     gap:12px;margin-bottom:16px;}
@@ -213,7 +205,15 @@
   .record-item .r-right{font-weight:700;color:var(--accent);}
   .empty-state{text-align:center;color:var(--text2);
     padding:40px;font-size:.9rem;}
-
+  /* ── 날짜 그룹 헤더 ── */
+  .day-group-header{
+    display:flex;justify-content:space-between;align-items:center;
+    cursor:pointer;background:var(--surface2);border-radius:12px;
+    padding:12px 16px;margin-bottom:6px;
+    border:1px solid var(--border);transition:border-color .2s;}
+  .day-group-header:hover{border-color:var(--accent);}
+  .day-group-arrow{
+    font-size:1.1rem;transition:transform .3s;display:inline-block;}
   /* ── AI 채팅 ── */
   .ai-chat{background:var(--surface2);border-radius:12px;
     min-height:200px;max-height:360px;overflow-y:auto;
@@ -239,7 +239,6 @@
     border:1px solid var(--border);background:var(--surface2);
     color:var(--text2);font-size:.78rem;cursor:pointer;transition:all .2s;}
   .quick-btn:hover{border-color:var(--accent);color:var(--accent);}
-
   /* ── 일일 기록 폼 ── */
   .form-group{margin-bottom:16px;}
   .form-label{font-size:.85rem;color:var(--text2);
@@ -265,7 +264,6 @@
     border:1px solid rgba(108,99,255,.2);border-radius:12px;
     padding:16px;font-size:.85rem;line-height:1.7;color:var(--text);
     margin-top:12px;white-space:pre-wrap;}
-
   /* ── 모달 ── */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);
     display:flex;align-items:center;justify-content:center;
@@ -295,7 +293,6 @@
     justify-content:center;font-size:.8rem;}
   .guide-text strong{display:block;font-size:.9rem;margin-bottom:2px;}
   .guide-text span{color:var(--text2);}
-
   /* ── 토스트 ── */
   #toast{position:fixed;bottom:80px;left:50%;
     transform:translateX(-50%) translateY(20px);
@@ -304,14 +301,12 @@
     box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:999;opacity:0;
     transition:all .3s;pointer-events:none;white-space:nowrap;}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
   /* ── 서버 상태 ── */
   .server-status{font-size:.78rem;padding:4px 10px;
     border-radius:20px;border:1px solid var(--border);}
   .server-status.ok{color:var(--success);border-color:var(--success);}
   .server-status.err{color:var(--danger);border-color:var(--danger);}
   .server-status.checking{color:var(--warning);border-color:var(--warning);}
-
   /* ── 카메라 전/후면 ── */
   .cam-toggle-wrap{display:flex;align-items:center;
     justify-content:center;gap:10px;margin-bottom:10px;}
@@ -341,7 +336,6 @@
 </style>
 </head>
 <body>
-
 <!-- ═══════════ 로그인 화면 ═══════════ -->
 <div id="loginScreen">
   <div class="login-card">
@@ -372,7 +366,6 @@
     </div>
   </div>
 </div>
-
 <!-- ═══════════ 앱 화면 ═══════════ -->
 <div id="appScreen">
   <!-- 헤더 -->
@@ -391,7 +384,6 @@
       <button class="logout-btn" onclick="doLogout()">로그아웃</button>
     </div>
   </div>
-
   <!-- 탭바 -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('exercise')">
@@ -405,17 +397,12 @@
     <button class="tab-btn" onclick="showTab('log')">
       <span class="tab-icon">📝</span>오늘기록</button>
   </div>
-
   <!-- ══ 섹션1: 운동/진단 ══ -->
   <div id="sec-exercise" class="section active">
-
-    <!-- WOD 타이머 카드 -->
     <div class="card">
       <div class="card-title">⏱️ WOD 타이머</div>
       <div class="wod-timer-display">
         <div class="wod-time" id="wodDisplay">15:00</div>
-
-        <!-- 오늘의 WOD 고정 표시 -->
         <div class="wod-today-box">
           <div class="wod-today-label">🔥 오늘의 WOD</div>
           <div id="todayWodText">
@@ -423,7 +410,6 @@
             런지 10개 + 버피 3개 + 줄넘기 1분(2단 30초)
           </div>
         </div>
-
         <div class="wod-status" id="wodStatus">준비</div>
       </div>
       <div class="btn-row">
@@ -437,8 +423,6 @@
                 onclick="generateWOD()">🤖 자동생성</button>
       </div>
     </div>
-
-    <!-- 운동 선택: 플랭크→푸시업→에어스쿼트→런지→버피→줄넘기 -->
     <div class="card">
       <div class="card-title">🦵 운동 선택</div>
       <div class="exercise-grid">
@@ -462,8 +446,6 @@
           <span class="ex-icon">🪢</span>줄넘기</button>
       </div>
     </div>
-
-    <!-- AI 자세 진단 -->
     <div class="card">
       <div class="card-title">📷 실시간 AI 자세 진단</div>
       <div class="cam-toggle-wrap mobile-only">
@@ -519,7 +501,6 @@
       </div>
     </div>
   </div><!-- /sec-exercise -->
-
   <!-- ══ 섹션2: 백과사전 ══ -->
   <div id="sec-wiki" class="section">
     <div class="card">
@@ -531,7 +512,6 @@
       <div class="ex-card-list" id="wikiList"></div>
     </div>
   </div>
-
   <!-- ══ 섹션3: 대시보드 ══ -->
   <div id="sec-dashboard" class="section">
     <div class="card">
@@ -556,7 +536,7 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-title">🏆 최근 운동 기록</div>
+      <div class="card-title">🏆 날짜별 운동 기록</div>
       <div id="recentRecords">
         <div class="empty-state">아직 기록이 없습니다</div>
       </div>
@@ -566,7 +546,6 @@
       </div>
     </div>
   </div>
-
   <!-- ══ 섹션4: AI/WOD ══ -->
   <div id="sec-ai" class="section">
     <div class="card">
@@ -613,7 +592,6 @@
               onclick="openPwModal()">비밀번호 변경하기</button>
     </div>
   </div>
-
   <!-- ══ 섹션5: 오늘의 기록 ══ -->
   <div id="sec-log" class="section">
     <div class="card">
@@ -688,7 +666,6 @@
     </div>
   </div>
 </div><!-- /appScreen -->
-
 <!-- ── 강제 비밀번호 설정 모달 ── -->
 <div class="modal-overlay" id="pwForceModal">
   <div class="modal-box">
@@ -707,7 +684,6 @@
             onclick="saveForcePw()">✅ 설정 완료</button>
   </div>
 </div>
-
 <!-- ── 비밀번호 변경 모달 ── -->
 <div class="modal-overlay" id="pwChangeModal">
   <div class="modal-box">
@@ -726,7 +702,6 @@
     </div>
   </div>
 </div>
-
 <!-- ── 카메라 가이드 모달 ── -->
 <div class="modal-overlay" id="guideModal">
   <div class="modal-box" style="width:360px;">
@@ -763,7 +738,6 @@
     </div>
   </div>
 </div>
-
 <!-- ── 스냅샷 분석 모달 ── -->
 <div class="modal-overlay" id="snapshotModal">
   <div class="modal-box" style="width:360px;">
@@ -776,9 +750,7 @@
             onclick="closeSnapshot()">확인</button>
   </div>
 </div>
-
 <div id="toast"></div>
-
 <!-- MediaPipe -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
         crossorigin="anonymous"></script>
@@ -786,10 +758,9 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
         crossorigin="anonymous"></script>
-
 <script>
 // ════════════════════════════════════════════════
-// ★ GAS URL — 배포 후 본인 URL로 교체하세요
+// ★ GAS URL
 // ════════════════════════════════════════════════
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbyYrFIGxUj_f3VfMWr1osb-HXl-JpZojXsKqKigw9T7xj3fAsaMcPxvrG_WIRmuLKfG9w/exec';
 
@@ -808,7 +779,7 @@ let goodPostureSeconds = 0;
 let repCount           = 0;
 let wodInterval        = null;
 let wodSeconds         = 900;
-let wodDefaultSeconds  = 900;   // getConfig 후 갱신
+let wodDefaultSeconds  = 900;
 let wodRunning         = false;
 let wodSetsCount       = 0;
 let stream             = null;
@@ -816,7 +787,6 @@ let poseDetector       = null;
 let mpCamera           = null;
 let lastKeypoints      = null;
 let currentFacingMode  = 'user';
-
 // 페이즈
 let squatPhase  = 'up';
 let lungePhase  = 'up';
@@ -828,13 +798,12 @@ let burpeeStageReached = {
 let jumpPhase        = 'land';
 let jumpBaselineHipY = null;
 let jumpHipYHistory  = [];
-
 // 정확도 누적
 let accuracyScoreSum = 0;
 let accuracyTicks    = 0;
 
 // ════════════════════════════════════════════════
-// POSE_CONFIG (자세 판정 임계값 — Config 시트에서 덮어씀)
+// POSE_CONFIG
 // ════════════════════════════════════════════════
 let POSE_CONFIG = {
   visibilityThreshold : 0.35,
@@ -847,7 +816,7 @@ let POSE_CONFIG = {
 };
 
 // ════════════════════════════════════════════════
-// 운동 목록 (플랭크→푸시업→에어스쿼트→런지→버피→줄넘기)
+// 운동 목록
 // ════════════════════════════════════════════════
 const EXERCISES = [
   { name:'플랭크',      icon:'💪', key:'plank'  },
@@ -931,6 +900,18 @@ const WIKI_DATA = [
 ];
 
 // ════════════════════════════════════════════════
+// ★ [수정1] 날짜+시간 문자열 생성 함수
+// ════════════════════════════════════════════════
+function getNowDateTimeStr() {
+  const now  = new Date();
+  const date = now.toLocaleDateString('ko-KR'); // 예: 2026. 9. 28.
+  const hh   = String(now.getHours()).padStart(2,'0');
+  const mm   = String(now.getMinutes()).padStart(2,'0');
+  const ss   = String(now.getSeconds()).padStart(2,'0');
+  return `${date} ${hh}:${mm}:${ss}`;           // 예: 2026. 9. 28. 10:14:33
+}
+
+// ════════════════════════════════════════════════
 // gasCall (JSONP)
 // ════════════════════════════════════════════════
 function gasCall(params) {
@@ -965,23 +946,19 @@ function gasCall(params) {
 }
 
 // ════════════════════════════════════════════════
-// loadPoseConfig — Config 시트에서 설정값 로드
+// loadPoseConfig
 // ════════════════════════════════════════════════
 async function loadPoseConfig() {
   try {
     const res = await gasCall({ action: 'getConfig' });
     if (res.status === 'success' && res.config) {
       const cfg = res.config;
-
-      // 자세 판정 임계값
       Object.keys(POSE_CONFIG).forEach(k => {
         if (k in cfg) {
           const v = parseFloat(cfg[k]);
           if (!isNaN(v)) POSE_CONFIG[k] = v;
         }
       });
-
-      // 타이머 초기값
       if (cfg.wodTimerSeconds !== undefined) {
         const sec = parseInt(cfg.wodTimerSeconds, 10);
         if (!isNaN(sec) && sec > 0) {
@@ -990,13 +967,10 @@ async function loadPoseConfig() {
             wodSeconds = sec;
             const mm = String(Math.floor(sec/60)).padStart(2,'0');
             const ss = String(sec%60).padStart(2,'0');
-            document.getElementById('wodDisplay').textContent =
-              `${mm}:${ss}`;
+            document.getElementById('wodDisplay').textContent = `${mm}:${ss}`;
           }
         }
       }
-
-      // 오늘의 WOD
       if (cfg.todayWod !== undefined && String(cfg.todayWod).trim()) {
         document.getElementById('todayWodText').textContent =
           String(cfg.todayWod).trim();
@@ -1037,7 +1011,6 @@ async function handleAuth() {
   const errEl     = document.getElementById('loginError');
   errEl.style.display = 'none';
   document.getElementById('loginSuccess').style.display = 'none';
-
   if (authMode === 'register') {
     if (!studentId || !name) {
       errEl.textContent   = '학번과 이름을 입력하세요.';
@@ -1049,11 +1022,9 @@ async function handleAuth() {
       errEl.style.display = 'block'; return;
     }
   }
-
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 처리 중... 잠시만 기다려주세요.';
   errEl.style.display = 'block';
-
   try {
     const res = await gasCall({
       action: authMode, studentId, name,
@@ -1142,7 +1113,6 @@ async function saveForcePw() {
     errEl.style.display = 'block';
   }
 }
-
 function openPwModal() {
   document.getElementById('pwNew1').value             = '';
   document.getElementById('pwNew2').value             = '';
@@ -1295,7 +1265,6 @@ function closeGuide() {
 async function startCameraAfterGuide() {
   closeGuide(); await startCamera();
 }
-
 async function startCamera() {
   try {
     const videoEl  = document.getElementById('videoEl');
@@ -1319,9 +1288,7 @@ async function startCamera() {
     });
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
-    document.getElementById('camToggleBtn').textContent =
-      '📷 카메라 끄기';
-
+    document.getElementById('camToggleBtn').textContent = '📷 카메라 끄기';
     poseDetector = new Pose({
       locateFile: f =>
         `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}`
@@ -1363,7 +1330,6 @@ async function startCamera() {
         lastKeypoints = null;
       }
     });
-
     let animFrameId = null;
     async function sendFrame() {
       if (!isCameraOn || !poseDetector) return;
@@ -1377,7 +1343,7 @@ async function startCamera() {
     }};
     sendFrame();
     showToast(
-      `📷 ${currentFacingMode==='user'?'전면':'후면'} ` +
+      `📷 ${currentFacingMode==='user'?'전면':'후면'}` +
       `카메라 & AI 자세 인식 활성화!`
     );
   } catch(err) {
@@ -1388,7 +1354,6 @@ async function startCamera() {
     showToast(msg);
   }
 }
-
 function stopCamera() {
   if (mpCamera)     { try{mpCamera.stop();}      catch(e){} mpCamera=null;     }
   if (poseDetector) { try{poseDetector.close();}  catch(e){} poseDetector=null; }
@@ -1423,6 +1388,10 @@ function startMeasure() {
   }, 1000);
   showToast('▶ 측정을 시작합니다!');
 }
+
+// ════════════════════════════════════════════════
+// ★ [수정2] stopMeasure — date를 날짜+시간으로 저장
+// ════════════════════════════════════════════════
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false;
@@ -1434,7 +1403,7 @@ async function stopMeasure() {
     try {
       await gasCall({
         action:   'saveExercise',
-        date:     new Date().toLocaleDateString('ko-KR'),
+        date:     getNowDateTimeStr(),   // ★ 날짜+시간
         studentId: currentStudent.id,
         name:      currentStudent.name,
         exercise:  ex.name,
@@ -1451,6 +1420,7 @@ async function stopMeasure() {
   }
   resetMeasure();
 }
+
 function resetMeasure() {
   repCount=0; totalSeconds=0; goodPostureSeconds=0;
   accuracyScoreSum=0; accuracyTicks=0;
@@ -1508,15 +1478,11 @@ function analyzePoseByKeypoints() {
   const vis       = idx    => kp[idx] && kp[idx].visibility > VIS;
   const visEither = (L, R) => vis(L) || vis(R);
   let poseScore = 0, feedback = '';
-
   switch (ex.key) {
-
-    // ── 스쿼트 ────────────────────────────────
     case 'squat': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
         fb.textContent =
-          '⏳ 하체 관절을 인식하지 못했습니다. ' +
-          '전신이 보이도록 서주세요.';
+          '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 서주세요.';
         accuracyTicks++; return;
       }
       const knee = getBestAngle(kp,23,25,27,24,26,28);
@@ -1533,13 +1499,11 @@ function analyzePoseByKeypoints() {
         squatPhase = 'up';
       } else if (knee > mx) {
         poseScore  = Math.round(40+(160-knee)/(160-mx)*30);
-        feedback   =
-          `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
+        feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
         squatPhase = 'going_down';
       } else if (knee >= mn) {
         poseScore  = 100;
-        feedback   =
-          `✅ 스쿼트 완벽! 무릎 각도 ${Math.round(knee)}° 👍 이제 올라오세요!`;
+        feedback   = `✅ 스쿼트 완벽! 무릎 각도 ${Math.round(knee)}° 👍 이제 올라오세요!`;
         squatPhase = 'down';
       } else {
         poseScore  = 60;
@@ -1549,13 +1513,10 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore>=80 ? 1 : 0;
       break;
     }
-
-    // ── 런지 ──────────────────────────────────
     case 'lunge': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
         fb.textContent =
-          '⏳ 하체 관절을 인식하지 못했습니다. ' +
-          '전신이 보이도록 서주세요.';
+          '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 서주세요.';
         accuracyTicks++; return;
       }
       const kneeL =
@@ -1569,21 +1530,17 @@ function analyzePoseByKeypoints() {
           repCount++;
           feedback  = `🎉 런지 ${repCount}회 완료!`; poseScore = 100;
         } else {
-          feedback  =
-            '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
+          feedback  = '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
           poseScore = 20;
         }
         lungePhase = 'up';
       } else if (frontKnee > mx) {
-        poseScore  =
-          Math.round(40+(155-frontKnee)/(155-mx)*30);
-        feedback   =
-          `📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`;
+        poseScore  = Math.round(40+(155-frontKnee)/(155-mx)*30);
+        feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`;
         lungePhase = 'going_down';
       } else if (frontKnee >= mn) {
         poseScore  = 100;
-        feedback   =
-          `✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`;
+        feedback   = `✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`;
         lungePhase = 'down';
       } else {
         poseScore  = 60;
@@ -1593,13 +1550,10 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore>=80 ? 1 : 0;
       break;
     }
-
-    // ── 플랭크 ────────────────────────────────
     case 'plank': {
       if (!visEither(11,12)||!visEither(23,24)||!visEither(25,26)) {
         fb.textContent =
-          '⏳ 상체 관절을 인식하지 못했습니다. ' +
-          '측면이 보이도록 위치를 조정하세요.';
+          '⏳ 상체 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
         accuracyTicks++; return;
       }
       const shLm  = vis(11)?kp[11]:kp[12];
@@ -1614,34 +1568,23 @@ function analyzePoseByKeypoints() {
       const hipLower  = hipY > Math.max(shdY,kneY)+0.04;
       if (bodyAngle >= minAngle) {
         poseScore = 100; repCount++; goodPostureSeconds++;
-        feedback  =
-          `✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
+        feedback  = `✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
       } else if (hipHigher) {
-        poseScore =
-          Math.max(20, Math.round((bodyAngle/minAngle)*70));
-        feedback  =
-          '⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
+        poseScore = Math.max(20, Math.round((bodyAngle/minAngle)*70));
+        feedback  = '⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
       } else if (hipLower) {
-        poseScore =
-          Math.max(20, Math.round((bodyAngle/minAngle)*70));
-        feedback  =
-          '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
+        poseScore = Math.max(20, Math.round((bodyAngle/minAngle)*70));
+        feedback  = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
       } else {
-        poseScore =
-          Math.round((bodyAngle/minAngle)*85);
-        feedback  =
-          `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, ` +
-          `목표 ${minAngle}° 이상)`;
+        poseScore = Math.round((bodyAngle/minAngle)*85);
+        feedback  = `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, 목표 ${minAngle}° 이상)`;
       }
       break;
     }
-
-    // ── 푸시업 ────────────────────────────────
     case 'pushup': {
       if (!visEither(11,12)||!visEither(13,14)||!visEither(15,16)) {
         fb.textContent =
-          '⏳ 팔 관절을 인식하지 못했습니다. ' +
-          '측면이 보이도록 위치를 조정하세요.';
+          '⏳ 팔 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
         accuracyTicks++; return;
       }
       const elbow = getBestAngle(kp,11,13,15,12,14,16);
@@ -1656,32 +1599,25 @@ function analyzePoseByKeypoints() {
         }
         pushupPhase = 'up';
       } else if (elbow > mx) {
-        poseScore   =
-          Math.round(40+(155-elbow)/(155-mx)*40);
-        feedback    =
-          `📐 더 내려가세요! (현재 ${Math.round(elbow)}°, 목표 ${mx}° 이하)`;
+        poseScore   = Math.round(40+(155-elbow)/(155-mx)*40);
+        feedback    = `📐 더 내려가세요! (현재 ${Math.round(elbow)}°, 목표 ${mx}° 이하)`;
         pushupPhase = 'going_down';
       } else {
         poseScore   = 100;
-        feedback    =
-          `✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbow)}° 👍 이제 올라오세요!`;
+        feedback    = `✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbow)}° 👍 이제 올라오세요!`;
         pushupPhase = 'down';
       }
       goodPostureSeconds += poseScore>=80 ? 1 : 0;
       break;
     }
-
-    // ── 버피 ──────────────────────────────────
     case 'burpee': {
       if (!visEither(11,12)||!visEither(23,24)) {
         fb.textContent =
-          '⏳ 상체 관절을 인식하지 못했습니다. ' +
-          '전신이 보이도록 거리를 조절하세요.';
+          '⏳ 상체 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
         accuracyTicks++; return;
       }
       const hipY2  =
-        vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2
-                        :(vis(23)?kp[23].y:kp[24].y);
+        vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2:(vis(23)?kp[23].y:kp[24].y);
       const ankleY =
         vis(27)?kp[27].y:(vis(28)?kp[28].y:1.0);
       const kneeAB =
@@ -1694,29 +1630,22 @@ function analyzePoseByKeypoints() {
       const hipLmB = vis(23)?kp[23]:kp[24];
       const knLmB  = vis(25)?kp[25]:kp[26];
       const bodyAB = getAngle(shLmB,hipLmB,knLmB);
-
-      const isJump     = ankleY<0.35 && hipY2<0.55;
-      const isStand    = kneeAB>155  && hipY2<0.65;
-      const isSquat    =
-        kneeAB>=POSE_CONFIG.squatGoodMin &&
-        kneeAB<=POSE_CONFIG.squatGoodMax;
-      const isPlankPos =
+      const isJump      = ankleY<0.35 && hipY2<0.55;
+      const isStand     = kneeAB>155  && hipY2<0.65;
+      const isSquat     =
+        kneeAB>=POSE_CONFIG.squatGoodMin && kneeAB<=POSE_CONFIG.squatGoodMax;
+      const isPlankPos  =
         bodyAB>=POSE_CONFIG.plankBodyAngleMin && kneeAB>140;
       const isPushupDwn =
         isPlankPos && elbowAB<=POSE_CONFIG.pushupGoodMax;
-
-      if (isJump &&
-          (burpeePhase==='squat2'||burpeePhase==='stand')) {
+      if (isJump && (burpeePhase==='squat2'||burpeePhase==='stand')) {
         if (burpeePhase==='squat2' && burpeeStageReached.squat2) {
           repCount++; poseScore=100;
-          feedback =
-            `🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
-          burpeeStageReached =
-            {squat:false,plank:false,pushup:false,squat2:false};
+          feedback = `🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
+          burpeeStageReached = {squat:false,plank:false,pushup:false,squat2:false};
         } else {
           poseScore=70;
-          feedback =
-            '⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!';
+          feedback = '⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!';
         }
         burpeePhase = 'stand';
       } else if (isStand && !isJump) {
@@ -1758,8 +1687,7 @@ function analyzePoseByKeypoints() {
         if (burpeePhase==='squat'&&burpeeStageReached.squat) {
           burpeePhase='plank'; burpeeStageReached.plank=true;
           poseScore=100;
-          feedback=
-            `✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
+          feedback=`✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
         } else if (burpeePhase==='plank') {
           poseScore=90;
           feedback='✅ ③ 플랭크 유지 중! 이제 팔꿈치를 굽혀 푸시업하세요!';
@@ -1774,23 +1702,18 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore>=80 ? 1 : 0;
       break;
     }
-
-    // ── 줄넘기 ────────────────────────────────
     case 'jump': {
       if (!visEither(23,24)) {
         fb.textContent =
-          '⏳ 엉덩이 관절을 인식하지 못했습니다. ' +
-          '전신이 보이도록 거리를 조절하세요.';
+          '⏳ 엉덩이 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
         accuracyTicks++; return;
       }
       const rawHipY =
-        vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2
-                        :(vis(23)?kp[23].y:kp[24].y);
+        vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2:(vis(23)?kp[23].y:kp[24].y);
       jumpHipYHistory.push(rawHipY);
       if (jumpHipYHistory.length>3) jumpHipYHistory.shift();
       const smoothHipY =
         jumpHipYHistory.reduce((a,b)=>a+b,0)/jumpHipYHistory.length;
-
       if (jumpBaselineHipY===null) {
         jumpBaselineHipY = smoothHipY; poseScore=50;
         feedback='📏 기준 자세 측정 중... 제자리에 서 계세요!';
@@ -1818,12 +1741,11 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore>=80 ? 1 : 0;
       break;
     }
-  } // switch 끝
-
+  }
   accuracyScoreSum += poseScore;
   accuracyTicks++;
   fb.textContent = feedback || '📐 자세를 분석 중입니다...';
-} // analyzePoseByKeypoints 끝
+}
 
 // ════════════════════════════════════════════════
 // 스냅샷 분석
@@ -1941,7 +1863,7 @@ function filterWiki() {
 }
 
 // ════════════════════════════════════════════════
-// 대시보드
+// ★ [수정3] 대시보드 — 날짜별 그룹핑 + 접기/펼치기
 // ════════════════════════════════════════════════
 async function loadDashboard() {
   if (!currentStudent) return;
@@ -1950,42 +1872,49 @@ async function loadDashboard() {
       action:'getStudentData', studentId:currentStudent.id
     });
     if (res.status!=='success') return;
-    const r         = res.exerciseRecords || [];
-    const n         = r.length;
-    const totalReps = r.reduce((s,x)=>s+(x.reps||0),0);
-    const avgAcc    = n>0
-      ? Math.round(r.reduce((s,x)=>s+(x.accuracy||0),0)/n) : 0;
+    const r = res.exerciseRecords || [];
+    const n = r.length;
+
+    // 누적 통계
+    const totalReps = r.reduce((s,x) => s+(x.reps||0), 0);
+    const avgAcc    = n > 0
+      ? Math.round(r.reduce((s,x) => s+(x.accuracy||0), 0) / n) : 0;
     const totalMins =
-      Math.round(r.reduce((s,x)=>s+(x.duration||0),0)/60);
+      Math.round(r.reduce((s,x) => s+(x.duration||0), 0) / 60);
 
     document.getElementById('dTotalSessions').textContent = n;
     document.getElementById('dTotalReps').textContent     = totalReps;
-    document.getElementById('dAvgAccuracy').textContent   = avgAcc+'%';
-    document.getElementById('dTotalTime').textContent     = totalMins+'분';
+    document.getElementById('dAvgAccuracy').textContent   = avgAcc + '%';
+    document.getElementById('dTotalTime').textContent     = totalMins + '분';
 
     const recEl = document.getElementById('recentRecords');
-    if (n===0) {
+    if (n === 0) {
       recEl.innerHTML =
         '<div class="empty-state">아직 기록이 없습니다</div>';
       return;
     }
 
-    const allDates   = r.map(x=>x.date).filter(Boolean);
-    const latestDate = allDates.reduce((a,b)=>{
-      return new Date(b.replace(/\./g,'/').trim()) >
-             new Date(a.replace(/\./g,'/').trim()) ? b : a;
-    }, allDates[0]);
+    // ── 날짜 추출 헬퍼
+    // "2026. 9. 28. 10:14:33" → "2026. 9. 28." (날짜만)
+    function extractDate(dateStr) {
+      if (!dateStr) return '날짜 없음';
+      const m = String(dateStr).match(/\d{4}\.\s*\d{1,2}\.\s*\d{1,2}\./);
+      return m ? m[0].replace(/\s+/g,' ').trim() : String(dateStr).trim();
+    }
 
-    const todayRecords = r.filter(x=>x.date===latestDate);
-    const merged = {};
-    todayRecords.forEach(x=>{
-      const key = x.exercise||'알 수 없음';
-      if (!merged[key])
-        merged[key]={reps:0,accuracySum:0,count:0,duration:0};
-      merged[key].reps        += (x.reps     ||0);
-      merged[key].accuracySum += (x.accuracy ||0);
-      merged[key].duration    += (x.duration ||0);
-      merged[key].count       += 1;
+    // ── 날짜별 그룹핑
+    const dateGroups = {};
+    r.forEach(x => {
+      const dateKey = extractDate(x.date);
+      if (!dateGroups[dateKey]) dateGroups[dateKey] = [];
+      dateGroups[dateKey].push(x);
+    });
+
+    // ── 날짜 내림차순 정렬 (최신 날짜가 위)
+    const sortedDates = Object.keys(dateGroups).sort((a, b) => {
+      const toMs = d =>
+        new Date(d.replace(/\.\s*/g,'/').replace(/\/$/,'').trim()).getTime();
+      return toMs(b) - toMs(a);
     });
 
     const ORDER = ['플랭크','푸시업','에어 스쿼트','런지','버피','줄넘기'];
@@ -1993,42 +1922,118 @@ async function loadDashboard() {
       '플랭크':'💪','푸시업':'⬆️','에어 스쿼트':'🦵',
       '런지':'🏃','버피':'🔥','줄넘기':'🪢'
     };
-    const sortedKeys = Object.keys(merged).sort((a,b)=>{
-      const ia=ORDER.indexOf(a), ib=ORDER.indexOf(b);
-      if(ia===-1&&ib===-1)return 0;
-      if(ia===-1)return 1; if(ib===-1)return -1;
-      return ia-ib;
-    });
 
-    recEl.innerHTML=`
-      <div style="font-size:.8rem;color:var(--text2);margin-bottom:10px;">
-        📅 ${latestDate} 운동 기록
-      </div>
-      <div class="record-list">
-        ${sortedKeys.map(exName=>{
-          const m     = merged[exName];
-          const avgAc = Math.round(m.accuracySum/m.count);
-          const icon  = ICONS[exName]||'🏋️';
-          const mins  = Math.round(m.duration/60);
-          const unit  = exName==='플랭크'
-            ? `${m.reps}초 유지` : `${m.reps} Reps`;
-          const sess  = m.count>1
-            ? `<span style="font-size:.73rem;color:var(--text2);">` +
-              `(${m.count}세션)</span>` : '';
-          return `
-            <div class="record-item">
-              <div class="r-left">${icon} ${exName}${sess}</div>
-              <div class="r-right">
-                ${unit} · ${avgAc}%
-                <span style="font-size:.75rem;color:var(--text2);
-                             margin-left:6px;">${mins}분</span>
+    // ── HTML 생성
+    recEl.innerHTML = sortedDates.map((dateKey, idx) => {
+      const records = dateGroups[dateKey];
+
+      // 같은 날 같은 운동 합산
+      const merged = {};
+      records.forEach(x => {
+        const key = x.exercise || '알 수 없음';
+        if (!merged[key])
+          merged[key] = { reps:0, accuracySum:0, count:0, duration:0 };
+        merged[key].reps        += (x.reps     || 0);
+        merged[key].accuracySum += (x.accuracy || 0);
+        merged[key].duration    += (x.duration || 0);
+        merged[key].count       += 1;
+      });
+
+      // 운동 목록 정렬
+      const sortedKeys = Object.keys(merged).sort((a, b) => {
+        const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
+        if (ia===-1 && ib===-1) return 0;
+        if (ia===-1) return 1; if (ib===-1) return -1;
+        return ia - ib;
+      });
+
+      // 날짜별 소계
+      const dayReps = records.reduce((s,x) => s+(x.reps||0), 0);
+      const dayMins = Math.round(
+        records.reduce((s,x) => s+(x.duration||0), 0) / 60
+      );
+      const dayAcc = Math.round(
+        records.reduce((s,x) => s+(x.accuracy||0), 0) / records.length
+      );
+
+      const isOpen  = idx === 0; // 최신 날짜만 자동 펼침
+      const groupId = `dayGroup_${idx}`;
+      const arrowId = `arrow_${idx}`;
+
+      return `
+        <div class="day-group-header"
+             onclick="toggleDayGroup('${groupId}','${arrowId}')">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1rem;">📅</span>
+            <div>
+              <div style="font-weight:700;font-size:.9rem;">
+                ${dateKey}
+                ${idx===0
+                  ? `<span style="font-size:.72rem;
+                       background:linear-gradient(135deg,var(--accent),var(--accent2));
+                       color:#fff;padding:2px 8px;border-radius:20px;
+                       margin-left:6px;">최근</span>`
+                  : ''}
               </div>
-            </div>`;
-        }).join('')}
-      </div>`;
+              <div style="font-size:.75rem;color:var(--text2);margin-top:2px;">
+                ${sortedKeys.length}종목 · ${dayReps}reps · ${dayMins}분 · 정확도 ${dayAcc}%
+              </div>
+            </div>
+          </div>
+          <span id="${arrowId}" class="day-group-arrow"
+                style="transform:rotate(${isOpen?'0':'180deg'});">
+            ▲
+          </span>
+        </div>
+        <div id="${groupId}"
+             style="display:${isOpen?'block':'none'};margin-bottom:14px;">
+          <div class="record-list">
+            ${sortedKeys.map(exName => {
+              const m      = merged[exName];
+              const avgAc  = Math.round(m.accuracySum / m.count);
+              const icon   = ICONS[exName] || '🏋️';
+              const mins   = Math.round(m.duration / 60);
+              const unit   = exName === '플랭크'
+                ? `${m.reps}초 유지` : `${m.reps} Reps`;
+              const sess   = m.count > 1
+                ? `<span style="font-size:.72rem;color:var(--text2);">` +
+                  `(${m.count}세션)</span>` : '';
+              const accColor =
+                avgAc >= 80 ? 'var(--success)' :
+                avgAc >= 60 ? 'var(--warning)' : 'var(--danger)';
+              return `
+                <div class="record-item">
+                  <div class="r-left">${icon} ${exName} ${sess}</div>
+                  <div class="r-right"
+                       style="display:flex;align-items:center;gap:8px;">
+                    <span>${unit}</span>
+                    <span style="color:${accColor};font-size:.82rem;">
+                      ${avgAc}%
+                    </span>
+                    <span style="font-size:.75rem;color:var(--text2);">
+                      ${mins}분
+                    </span>
+                  </div>
+                </div>`;
+            }).join('')}
+          </div>
+        </div>`;
+    }).join('');
+
   } catch {
     showToast('⚠️ 데이터를 불러오지 못했습니다.');
   }
+}
+
+// ════════════════════════════════════════════════
+// ★ [수정4] 날짜 그룹 접기/펼치기 토글
+// ════════════════════════════════════════════════
+function toggleDayGroup(groupId, arrowId) {
+  const group  = document.getElementById(groupId);
+  const arrow  = document.getElementById(arrowId);
+  const isOpen = group.style.display !== 'none';
+  group.style.display   = isOpen ? 'none'           : 'block';
+  arrow.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
 }
 
 // ════════════════════════════════════════════════
@@ -2085,8 +2090,7 @@ function sendChat() {
 function generateAIReply(msg) {
   const m=msg.toLowerCase();
   if(m.includes('스쿼트'))
-    return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, ' +
-           '허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
+    return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
   if(m.includes('런지'))
     return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
   if(m.includes('플랭크'))
@@ -2098,22 +2102,12 @@ function generateAIReply(msg) {
   if(m.includes('줄넘기'))
     return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기!';
   if(m.includes('심박수')||m.includes('wod'))
-    return '❤️ WOD 심박수 팁:\n' +
-           '• 목표: 최대심박수(220-나이)의 70~85%\n' +
-           '• 힘들면 페이스 낮추기\n' +
-           '• 세트 사이 30초~1분 휴식!';
+    return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
   if(m.includes('초보')||m.includes('처음'))
-    return '🌱 초보자 팁:\n' +
-           '① 자세 먼저, 속도는 나중에\n' +
-           '② 워밍업 5분\n' +
-           '③ 물 자주 마시기\n' +
-           '④ 근육통이면 충분히 쉬기\n' +
-           '⑤ 꾸준함이 최고! 💪';
+    return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
   if(m.includes('피드백')||m.includes('오늘'))
-    return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n` +
-           `대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
-  return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 ` +
-         `자세히 설명해드릴게요! 😊`;
+    return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+  return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
 // ════════════════════════════════════════════════
@@ -2123,12 +2117,16 @@ function changeWodSets(d) {
   wodSetsCount = Math.max(0, wodSetsCount+d);
   document.getElementById('wodSetsVal').textContent = wodSetsCount;
 }
+
+// ════════════════════════════════════════════════
+// ★ [수정5] saveDailyLog — date를 날짜+시간으로 저장
+// ════════════════════════════════════════════════
 async function saveDailyLog() {
   if(!currentStudent) return;
   try {
     const res = await gasCall({
       action:   'saveDailyLog',
-      date:     new Date().toLocaleDateString('ko-KR'),
+      date:     getNowDateTimeStr(),   // ★ 날짜+시간
       studentId: currentStudent.id,
       name:      currentStudent.name,
       wodSets:   wodSetsCount,
@@ -2153,6 +2151,7 @@ async function saveDailyLog() {
     showToast('⚠️ 서버 연결 실패: '+(err.message||''));
   }
 }
+
 function generateAITotal() {
   const gp = document.getElementById('goodPoint').value;
   const ip = document.getElementById('improvePoint').value;
@@ -2183,7 +2182,6 @@ function showToast(msg) {
   t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
-
 document.addEventListener('DOMContentLoaded', ()=>{
   ['loginId','loginName','loginPw'].forEach(id=>
     document.getElementById(id).addEventListener('keydown', e=>{
