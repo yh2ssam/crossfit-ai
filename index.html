@@ -225,7 +225,7 @@
     display:flex;align-items:center;justify-content:center;font-size:1rem;}
   .ai-bubble{background:var(--card);border:1px solid var(--border);
     border-radius:12px;padding:10px 14px;font-size:.85rem;color:var(--text);
-    line-height:1.6;max-width:calc(100% - 50px);}
+    line-height:1.6;max-width:calc(100% - 50px);white-space:pre-wrap;}
   .user-msg{flex-direction:row-reverse;}
   .user-bubble{
     background:linear-gradient(135deg,var(--accent),var(--accent2));
@@ -257,7 +257,7 @@
     align-items:center;justify-content:center;transition:all .2s;}
   .counter-btn:hover{border-color:var(--accent);color:var(--accent);}
   .counter-value{font-size:1.5rem;font-weight:700;
-    min-width:40px;text-align:center;}
+    min-width:40px;text-align:center;transition:transform .2s,color .2s;}
   .ai-total-box{
     background:linear-gradient(135deg,
       rgba(108,99,255,.1),rgba(255,101,132,.1));
@@ -352,9 +352,10 @@
       📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.
     </div>
     <input id="loginId"   class="login-input" type="text"
-           placeholder="학번 (예: 10101)" maxlength="10">
+           placeholder="학번 (숫자 5자리)" maxlength="5"
+           pattern="\d{5}" inputmode="numeric">
     <input id="loginName" class="login-input" type="text"
-           placeholder="이름">
+           placeholder="이름 (한글 2~4자)" maxlength="4">
     <input id="loginPw"   class="login-input" type="password"
            placeholder="비밀번호" maxlength="20">
     <div id="loginError"   class="login-error"></div>
@@ -427,23 +428,29 @@
       <div class="card-title">🦵 운동 선택</div>
       <div class="exercise-grid">
         <button class="exercise-btn active"
+                aria-pressed="true"
                 onclick="selectExercise(0)">
-          <span class="ex-icon">💪</span>플랭크</button>
+          <span class="ex-icon" aria-hidden="true">💪</span>플랭크</button>
         <button class="exercise-btn"
+                aria-pressed="false"
                 onclick="selectExercise(1)">
-          <span class="ex-icon">⬆️</span>푸시업</button>
+          <span class="ex-icon" aria-hidden="true">⬆️</span>푸시업</button>
         <button class="exercise-btn"
+                aria-pressed="false"
                 onclick="selectExercise(2)">
-          <span class="ex-icon">🦵</span>에어스쿼트</button>
+          <span class="ex-icon" aria-hidden="true">🦵</span>에어스쿼트</button>
         <button class="exercise-btn"
+                aria-pressed="false"
                 onclick="selectExercise(3)">
-          <span class="ex-icon">🏃</span>런지</button>
+          <span class="ex-icon" aria-hidden="true">🏃</span>런지</button>
         <button class="exercise-btn"
+                aria-pressed="false"
                 onclick="selectExercise(4)">
-          <span class="ex-icon">🔥</span>버피</button>
+          <span class="ex-icon" aria-hidden="true">🔥</span>버피</button>
         <button class="exercise-btn"
+                aria-pressed="false"
                 onclick="selectExercise(5)">
-          <span class="ex-icon">🪢</span>줄넘기</button>
+          <span class="ex-icon" aria-hidden="true">🪢</span>줄넘기</button>
       </div>
     </div>
     <div class="card">
@@ -456,7 +463,8 @@
                   onclick="switchFacing('environment')">📷 후면 카메라</button>
         </div>
       </div>
-      <div class="camera-wrap">
+      <div class="camera-wrap" role="img"
+           aria-label="AI 자세 인식 카메라 화면">
         <video id="videoEl" autoplay playsinline muted></video>
         <canvas id="canvasEl"></canvas>
         <div class="camera-placeholder" id="camPlaceholder">
@@ -501,6 +509,7 @@
       </div>
     </div>
   </div><!-- /sec-exercise -->
+
   <!-- ══ 섹션2: 백과사전 ══ -->
   <div id="sec-wiki" class="section">
     <div class="card">
@@ -512,6 +521,7 @@
       <div class="ex-card-list" id="wikiList"></div>
     </div>
   </div>
+
   <!-- ══ 섹션3: 대시보드 ══ -->
   <div id="sec-dashboard" class="section">
     <div class="card">
@@ -546,6 +556,7 @@
       </div>
     </div>
   </div>
+
   <!-- ══ 섹션4: AI/WOD ══ -->
   <div id="sec-ai" class="section">
     <div class="card">
@@ -568,7 +579,7 @@
         <div class="ai-msg">
           <div class="ai-avatar">🏫</div>
           <div class="ai-bubble">
-            안녕! 선생님이야~ 체육2 수업에 온 것을 환영해! 😊<br>
+            안녕! 선생님이야~ 체육2 수업에 온 것을 환영해! 😊
             궁금한 것이 있으면 무엇이든 물어봐!
           </div>
         </div>
@@ -592,6 +603,7 @@
               onclick="openPwModal()">비밀번호 변경하기</button>
     </div>
   </div>
+
   <!-- ══ 섹션5: 오늘의 기록 ══ -->
   <div id="sec-log" class="section">
     <div class="card">
@@ -601,9 +613,13 @@
       <div class="form-group">
         <label class="form-label">✅ 성공한 WOD 세트 (Rounds)</label>
         <div class="counter-wrap">
-          <button class="counter-btn" onclick="changeWodSets(-1)">−</button>
+          <button class="counter-btn"
+                  onclick="changeWodSets(-1)"
+                  aria-label="세트 감소">−</button>
           <div class="counter-value" id="wodSetsVal">0</div>
-          <button class="counter-btn" onclick="changeWodSets(1)">+</button>
+          <button class="counter-btn"
+                  onclick="changeWodSets(1)"
+                  aria-label="세트 증가">+</button>
         </div>
         <div style="font-size:.78rem;color:var(--text2);margin-top:6px;">
           수행한 총 Reps 기준 자동 계산
@@ -613,12 +629,12 @@
         <div class="form-group">
           <label class="form-label">❤️ 최고 심박수 (Peak HR)</label>
           <input id="peakHR" class="form-input" type="number"
-                 placeholder="BPM">
+                 placeholder="BPM" min="0" max="300">
         </div>
         <div class="form-group">
           <label class="form-label">💓 평균 심박수 (Avg HR)</label>
           <input id="avgHR" class="form-input" type="number"
-                 placeholder="BPM">
+                 placeholder="BPM" min="0" max="300">
         </div>
       </div>
       <div class="form-group">
@@ -643,12 +659,12 @@
         <div class="form-group">
           <label class="form-label">💧 수분 섭취 (L)</label>
           <input id="water" class="form-input" type="number"
-                 step="0.1" placeholder="예: 1.5">
+                 step="0.1" placeholder="예: 1.5" min="0" max="20">
         </div>
         <div class="form-group">
           <label class="form-label">🌙 수면 시간 (시간)</label>
           <input id="sleep" class="form-input" type="number"
-                 step="0.5" placeholder="예: 7.5">
+                 step="0.5" placeholder="예: 7.5" min="0" max="24">
         </div>
       </div>
       <button class="btn btn-primary" style="width:100%;"
@@ -666,6 +682,7 @@
     </div>
   </div>
 </div><!-- /appScreen -->
+
 <!-- ── 강제 비밀번호 설정 모달 ── -->
 <div class="modal-overlay" id="pwForceModal">
   <div class="modal-box">
@@ -684,6 +701,7 @@
             onclick="saveForcePw()">✅ 설정 완료</button>
   </div>
 </div>
+
 <!-- ── 비밀번호 변경 모달 ── -->
 <div class="modal-overlay" id="pwChangeModal">
   <div class="modal-box">
@@ -702,6 +720,7 @@
     </div>
   </div>
 </div>
+
 <!-- ── 카메라 가이드 모달 ── -->
 <div class="modal-overlay" id="guideModal">
   <div class="modal-box" style="width:360px;">
@@ -738,6 +757,7 @@
     </div>
   </div>
 </div>
+
 <!-- ── 스냅샷 분석 모달 ── -->
 <div class="modal-overlay" id="snapshotModal">
   <div class="modal-box" style="width:360px;">
@@ -750,7 +770,9 @@
             onclick="closeSnapshot()">확인</button>
   </div>
 </div>
+
 <div id="toast"></div>
+
 <!-- MediaPipe -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
         crossorigin="anonymous"></script>
@@ -758,11 +780,12 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
         crossorigin="anonymous"></script>
+
 <script>
 // ════════════════════════════════════════════════
-// ★ GAS URL
+// GAS URL
 // ════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyYrFIGxUj_f3VfMWr1osb-HXl-JpZojXsKqKigw9T7xj3fAsaMcPxvrG_WIRmuLKfG9w/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx9HiqMR7LmeGPTZjBEA5nWjuNMcooIu30AiwjqvE06wFrkgJZzt5RH770oQ9w-W8KVDw/exec';
 
 // ════════════════════════════════════════════════
 // 전역 상태
@@ -777,6 +800,7 @@ let measureTimer       = null;
 let totalSeconds       = 0;
 let goodPostureSeconds = 0;
 let repCount           = 0;
+let sessionTotalReps   = 0;   // ★ 세션 누적 reps (saveDailyLog용)
 let wodInterval        = null;
 let wodSeconds         = 900;
 let wodDefaultSeconds  = 900;
@@ -787,6 +811,7 @@ let poseDetector       = null;
 let mpCamera           = null;
 let lastKeypoints      = null;
 let currentFacingMode  = 'user';
+
 // 페이즈
 let squatPhase  = 'up';
 let lungePhase  = 'up';
@@ -798,6 +823,7 @@ let burpeeStageReached = {
 let jumpPhase        = 'land';
 let jumpBaselineHipY = null;
 let jumpHipYHistory  = [];
+
 // 정확도 누적
 let accuracyScoreSum = 0;
 let accuracyTicks    = 0;
@@ -900,15 +926,46 @@ const WIKI_DATA = [
 ];
 
 // ════════════════════════════════════════════════
-// ★ [수정1] 날짜+시간 문자열 생성 함수
+// 유틸 함수
 // ════════════════════════════════════════════════
+
+// 날짜+시간 문자열 생성
 function getNowDateTimeStr() {
   const now  = new Date();
-  const date = now.toLocaleDateString('ko-KR'); // 예: 2026. 9. 28.
-  const hh   = String(now.getHours()).padStart(2,'0');
-  const mm   = String(now.getMinutes()).padStart(2,'0');
-  const ss   = String(now.getSeconds()).padStart(2,'0');
-  return `${date} ${hh}:${mm}:${ss}`;           // 예: 2026. 9. 28. 10:14:33
+  const y    = now.getFullYear();
+  const mo   = now.getMonth() + 1;
+  const d    = now.getDate();
+  const hh   = String(now.getHours()).padStart(2, '0');
+  const mm   = String(now.getMinutes()).padStart(2, '0');
+  const ss   = String(now.getSeconds()).padStart(2, '0');
+  return `${y}. ${mo}. ${d}. ${hh}:${mm}:${ss}`;
+}
+
+// 한국어 날짜 문자열 → 타임스탬프 (정렬용)
+function parseKorDateToMs(dateStr) {
+  const m = String(dateStr).match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
+  if (!m) return 0;
+  return new Date(
+    parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])
+  ).getTime();
+}
+
+// 입력값 검증 (클라이언트)
+function validateStudentId(id) {
+  return /^\d{5}$/.test(id);
+}
+function validateName(name) {
+  return /^[가-힣]{2,4}$/.test(name);
+}
+
+// XSS 방지 이스케이프
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // ════════════════════════════════════════════════
@@ -917,11 +974,11 @@ function getNowDateTimeStr() {
 function gasCall(params) {
   return new Promise((resolve, reject) => {
     const cbName =
-      'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-    const s = document.createElement('script');
-    let done = false;
+      'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const s    = document.createElement('script');
+    let done   = false;
     function cleanup() {
-      try { delete window[cbName]; } catch(e) {}
+      try { delete window[cbName]; }     catch(e) {}
       try { if (s.parentNode) s.parentNode.removeChild(s); } catch(e) {}
     }
     const timer = setTimeout(() => {
@@ -965,9 +1022,10 @@ async function loadPoseConfig() {
           wodDefaultSeconds = sec;
           if (!wodRunning) {
             wodSeconds = sec;
-            const mm = String(Math.floor(sec/60)).padStart(2,'0');
-            const ss = String(sec%60).padStart(2,'0');
-            document.getElementById('wodDisplay').textContent = `${mm}:${ss}`;
+            const mm = String(Math.floor(sec / 60)).padStart(2, '0');
+            const ss = String(sec % 60).padStart(2, '0');
+            document.getElementById('wodDisplay').textContent =
+              `${mm}:${ss}`;
           }
         }
       }
@@ -985,11 +1043,12 @@ async function loadPoseConfig() {
 function switchAuthTab(mode) {
   authMode = mode;
   document.getElementById('tabLogin')
-          .classList.toggle('active', mode==='login');
+          .classList.toggle('active', mode === 'login');
   document.getElementById('tabRegister')
-          .classList.toggle('active', mode==='register');
+          .classList.toggle('active', mode === 'register');
   document.getElementById('loginError').style.display   = 'none';
   document.getElementById('loginSuccess').style.display = 'none';
+
   if (mode === 'login') {
     document.getElementById('authHint').textContent =
       '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
@@ -998,7 +1057,8 @@ function switchAuthTab(mode) {
     document.getElementById('loginPw').style.display = 'block';
   } else {
     document.getElementById('authHint').textContent =
-      '✏️ 학번과 이름만 입력하면 됩니다.\n등록 후 다음 화면에서 비밀번호를 설정합니다.';
+      '✏️ 학번(숫자 5자리)과 이름(한글 2~4자)만 입력하면 됩니다.\n' +
+      '등록 후 다음 화면에서 비밀번호를 설정합니다.';
     document.getElementById('authBtn').textContent   = '등록하기 →';
     document.getElementById('loginPw').style.display = 'none';
   }
@@ -1011,20 +1071,33 @@ async function handleAuth() {
   const errEl     = document.getElementById('loginError');
   errEl.style.display = 'none';
   document.getElementById('loginSuccess').style.display = 'none';
-  if (authMode === 'register') {
-    if (!studentId || !name) {
-      errEl.textContent   = '학번과 이름을 입력하세요.';
-      errEl.style.display = 'block'; return;
-    }
-  } else {
-    if (!studentId || !name || !password) {
-      errEl.textContent   = '학번, 이름, 비밀번호를 모두 입력하세요.';
-      errEl.style.display = 'block'; return;
-    }
+
+  // 클라이언트 검증
+  if (!studentId) {
+    errEl.textContent   = '학번을 입력하세요.';
+    errEl.style.display = 'block'; return;
   }
+  if (!validateStudentId(studentId)) {
+    errEl.textContent   = '학번은 숫자 5자리여야 합니다. (예: 10101)';
+    errEl.style.display = 'block'; return;
+  }
+  if (!name) {
+    errEl.textContent   = '이름을 입력하세요.';
+    errEl.style.display = 'block'; return;
+  }
+  if (!validateName(name)) {
+    errEl.textContent   = '이름은 한글 2~4자여야 합니다. (예: 홍길동)';
+    errEl.style.display = 'block'; return;
+  }
+  if (authMode === 'login' && !password) {
+    errEl.textContent   = '비밀번호를 입력하세요.';
+    errEl.style.display = 'block'; return;
+  }
+
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 처리 중... 잠시만 기다려주세요.';
   errEl.style.display = 'block';
+
   try {
     const res = await gasCall({
       action: authMode, studentId, name,
@@ -1037,7 +1110,7 @@ async function handleAuth() {
         enterApp(studentId, name);
         setTimeout(() => openPwForceModal(), 600);
       } else {
-        enterApp(res.studentId||studentId, res.name||name);
+        enterApp(res.studentId || studentId, res.name || name);
       }
     } else {
       errEl.textContent   = res.message || '처리에 실패했습니다.';
@@ -1046,7 +1119,7 @@ async function handleAuth() {
   } catch(err) {
     errEl.style.color   = 'var(--danger)';
     errEl.textContent   =
-      '❌ ' + (err.message||'서버 연결 실패') +
+      '❌ ' + (err.message || '서버 연결 실패') +
       '\n\n※ GAS 배포 URL과 액세스 권한을 확인하세요.';
     errEl.style.display = 'block';
   }
@@ -1054,7 +1127,8 @@ async function handleAuth() {
 
 function enterApp(id, name) {
   currentStudent = { id, name };
-  document.getElementById('headerName').textContent    = `${name} (${id})`;
+  document.getElementById('headerName').textContent    =
+    `${escapeHtml(name)} (${escapeHtml(id)})`;
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appScreen').style.display   = 'block';
   document.getElementById('logDate').textContent       =
@@ -1073,11 +1147,13 @@ function openPwForceModal() {
   document.getElementById('pwForceError').style.display = 'none';
   document.getElementById('pwForceModal').classList.add('show');
 }
+
 async function saveForcePw() {
   const pw1   = document.getElementById('pwForce1').value.trim();
   const pw2   = document.getElementById('pwForce2').value.trim();
   const errEl = document.getElementById('pwForceError');
   errEl.style.display = 'none';
+
   if (!pw1 || pw1.length < 4) {
     errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -1086,15 +1162,17 @@ async function saveForcePw() {
     errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
+
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 저장 중...';
   errEl.style.display = 'block';
+
   try {
     const res = await gasCall({
-      action:'changePassword',
-      studentId:currentStudent.id,
-      name:currentStudent.name,
-      newPassword:pw1
+      action     : 'changePassword',
+      studentId  : currentStudent.id,
+      name       : currentStudent.name,
+      newPassword: pw1
     });
     if (res.status === 'success') {
       document.getElementById('pwForceModal').classList.remove('show');
@@ -1109,10 +1187,11 @@ async function saveForcePw() {
     }
   } catch(err) {
     errEl.style.color   = 'var(--danger)';
-    errEl.textContent   = '❌ ' + (err.message||'서버 연결 실패');
+    errEl.textContent   = '❌ ' + (err.message || '서버 연결 실패');
     errEl.style.display = 'block';
   }
 }
+
 function openPwModal() {
   document.getElementById('pwNew1').value             = '';
   document.getElementById('pwNew2').value             = '';
@@ -1122,11 +1201,13 @@ function openPwModal() {
 function closePwModal() {
   document.getElementById('pwChangeModal').classList.remove('show');
 }
+
 async function saveNewPw() {
   const pw1   = document.getElementById('pwNew1').value.trim();
   const pw2   = document.getElementById('pwNew2').value.trim();
   const errEl = document.getElementById('pwNewError');
   errEl.style.display = 'none';
+
   if (!pw1 || pw1.length < 4) {
     errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -1135,21 +1216,23 @@ async function saveNewPw() {
     errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
+
   try {
     const res = await gasCall({
-      action:'changePassword',
-      studentId:currentStudent.id,
-      name:currentStudent.name,
-      newPassword:pw1
+      action     : 'changePassword',
+      studentId  : currentStudent.id,
+      name       : currentStudent.name,
+      newPassword: pw1
     });
     if (res.status === 'success') {
-      closePwModal(); showToast('✅ 비밀번호가 변경되었습니다!');
+      closePwModal();
+      showToast('✅ 비밀번호가 변경되었습니다!');
     } else {
       errEl.textContent   = res.message || '저장 실패';
       errEl.style.display = 'block';
     }
   } catch(err) {
-    errEl.textContent   = '❌ ' + (err.message||'서버 연결 실패');
+    errEl.textContent   = '❌ ' + (err.message || '서버 연결 실패');
     errEl.style.display = 'block';
   }
 }
@@ -1162,7 +1245,7 @@ async function checkServer() {
   el.textContent = '● 연결 확인 중';
   el.className   = 'server-status checking';
   try {
-    await gasCall({ action:'initSheets' });
+    await gasCall({ action: 'initSheets' });
     el.textContent = '● 서버 연결됨';
     el.className   = 'server-status ok';
   } catch {
@@ -1170,31 +1253,71 @@ async function checkServer() {
     el.className   = 'server-status err';
   }
 }
+
 function doLogout() {
-  stopMeasure(); stopCamera(); wodPause();
+  stopMeasure();
+  stopCamera();
+  wodPause();
+  wodReset();
+
+  // 운동 상태 초기화
+  repCount = 0; totalSeconds = 0; goodPostureSeconds = 0;
+  accuracyScoreSum = 0; accuracyTicks = 0;
+  wodSetsCount = 0; sessionTotalReps = 0;
+  resetPhases();
+
+  // 폼 초기화
+  ['peakHR','avgHR','goodPoint','improvePoint',
+   'breakfast','lunch','dinner','water','sleep']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+  document.getElementById('wodSetsVal').textContent = '0';
+  document.getElementById('aiTotalBox').textContent =
+    '기록을 저장하면 AI 선생님의 총평이 여기에 표시됩니다.';
+
+  // 채팅 초기화
+  const chatWrap  = document.getElementById('aiChat');
+  const avatar    = document.createElement('div');
+  avatar.className = 'ai-avatar';
+  avatar.textContent = '🏫';
+  const bubble    = document.createElement('div');
+  bubble.className = 'ai-bubble';
+  bubble.textContent =
+    '안녕! 선생님이야~ 체육2 수업에 온 것을 환영해! 😊\n' +
+    '궁금한 것이 있으면 무엇이든 물어봐!';
+  const msgWrap   = document.createElement('div');
+  msgWrap.className = 'ai-msg';
+  msgWrap.appendChild(avatar);
+  msgWrap.appendChild(bubble);
+  chatWrap.innerHTML = '';
+  chatWrap.appendChild(msgWrap);
+
   currentStudent = null;
   document.getElementById('appScreen').style.display   = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
-  ['loginId','loginName','loginPw'].forEach(
-    id => document.getElementById(id).value = ''
-  );
+  ['loginId','loginName','loginPw']
+    .forEach(id => document.getElementById(id).value = '');
   document.getElementById('loginError').style.display   = 'none';
   document.getElementById('loginSuccess').style.display = 'none';
   switchAuthTab('login');
 }
+
 function showTab(tab) {
   document.querySelectorAll('.section')
           .forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn')
           .forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-'+tab).classList.add('active');
+  document.getElementById('sec-' + tab).classList.add('active');
   const tabs = ['exercise','wiki','dashboard','ai','log'];
   document.querySelectorAll('.tab-btn')[tabs.indexOf(tab)]
           .classList.add('active');
-  if (tab==='wiki')      renderWiki();
-  if (tab==='dashboard') loadDashboard();
-  if (tab==='ai')        loadAchievement();
+  if (tab === 'wiki')      renderWiki();
+  if (tab === 'dashboard') loadDashboard();
+  if (tab === 'ai')        loadAchievement();
 }
+
 function toggleTheme() {
   isLightMode = !isLightMode;
   document.body.classList.toggle('light-mode', isLightMode);
@@ -1228,8 +1351,10 @@ function selectExercise(idx) {
     stopMeasure();
   }
   currentExerciseIdx = idx;
-  document.querySelectorAll('.exercise-btn')
-          .forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.exercise-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+    b.setAttribute('aria-pressed', i === idx ? 'true' : 'false');
+  });
   resetPhases();
   resetMeasure();
   document.getElementById('repLabel').textContent =
@@ -1241,20 +1366,22 @@ function selectExercise(idx) {
 // ════════════════════════════════════════════════
 async function switchFacing(mode) {
   document.getElementById('btnFacingUser')
-          .classList.toggle('active', mode==='user');
+          .classList.toggle('active', mode === 'user');
   document.getElementById('btnFacingEnv')
-          .classList.toggle('active', mode==='environment');
+          .classList.toggle('active', mode === 'environment');
   currentFacingMode = mode;
   const v    = document.getElementById('videoEl');
   const c    = document.getElementById('canvasEl');
-  const flip = mode==='environment' ? 'scaleX(1)' : 'scaleX(-1)';
-  v.style.transform = flip; c.style.transform = flip;
+  const flip = mode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
+  v.style.transform = flip;
+  c.style.transform = flip;
   if (isCameraOn) {
     stopCamera();
     await new Promise(r => setTimeout(r, 600));
     await startCamera();
   }
 }
+
 function toggleCamera() {
   if (isCameraOn) stopCamera();
   else document.getElementById('guideModal').classList.add('show');
@@ -1263,22 +1390,29 @@ function closeGuide() {
   document.getElementById('guideModal').classList.remove('show');
 }
 async function startCameraAfterGuide() {
-  closeGuide(); await startCamera();
+  closeGuide();
+  await startCamera();
 }
+
 async function startCamera() {
+  // MediaPipe 로드 확인
+  if (typeof Pose === 'undefined') {
+    showToast('⚠️ AI 자세 인식 라이브러리 로드 실패. 새로고침 해주세요.');
+    return;
+  }
   try {
     const videoEl  = document.getElementById('videoEl');
     const canvasEl = document.getElementById('canvasEl');
     stream = await navigator.mediaDevices.getUserMedia({
       video: {
-        facingMode: { ideal: currentFacingMode },
-        width:  { ideal: 640 },
-        height: { ideal: 480 },
-        frameRate: { ideal: 30 }
+        facingMode : { ideal: currentFacingMode },
+        width      : { ideal: 640 },
+        height     : { ideal: 480 },
+        frameRate  : { ideal: 30 }
       }
     });
     videoEl.srcObject = stream;
-    const flip = currentFacingMode==='environment'
+    const flip = currentFacingMode === 'environment'
                  ? 'scaleX(1)' : 'scaleX(-1)';
     videoEl.style.transform  = flip;
     canvasEl.style.transform = flip;
@@ -1289,6 +1423,7 @@ async function startCamera() {
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
     document.getElementById('camToggleBtn').textContent = '📷 카메라 끄기';
+
     poseDetector = new Pose({
       locateFile: f =>
         `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}`
@@ -1320,7 +1455,7 @@ async function startCamera() {
             ctx.arc(
               lm.x * canvasEl.width,
               lm.y * canvasEl.height,
-              5, 0, 2*Math.PI
+              5, 0, 2 * Math.PI
             );
             ctx.fillStyle = 'rgba(255,200,0,0.5)';
             ctx.fill();
@@ -1330,11 +1465,12 @@ async function startCamera() {
         lastKeypoints = null;
       }
     });
+
     let animFrameId = null;
     async function sendFrame() {
       if (!isCameraOn || !poseDetector) return;
       if (videoEl.readyState >= 2 && !videoEl.paused) {
-        try { await poseDetector.send({ image: videoEl }); } catch(e){}
+        try { await poseDetector.send({ image: videoEl }); } catch(e) {}
       }
       animFrameId = requestAnimationFrame(sendFrame);
     }
@@ -1343,26 +1479,27 @@ async function startCamera() {
     }};
     sendFrame();
     showToast(
-      `📷 ${currentFacingMode==='user'?'전면':'후면'}` +
+      `📷 ${currentFacingMode === 'user' ? '전면' : '후면'}` +
       `카메라 & AI 자세 인식 활성화!`
     );
   } catch(err) {
     let msg = '⚠️ 카메라 접근에 실패했습니다.';
-    if (err.name==='NotAllowedError')  msg = '⚠️ 카메라 권한을 허용해주세요.';
-    if (err.name==='NotFoundError')    msg = '⚠️ 카메라를 찾을 수 없습니다.';
-    if (err.name==='NotReadableError') msg = '⚠️ 카메라가 사용 중입니다.';
+    if (err.name === 'NotAllowedError')  msg = '⚠️ 카메라 권한을 허용해주세요.';
+    if (err.name === 'NotFoundError')    msg = '⚠️ 카메라를 찾을 수 없습니다.';
+    if (err.name === 'NotReadableError') msg = '⚠️ 카메라가 사용 중입니다.';
     showToast(msg);
   }
 }
+
 function stopCamera() {
-  if (mpCamera)     { try{mpCamera.stop();}      catch(e){} mpCamera=null;     }
-  if (poseDetector) { try{poseDetector.close();}  catch(e){} poseDetector=null; }
-  if (stream)       { stream.getTracks().forEach(t=>t.stop()); stream=null; }
+  if (mpCamera)     { try { mpCamera.stop(); }      catch(e) {} mpCamera     = null; }
+  if (poseDetector) { try { poseDetector.close(); } catch(e) {} poseDetector = null; }
+  if (stream)       { stream.getTracks().forEach(t => t.stop()); stream = null; }
   const videoEl  = document.getElementById('videoEl');
   const canvasEl = document.getElementById('canvasEl');
   videoEl.srcObject = null;
   canvasEl.getContext('2d')
-          .clearRect(0,0,canvasEl.width,canvasEl.height);
+          .clearRect(0, 0, canvasEl.width, canvasEl.height);
   document.getElementById('camPlaceholder').style.display = 'flex';
   isCameraOn    = false;
   lastKeypoints = null;
@@ -1373,14 +1510,14 @@ function stopCamera() {
 // 측정 시작 / 완료 / 리셋
 // ════════════════════════════════════════════════
 function startMeasure() {
-  if (!isCameraOn) { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
-  if (isMeasuring) return;
+  if (!isCameraOn)  { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
+  if (isMeasuring)  return;
   isMeasuring = true;
   totalSeconds = 0; goodPostureSeconds = 0; repCount = 0;
   accuracyScoreSum = 0; accuracyTicks = 0;
   resetPhases();
   document.getElementById('repLabel').textContent =
-    EXERCISES[currentExerciseIdx].key==='plank' ? '초 (sec)' : 'Reps';
+    EXERCISES[currentExerciseIdx].key === 'plank' ? '초 (sec)' : 'Reps';
   measureTimer = setInterval(() => {
     totalSeconds++;
     analyzePoseByKeypoints();
@@ -1389,41 +1526,54 @@ function startMeasure() {
   showToast('▶ 측정을 시작합니다!');
 }
 
-// ════════════════════════════════════════════════
-// ★ [수정2] stopMeasure — date를 날짜+시간으로 저장
-// ════════════════════════════════════════════════
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false;
-  clearInterval(measureTimer); measureTimer = null;
+  clearInterval(measureTimer);
+  measureTimer = null;
+
   const ex       = EXERCISES[currentExerciseIdx];
   const accuracy = accuracyTicks > 0
-    ? Math.round(accuracyScoreSum/accuracyTicks) : 0;
+    ? Math.round(accuracyScoreSum / accuracyTicks) : 0;
+
+  // 5초 미만 경고
+  if (totalSeconds > 0 && totalSeconds <= 5) {
+    showToast('⚠️ 운동 시간이 너무 짧습니다. (최소 5초 이상)');
+    resetMeasure();
+    return;
+  }
+
   if (currentStudent && totalSeconds > 5) {
+    // 세션 누적 reps 합산
+    sessionTotalReps += repCount;
     try {
       await gasCall({
-        action:   'saveExercise',
-        date:     getNowDateTimeStr(),   // ★ 날짜+시간
-        studentId: currentStudent.id,
-        name:      currentStudent.name,
-        exercise:  ex.name,
-        reps:      repCount,
-        duration:  totalSeconds,
-        goodPostureDuration: goodPostureSeconds,
+        action              : 'saveExercise',
+        date                : getNowDateTimeStr(),
+        studentId           : currentStudent.id,
+        name                : currentStudent.name,
+        exercise            : ex.name,
+        reps                : repCount,
+        duration            : totalSeconds,
+        goodPostureDuration : goodPostureSeconds,
         accuracy
       });
       showToast(
         `✅ ${ex.name} 기록 저장! ` +
-        `(${ex.key==='plank'?repCount+'초 유지':repCount+' Reps'})`
+        `(${ex.key === 'plank'
+          ? repCount + '초 유지'
+          : repCount + ' Reps'})`
       );
-    } catch { showToast('⚠️ 저장 실패.'); }
+    } catch {
+      showToast('⚠️ 저장 실패.');
+    }
   }
   resetMeasure();
 }
 
 function resetMeasure() {
-  repCount=0; totalSeconds=0; goodPostureSeconds=0;
-  accuracyScoreSum=0; accuracyTicks=0;
+  repCount = 0; totalSeconds = 0; goodPostureSeconds = 0;
+  accuracyScoreSum = 0; accuracyTicks = 0;
   document.getElementById('repCount').textContent     = '0';
   document.getElementById('timerDisplay').textContent = '00:00';
   document.getElementById('accuracyPct').textContent  = '0%';
@@ -1431,34 +1581,39 @@ function resetMeasure() {
   document.getElementById('feedbackBox').textContent  =
     '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
+
 function updateMeasureUI() {
-  const m = String(Math.floor(totalSeconds/60)).padStart(2,'0');
-  const s = String(totalSeconds%60).padStart(2,'0');
+  const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
   document.getElementById('timerDisplay').textContent = `${m}:${s}`;
   document.getElementById('repCount').textContent     = repCount;
-  const acc = accuracyTicks>0
-    ? Math.round(accuracyScoreSum/accuracyTicks) : 0;
-  document.getElementById('accuracyPct').textContent = acc+'%';
-  document.getElementById('accuracyBar').style.width = acc+'%';
+  const acc = accuracyTicks > 0
+    ? Math.round(accuracyScoreSum / accuracyTicks) : 0;
+  document.getElementById('accuracyPct').textContent = acc + '%';
+  document.getElementById('accuracyBar').style.width = acc + '%';
 }
 
 // ════════════════════════════════════════════════
 // 관절 각도 계산
 // ════════════════════════════════════════════════
-function getAngle(a,b,c) {
-  const ab  = { x:a.x-b.x, y:a.y-b.y };
-  const cb  = { x:c.x-b.x, y:c.y-b.y };
-  const dot = ab.x*cb.x + ab.y*cb.y;
-  const mag = Math.sqrt(ab.x**2+ab.y**2)*Math.sqrt(cb.x**2+cb.y**2);
-  if (mag===0) return 0;
-  return Math.acos(Math.min(1,Math.max(-1,dot/mag)))*(180/Math.PI);
+function getAngle(a, b, c) {
+  const ab  = { x: a.x - b.x, y: a.y - b.y };
+  const cb  = { x: c.x - b.x, y: c.y - b.y };
+  const dot = ab.x * cb.x + ab.y * cb.y;
+  const mag = Math.sqrt(ab.x ** 2 + ab.y ** 2) *
+              Math.sqrt(cb.x ** 2 + cb.y ** 2);
+  if (mag === 0) return 0;
+  return Math.acos(Math.min(1, Math.max(-1, dot / mag))) * (180 / Math.PI);
 }
-function getBestAngle(kp,a1,b1,c1,a2,b2,c2) {
-  const v1 = (kp[a1].visibility+kp[b1].visibility+kp[c1].visibility)/3;
-  const v2 = (kp[a2].visibility+kp[b2].visibility+kp[c2].visibility)/3;
-  return v1>=v2
-    ? getAngle(kp[a1],kp[b1],kp[c1])
-    : getAngle(kp[a2],kp[b2],kp[c2]);
+
+function getBestAngle(kp, a1, b1, c1, a2, b2, c2) {
+  const v1 =
+    (kp[a1].visibility + kp[b1].visibility + kp[c1].visibility) / 3;
+  const v2 =
+    (kp[a2].visibility + kp[b2].visibility + kp[c2].visibility) / 3;
+  return v1 >= v2
+    ? getAngle(kp[a1], kp[b1], kp[c1])
+    : getAngle(kp[a2], kp[b2], kp[c2]);
 }
 
 // ════════════════════════════════════════════════
@@ -1478,6 +1633,7 @@ function analyzePoseByKeypoints() {
   const vis       = idx    => kp[idx] && kp[idx].visibility > VIS;
   const visEither = (L, R) => vis(L) || vis(R);
   let poseScore = 0, feedback = '';
+
   switch (ex.key) {
     case 'squat': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
@@ -1488,7 +1644,7 @@ function analyzePoseByKeypoints() {
       const knee = getBestAngle(kp,23,25,27,24,26,28);
       const { squatGoodMin:mn, squatGoodMax:mx } = POSE_CONFIG;
       if (knee > 160) {
-        if (squatPhase==='down') {
+        if (squatPhase === 'down') {
           repCount++;
           feedback  = `🎉 스쿼트 ${repCount}회 완료! 다시 내려가세요.`;
           poseScore = 100;
@@ -1498,19 +1654,22 @@ function analyzePoseByKeypoints() {
         }
         squatPhase = 'up';
       } else if (knee > mx) {
-        poseScore  = Math.round(40+(160-knee)/(160-mx)*30);
-        feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
+        poseScore  =
+          Math.round(40 + (160 - knee) / (160 - mx) * 30);
+        feedback   =
+          `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
         squatPhase = 'going_down';
       } else if (knee >= mn) {
         poseScore  = 100;
-        feedback   = `✅ 스쿼트 완벽! 무릎 각도 ${Math.round(knee)}° 👍 이제 올라오세요!`;
+        feedback   =
+          `✅ 스쿼트 완벽! 무릎 각도 ${Math.round(knee)}° 👍 이제 올라오세요!`;
         squatPhase = 'down';
       } else {
         poseScore  = 60;
         feedback   = '⚠️ 너무 깊이 앉았습니다. 조금 올라오세요.';
         squatPhase = 'down';
       }
-      goodPostureSeconds += poseScore>=80 ? 1 : 0;
+      goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
     case 'lunge': {
@@ -1520,132 +1679,163 @@ function analyzePoseByKeypoints() {
         accuracyTicks++; return;
       }
       const kneeL =
-        vis(23)&&vis(25)&&vis(27)?getAngle(kp[23],kp[25],kp[27]):180;
+        vis(23)&&vis(25)&&vis(27) ? getAngle(kp[23],kp[25],kp[27]) : 180;
       const kneeR =
-        vis(24)&&vis(26)&&vis(28)?getAngle(kp[24],kp[26],kp[28]):180;
+        vis(24)&&vis(26)&&vis(28) ? getAngle(kp[24],kp[26],kp[28]) : 180;
       const frontKnee = Math.min(kneeL, kneeR);
       const { lungeGoodMin:mn, lungeGoodMax:mx } = POSE_CONFIG;
       if (frontKnee > 155) {
-        if (lungePhase==='down') {
+        if (lungePhase === 'down') {
           repCount++;
-          feedback  = `🎉 런지 ${repCount}회 완료!`; poseScore = 100;
+          feedback  = `🎉 런지 ${repCount}회 완료!`;
+          poseScore = 100;
         } else {
-          feedback  = '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
+          feedback  =
+            '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
           poseScore = 20;
         }
         lungePhase = 'up';
       } else if (frontKnee > mx) {
-        poseScore  = Math.round(40+(155-frontKnee)/(155-mx)*30);
-        feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`;
+        poseScore  =
+          Math.round(40 + (155 - frontKnee) / (155 - mx) * 30);
+        feedback   =
+          `📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`;
         lungePhase = 'going_down';
       } else if (frontKnee >= mn) {
         poseScore  = 100;
-        feedback   = `✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`;
+        feedback   =
+          `✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`;
         lungePhase = 'down';
       } else {
         poseScore  = 60;
         feedback   = '⚠️ 앞무릎이 너무 굽었습니다. 조금 올라오세요.';
         lungePhase = 'down';
       }
-      goodPostureSeconds += poseScore>=80 ? 1 : 0;
+      goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
     case 'plank': {
       if (!visEither(11,12)||!visEither(23,24)||!visEither(25,26)) {
         fb.textContent =
-          '⏳ 상체 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
+          '⏳ 상체 관절을 인식하지 못했습니다. ' +
+          '측면이 보이도록 위치를 조정하세요.';
         accuracyTicks++; return;
       }
-      const shLm  = vis(11)?kp[11]:kp[12];
-      const hipLm = vis(23)?kp[23]:kp[24];
-      const knLm  = vis(25)?kp[25]:kp[26];
-      const bodyAngle = getAngle(shLm,hipLm,knLm);
+      const shLm  = vis(11) ? kp[11] : kp[12];
+      const hipLm = vis(23) ? kp[23] : kp[24];
+      const knLm  = vis(25) ? kp[25] : kp[26];
+      const bodyAngle   = getAngle(shLm, hipLm, knLm);
       const { plankBodyAngleMin:minAngle } = POSE_CONFIG;
-      const hipY = vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2:hipLm.y;
-      const shdY = vis(11)&&vis(12)?(kp[11].y+kp[12].y)/2:shLm.y;
-      const kneY = vis(25)&&vis(26)?(kp[25].y+kp[26].y)/2:knLm.y;
-      const hipHigher = hipY < Math.min(shdY,kneY)-0.04;
-      const hipLower  = hipY > Math.max(shdY,kneY)+0.04;
+      const hipY  =
+        vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2 : hipLm.y;
+      const shdY  =
+        vis(11)&&vis(12) ? (kp[11].y+kp[12].y)/2 : shLm.y;
+      const kneY  =
+        vis(25)&&vis(26) ? (kp[25].y+kp[26].y)/2 : knLm.y;
+      const hipHigher = hipY < Math.min(shdY, kneY) - 0.04;
+      const hipLower  = hipY > Math.max(shdY, kneY) + 0.04;
       if (bodyAngle >= minAngle) {
         poseScore = 100; repCount++; goodPostureSeconds++;
-        feedback  = `✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
+        feedback  =
+          `✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
       } else if (hipHigher) {
-        poseScore = Math.max(20, Math.round((bodyAngle/minAngle)*70));
-        feedback  = '⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
+        poseScore =
+          Math.max(20, Math.round((bodyAngle / minAngle) * 70));
+        feedback  =
+          '⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
       } else if (hipLower) {
-        poseScore = Math.max(20, Math.round((bodyAngle/minAngle)*70));
-        feedback  = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
+        poseScore =
+          Math.max(20, Math.round((bodyAngle / minAngle) * 70));
+        feedback  =
+          '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
       } else {
-        poseScore = Math.round((bodyAngle/minAngle)*85);
-        feedback  = `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, 목표 ${minAngle}° 이상)`;
+        poseScore =
+          Math.round((bodyAngle / minAngle) * 85);
+        feedback  =
+          `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, 목표 ${minAngle}° 이상)`;
       }
       break;
     }
     case 'pushup': {
       if (!visEither(11,12)||!visEither(13,14)||!visEither(15,16)) {
         fb.textContent =
-          '⏳ 팔 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
+          '⏳ 팔 관절을 인식하지 못했습니다. ' +
+          '측면이 보이도록 위치를 조정하세요.';
         accuracyTicks++; return;
       }
       const elbow = getBestAngle(kp,11,13,15,12,14,16);
       const { pushupGoodMax:mx } = POSE_CONFIG;
       if (elbow > 155) {
-        if (pushupPhase==='down') {
+        if (pushupPhase === 'down') {
           repCount++;
-          feedback  = `🎉 푸시업 ${repCount}회 완료!`; poseScore=100;
+          feedback  = `🎉 푸시업 ${repCount}회 완료!`;
+          poseScore = 100;
         } else {
-          feedback  = '📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!';
+          feedback  =
+            '📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!';
           poseScore = 30;
         }
         pushupPhase = 'up';
       } else if (elbow > mx) {
-        poseScore   = Math.round(40+(155-elbow)/(155-mx)*40);
-        feedback    = `📐 더 내려가세요! (현재 ${Math.round(elbow)}°, 목표 ${mx}° 이하)`;
+        poseScore   =
+          Math.round(40 + (155 - elbow) / (155 - mx) * 40);
+        feedback    =
+          `📐 더 내려가세요! (현재 ${Math.round(elbow)}°, 목표 ${mx}° 이하)`;
         pushupPhase = 'going_down';
       } else {
         poseScore   = 100;
-        feedback    = `✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbow)}° 👍 이제 올라오세요!`;
+        feedback    =
+          `✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbow)}° 👍 이제 올라오세요!`;
         pushupPhase = 'down';
       }
-      goodPostureSeconds += poseScore>=80 ? 1 : 0;
+      goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
     case 'burpee': {
       if (!visEither(11,12)||!visEither(23,24)) {
         fb.textContent =
-          '⏳ 상체 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
+          '⏳ 상체 관절을 인식하지 못했습니다. ' +
+          '전신이 보이도록 거리를 조절하세요.';
         accuracyTicks++; return;
       }
       const hipY2  =
-        vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2:(vis(23)?kp[23].y:kp[24].y);
+        vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2
+                         : (vis(23) ? kp[23].y : kp[24].y);
       const ankleY =
-        vis(27)?kp[27].y:(vis(28)?kp[28].y:1.0);
+        vis(27) ? kp[27].y : (vis(28) ? kp[28].y : 1.0);
       const kneeAB =
         visEither(25,26)&&visEither(27,28)
-          ?getBestAngle(kp,23,25,27,24,26,28):180;
+          ? getBestAngle(kp,23,25,27,24,26,28) : 180;
       const elbowAB =
         visEither(11,12)&&visEither(13,14)&&visEither(15,16)
-          ?getBestAngle(kp,11,13,15,12,14,16):180;
-      const shLmB  = vis(11)?kp[11]:kp[12];
-      const hipLmB = vis(23)?kp[23]:kp[24];
-      const knLmB  = vis(25)?kp[25]:kp[26];
-      const bodyAB = getAngle(shLmB,hipLmB,knLmB);
-      const isJump      = ankleY<0.35 && hipY2<0.55;
-      const isStand     = kneeAB>155  && hipY2<0.65;
-      const isSquat     =
-        kneeAB>=POSE_CONFIG.squatGoodMin && kneeAB<=POSE_CONFIG.squatGoodMax;
-      const isPlankPos  =
-        bodyAB>=POSE_CONFIG.plankBodyAngleMin && kneeAB>140;
+          ? getBestAngle(kp,11,13,15,12,14,16) : 180;
+      const shLmB  = vis(11) ? kp[11] : kp[12];
+      const hipLmB = vis(23) ? kp[23] : kp[24];
+      const knLmB  = vis(25) ? kp[25] : kp[26];
+      const bodyAB = getAngle(shLmB, hipLmB, knLmB);
+      const isJump     = ankleY < 0.35 && hipY2 < 0.55;
+      const isStand    = kneeAB > 155  && hipY2 < 0.65;
+      const isSquat    =
+        kneeAB >= POSE_CONFIG.squatGoodMin &&
+        kneeAB <= POSE_CONFIG.squatGoodMax;
+      const isPlankPos =
+        bodyAB >= POSE_CONFIG.plankBodyAngleMin && kneeAB > 140;
       const isPushupDwn =
-        isPlankPos && elbowAB<=POSE_CONFIG.pushupGoodMax;
-      if (isJump && (burpeePhase==='squat2'||burpeePhase==='stand')) {
+        isPlankPos && elbowAB <= POSE_CONFIG.pushupGoodMax;
+
+      if (isJump &&
+          (burpeePhase==='squat2' || burpeePhase==='stand')) {
         if (burpeePhase==='squat2' && burpeeStageReached.squat2) {
-          repCount++; poseScore=100;
-          feedback = `🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
-          burpeeStageReached = {squat:false,plank:false,pushup:false,squat2:false};
+          repCount++; poseScore = 100;
+          feedback =
+            `🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
+          burpeeStageReached = {
+            squat:false, plank:false, pushup:false, squat2:false
+          };
         } else {
-          poseScore=70;
-          feedback = '⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!';
+          poseScore = 70;
+          feedback  =
+            '⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!';
         }
         burpeePhase = 'stand';
       } else if (isStand && !isJump) {
@@ -1653,92 +1843,103 @@ function analyzePoseByKeypoints() {
         feedback    = '🏃 버피 시작! 아래로 쪼그려 앉으세요!';
         burpeePhase = 'stand';
       } else if (isSquat && !isPlankPos) {
-        if (burpeePhase==='stand') {
-          burpeePhase='squat'; burpeeStageReached.squat=true;
-          poseScore=90;
-          feedback='✅ ① 스쿼트! 이제 발을 뒤로 뻗어 플랭크 자세로!';
+        if (burpeePhase === 'stand') {
+          burpeePhase = 'squat';
+          burpeeStageReached.squat = true;
+          poseScore = 90;
+          feedback  =
+            '✅ ① 스쿼트! 이제 발을 뒤로 뻗어 플랭크 자세로!';
         } else if (
-          (burpeePhase==='pushup'||burpeePhase==='plank') &&
+          (burpeePhase==='pushup' || burpeePhase==='plank') &&
           burpeeStageReached.pushup
         ) {
-          burpeePhase='squat2'; burpeeStageReached.squat2=true;
-          poseScore=90;
-          feedback='✅ ⑤ 스쿼트 복귀! 이제 일어서서 점프+박수! 👏';
-        } else if (burpeePhase==='squat2') {
-          poseScore=80;
-          feedback='✅ ⑤ 스쿼트 자세 유지! 이제 점프하세요!';
+          burpeePhase = 'squat2';
+          burpeeStageReached.squat2 = true;
+          poseScore = 90;
+          feedback  =
+            '✅ ⑤ 스쿼트 복귀! 이제 일어서서 점프+박수! 👏';
+        } else if (burpeePhase === 'squat2') {
+          poseScore = 80;
+          feedback  = '✅ ⑤ 스쿼트 자세 유지! 이제 점프하세요!';
         } else {
-          poseScore=50;
-          feedback=`📐 스쿼트 감지 (현재 단계: ${burpeePhase})`;
+          poseScore = 50;
+          feedback  = `📐 스쿼트 감지 (현재 단계: ${burpeePhase})`;
         }
       } else if (isPushupDwn) {
-        if (burpeePhase==='plank'&&burpeeStageReached.plank) {
-          burpeePhase='pushup'; burpeeStageReached.pushup=true;
-          poseScore=100;
-          feedback=`✅ ④ 푸시업! 팔꿈치 ${Math.round(elbowAB)}° 👍`;
-        } else if (burpeePhase==='pushup') {
-          poseScore=100;
-          feedback=`✅ ④ 푸시업 유지 중! ${Math.round(elbowAB)}°`;
+        if (burpeePhase==='plank' && burpeeStageReached.plank) {
+          burpeePhase = 'pushup';
+          burpeeStageReached.pushup = true;
+          poseScore = 100;
+          feedback  = `✅ ④ 푸시업! 팔꿈치 ${Math.round(elbowAB)}° 👍`;
+        } else if (burpeePhase === 'pushup') {
+          poseScore = 100;
+          feedback  = `✅ ④ 푸시업 유지 중! ${Math.round(elbowAB)}°`;
         } else {
-          poseScore=60;
-          feedback='⚠️ 플랭크 자세 먼저 완료하세요!';
+          poseScore = 60;
+          feedback  = '⚠️ 플랭크 자세 먼저 완료하세요!';
         }
       } else if (isPlankPos && !isPushupDwn) {
-        if (burpeePhase==='squat'&&burpeeStageReached.squat) {
-          burpeePhase='plank'; burpeeStageReached.plank=true;
-          poseScore=100;
-          feedback=`✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
-        } else if (burpeePhase==='plank') {
-          poseScore=90;
-          feedback='✅ ③ 플랭크 유지 중! 이제 팔꿈치를 굽혀 푸시업하세요!';
+        if (burpeePhase==='squat' && burpeeStageReached.squat) {
+          burpeePhase = 'plank';
+          burpeeStageReached.plank = true;
+          poseScore = 100;
+          feedback  =
+            `✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
+        } else if (burpeePhase === 'plank') {
+          poseScore = 90;
+          feedback  =
+            '✅ ③ 플랭크 유지 중! 이제 팔꿈치를 굽혀 푸시업하세요!';
         } else {
-          poseScore=50;
-          feedback='⚠️ 플랭크 감지 — 스쿼트 단계를 먼저 완료하세요.';
+          poseScore = 50;
+          feedback  =
+            '⚠️ 플랭크 감지 — 스쿼트 단계를 먼저 완료하세요.';
         }
       } else {
-        poseScore=40;
-        feedback=`🔄 동작 전환 중... [현재: ${burpeePhase}]`;
+        poseScore = 40;
+        feedback  = `🔄 동작 전환 중... [현재: ${burpeePhase}]`;
       }
-      goodPostureSeconds += poseScore>=80 ? 1 : 0;
+      goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
     case 'jump': {
       if (!visEither(23,24)) {
         fb.textContent =
-          '⏳ 엉덩이 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
+          '⏳ 엉덩이 관절을 인식하지 못했습니다. ' +
+          '전신이 보이도록 거리를 조절하세요.';
         accuracyTicks++; return;
       }
       const rawHipY =
-        vis(23)&&vis(24)?(kp[23].y+kp[24].y)/2:(vis(23)?kp[23].y:kp[24].y);
+        vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2
+                         : (vis(23) ? kp[23].y : kp[24].y);
       jumpHipYHistory.push(rawHipY);
-      if (jumpHipYHistory.length>3) jumpHipYHistory.shift();
+      if (jumpHipYHistory.length > 3) jumpHipYHistory.shift();
       const smoothHipY =
-        jumpHipYHistory.reduce((a,b)=>a+b,0)/jumpHipYHistory.length;
-      if (jumpBaselineHipY===null) {
-        jumpBaselineHipY = smoothHipY; poseScore=50;
-        feedback='📏 기준 자세 측정 중... 제자리에 서 계세요!';
-        accuracyScoreSum+=poseScore; accuracyTicks++;
-        fb.textContent=feedback; return;
+        jumpHipYHistory.reduce((a,b) => a+b, 0) /
+        jumpHipYHistory.length;
+      if (jumpBaselineHipY === null) {
+        jumpBaselineHipY = smoothHipY; poseScore = 50;
+        feedback = '📏 기준 자세 측정 중... 제자리에 서 계세요!';
+        accuracyScoreSum += poseScore; accuracyTicks++;
+        fb.textContent = feedback; return;
       }
-      jumpBaselineHipY = jumpBaselineHipY*0.99 + smoothHipY*0.01;
-      const isAir = smoothHipY < jumpBaselineHipY-0.03;
+      jumpBaselineHipY = jumpBaselineHipY * 0.99 + smoothHipY * 0.01;
+      const isAir = smoothHipY < jumpBaselineHipY - 0.03;
       if (isAir) {
-        jumpPhase='air'; poseScore=100;
-        feedback=
-          `🦘 점프 중! (높이 ` +
-          `${Math.round((jumpBaselineHipY-smoothHipY)*1000)}) ` +
-          `발끝 착지 준비!`;
+        jumpPhase = 'air'; poseScore = 100;
+        feedback  =
+          `🦘 점프 중! (높이 ${Math.round((jumpBaselineHipY-smoothHipY)*1000)}) 발끝 착지 준비!`;
       } else {
-        if (jumpPhase==='air') {
-          repCount++; poseScore=100;
-          feedback=`✅ 줄넘기 ${repCount}회! 리듬 유지! 🪢`;
+        if (jumpPhase === 'air') {
+          repCount++; poseScore = 100;
+          feedback  = `✅ 줄넘기 ${repCount}회! 리듬 유지! 🪢`;
         } else {
-          poseScore=60;
-          feedback='🪢 리듬감 있게 발끝으로 가볍게 뛰어주세요!';
+          poseScore = 60;
+          feedback  =
+            '🪢 리듬감 있게 발끝으로 가볍게 뛰어주세요!';
         }
-        jumpPhase='land';
+        jumpPhase = 'land';
       }
-      goodPostureSeconds += poseScore>=80 ? 1 : 0;
+      goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
   }
@@ -1759,13 +1960,14 @@ function snapshotAnalysis() {
   document.getElementById('snapshotContent').textContent =
     'AI가 현재 프레임을 분석 중입니다...';
   setTimeout(() => {
-    const tips = WIKI_DATA.find(w => w.name===ex.name) ||
-                 WIKI_DATA.find(w => w.name.includes(ex.name)) ||
-                 WIKI_DATA[0];
+    const tips =
+      WIKI_DATA.find(w => w.name === ex.name) ||
+      WIKI_DATA.find(w => w.name.includes(ex.name)) ||
+      WIKI_DATA[0];
     let a = `📊 ${ex.name} 자세 정밀 분석 결과\n\n✅ 올바른 자세:\n`;
-    tips.correct.forEach((c,i)  => a+=`${i+1}. ${c}\n`);
+    tips.correct.forEach((c, i) => a += `${i+1}. ${c}\n`);
     a += `\n⚠️ 주의 실수:\n`;
-    tips.mistakes.forEach((m,i) => a+=`${i+1}. ${m}\n`);
+    tips.mistakes.forEach((m, i) => a += `${i+1}. ${m}\n`);
     a += `\n💡 팁: ${tips.tips}`;
     a += lastKeypoints
       ? '\n\n🦴 관절 인식: ✅ 정상 감지됨'
@@ -1785,7 +1987,7 @@ function wodStart() {
   wodRunning = true;
   document.getElementById('wodStatus').textContent = '운동 중 🔥';
   wodInterval = setInterval(() => {
-    if (wodSeconds<=0) {
+    if (wodSeconds <= 0) {
       wodPause();
       document.getElementById('wodDisplay').textContent = '00:00';
       document.getElementById('wodStatus').textContent  = '완료! 🎉';
@@ -1793,65 +1995,71 @@ function wodStart() {
     }
     wodSeconds--;
     document.getElementById('wodDisplay').textContent =
-      String(Math.floor(wodSeconds/60)).padStart(2,'0') + ':' +
-      String(wodSeconds%60).padStart(2,'0');
+      String(Math.floor(wodSeconds / 60)).padStart(2, '0') + ':' +
+      String(wodSeconds % 60).padStart(2, '0');
   }, 1000);
 }
 function wodPause() {
-  wodRunning = false; clearInterval(wodInterval);
-  if (wodSeconds>0 && wodSeconds<wodDefaultSeconds)
+  wodRunning = false;
+  clearInterval(wodInterval);
+  if (wodSeconds > 0 && wodSeconds < wodDefaultSeconds)
     document.getElementById('wodStatus').textContent = '일시정지';
 }
 function wodReset() {
   wodPause();
   wodSeconds = wodDefaultSeconds;
-  const mm = String(Math.floor(wodSeconds/60)).padStart(2,'0');
-  const ss = String(wodSeconds%60).padStart(2,'0');
+  const mm = String(Math.floor(wodSeconds / 60)).padStart(2, '0');
+  const ss = String(wodSeconds % 60).padStart(2, '0');
   document.getElementById('wodDisplay').textContent = `${mm}:${ss}`;
   document.getElementById('wodStatus').textContent  = '준비';
 }
 function generateWOD() {
   wodReset();
   const wods = [
-    '🔥 플랭크 20초+푸시업 5개+에어스쿼트 5개+런지 10개+버피 3개+줄넘기 1분',
-    '🔥 에어스쿼트 15개+푸시업 10개+버피 5개 × 3세트',
-    '🔥 런지 20개+플랭크 30초+줄넘기 50개 × 3세트',
-    '🔥 버피 10개+에어스쿼트 20개+줄넘기 30개 × 3세트',
-    '🔥 푸시업 15개+런지 20개+플랭크 45초 × 3세트',
+    '플랭크 20초 + 푸시업 5개 + 에어스쿼트 5개 + 런지 10개 + 버피 3개 + 줄넘기 1분',
+    '에어스쿼트 15개 + 푸시업 10개 + 버피 5개 × 3세트',
+    '런지 20개 + 플랭크 30초 + 줄넘기 50개 × 3세트',
+    '버피 10개 + 에어스쿼트 20개 + 줄넘기 30개 × 3세트',
+    '푸시업 15개 + 런지 20개 + 플랭크 45초 × 3세트',
   ];
-  document.getElementById('wodStatus').textContent =
-    wods[Math.floor(Math.random()*wods.length)];
+  const selected = wods[Math.floor(Math.random() * wods.length)];
+  document.getElementById('todayWodText').textContent = '🔥 ' + selected;
+  document.getElementById('wodStatus').textContent    = '준비';
   showToast('🤖 WOD가 생성되었습니다!');
 }
 
 // ════════════════════════════════════════════════
 // 백과사전
 // ════════════════════════════════════════════════
-function renderWiki(filter='') {
+function renderWiki(filter = '') {
   const filtered = WIKI_DATA.filter(w =>
-    w.name.includes(filter)||w.target.includes(filter)
+    w.name.includes(filter) || w.target.includes(filter)
   );
   document.getElementById('wikiList').innerHTML =
-    filtered.map(w=>`
+    filtered.map(w => `
       <div class="ex-card">
         <div class="ex-card-header">
           <div class="ex-card-icon">${w.icon}</div>
           <div>
-            <div class="ex-card-name">${w.name}</div>
-            <div class="ex-card-target">🎯 ${w.target}</div>
+            <div class="ex-card-name">${escapeHtml(w.name)}</div>
+            <div class="ex-card-target">🎯 ${escapeHtml(w.target)}</div>
           </div>
         </div>
         <div class="ex-card-body">
           <strong>✅ 올바른 자세:</strong>
-          <ul>${w.correct.map(c=>`<li>${c}</li>`).join('')}</ul>
+          <ul>${w.correct.map(c =>
+            `<li>${escapeHtml(c)}</li>`).join('')}</ul>
           <strong style="display:block;margin-top:8px;">
             ⚠️ 피해야 할 실수:
           </strong>
-          <ul>${w.mistakes.map(m=>`<li>${m}</li>`).join('')}</ul>
+          <ul>${w.mistakes.map(m =>
+            `<li>${escapeHtml(m)}</li>`).join('')}</ul>
           <div style="margin-top:8px;">
-            <span class="ex-tag tag-good">💡 ${w.tips}</span>
+            <span class="ex-tag tag-good">
+              💡 ${escapeHtml(w.tips)}
+            </span>
           </div>
-          <a class="yt-btn" href="${w.youtube}"
+          <a class="yt-btn" href="${escapeHtml(w.youtube)}"
              target="_blank" rel="noopener noreferrer">
             ▶ 유튜브 영상 보기
           </a>
@@ -1863,25 +2071,26 @@ function filterWiki() {
 }
 
 // ════════════════════════════════════════════════
-// ★ [수정3] 대시보드 — 날짜별 그룹핑 + 접기/펼치기
+// 대시보드 — 날짜별 그룹핑 + 접기/펼치기
 // ════════════════════════════════════════════════
 async function loadDashboard() {
   if (!currentStudent) return;
   try {
     const res = await gasCall({
-      action:'getStudentData', studentId:currentStudent.id
+      action: 'getStudentData', studentId: currentStudent.id
     });
-    if (res.status!=='success') return;
+    if (res.status !== 'success') return;
     const r = res.exerciseRecords || [];
     const n = r.length;
 
     // 누적 통계
-    const totalReps = r.reduce((s,x) => s+(x.reps||0), 0);
+    const totalReps = r.reduce((s, x) => s + (x.reps || 0), 0);
     const avgAcc    = n > 0
-      ? Math.round(r.reduce((s,x) => s+(x.accuracy||0), 0) / n) : 0;
+      ? Math.round(
+          r.reduce((s, x) => s + (x.accuracy || 0), 0) / n
+        ) : 0;
     const totalMins =
-      Math.round(r.reduce((s,x) => s+(x.duration||0), 0) / 60);
-
+      Math.round(r.reduce((s, x) => s + (x.duration || 0), 0) / 60);
     document.getElementById('dTotalSessions').textContent = n;
     document.getElementById('dTotalReps').textContent     = totalReps;
     document.getElementById('dAvgAccuracy').textContent   = avgAcc + '%';
@@ -1894,15 +2103,16 @@ async function loadDashboard() {
       return;
     }
 
-    // ── 날짜 추출 헬퍼
-    // "2026. 9. 28. 10:14:33" → "2026. 9. 28." (날짜만)
+    // 날짜 추출 헬퍼
     function extractDate(dateStr) {
       if (!dateStr) return '날짜 없음';
       const m = String(dateStr).match(/\d{4}\.\s*\d{1,2}\.\s*\d{1,2}\./);
-      return m ? m[0].replace(/\s+/g,' ').trim() : String(dateStr).trim();
+      return m
+        ? m[0].replace(/\s+/g, ' ').trim()
+        : String(dateStr).trim();
     }
 
-    // ── 날짜별 그룹핑
+    // 날짜별 그룹핑
     const dateGroups = {};
     r.forEach(x => {
       const dateKey = extractDate(x.date);
@@ -1910,20 +2120,17 @@ async function loadDashboard() {
       dateGroups[dateKey].push(x);
     });
 
-    // ── 날짜 내림차순 정렬 (최신 날짜가 위)
-    const sortedDates = Object.keys(dateGroups).sort((a, b) => {
-      const toMs = d =>
-        new Date(d.replace(/\.\s*/g,'/').replace(/\/$/,'').trim()).getTime();
-      return toMs(b) - toMs(a);
-    });
+    // 날짜 내림차순 정렬
+    const sortedDates = Object.keys(dateGroups).sort((a, b) =>
+      parseKorDateToMs(b) - parseKorDateToMs(a)
+    );
 
     const ORDER = ['플랭크','푸시업','에어 스쿼트','런지','버피','줄넘기'];
     const ICONS = {
-      '플랭크':'💪','푸시업':'⬆️','에어 스쿼트':'🦵',
-      '런지':'🏃','버피':'🔥','줄넘기':'🪢'
+      '플랭크':'💪', '푸시업':'⬆️', '에어 스쿼트':'🦵',
+      '런지':'🏃',   '버피':'🔥',   '줄넘기':'🪢'
     };
 
-    // ── HTML 생성
     recEl.innerHTML = sortedDates.map((dateKey, idx) => {
       const records = dateGroups[dateKey];
 
@@ -1942,21 +2149,23 @@ async function loadDashboard() {
       // 운동 목록 정렬
       const sortedKeys = Object.keys(merged).sort((a, b) => {
         const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
-        if (ia===-1 && ib===-1) return 0;
-        if (ia===-1) return 1; if (ib===-1) return -1;
+        if (ia === -1 && ib === -1) return 0;
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
         return ia - ib;
       });
 
       // 날짜별 소계
-      const dayReps = records.reduce((s,x) => s+(x.reps||0), 0);
+      const dayReps = records.reduce((s, x) => s + (x.reps || 0), 0);
       const dayMins = Math.round(
-        records.reduce((s,x) => s+(x.duration||0), 0) / 60
+        records.reduce((s, x) => s + (x.duration || 0), 0) / 60
       );
-      const dayAcc = Math.round(
-        records.reduce((s,x) => s+(x.accuracy||0), 0) / records.length
+      const dayAcc  = Math.round(
+        records.reduce((s, x) => s + (x.accuracy || 0), 0) /
+        records.length
       );
 
-      const isOpen  = idx === 0; // 최신 날짜만 자동 펼침
+      const isOpen  = idx === 0;
       const groupId = `dayGroup_${idx}`;
       const arrowId = `arrow_${idx}`;
 
@@ -1967,26 +2176,30 @@ async function loadDashboard() {
             <span style="font-size:1rem;">📅</span>
             <div>
               <div style="font-weight:700;font-size:.9rem;">
-                ${dateKey}
-                ${idx===0
+                ${escapeHtml(dateKey)}
+                ${idx === 0
                   ? `<span style="font-size:.72rem;
-                       background:linear-gradient(135deg,var(--accent),var(--accent2));
+                       background:linear-gradient(135deg,
+                         var(--accent),var(--accent2));
                        color:#fff;padding:2px 8px;border-radius:20px;
                        margin-left:6px;">최근</span>`
                   : ''}
               </div>
-              <div style="font-size:.75rem;color:var(--text2);margin-top:2px;">
-                ${sortedKeys.length}종목 · ${dayReps}reps · ${dayMins}분 · 정확도 ${dayAcc}%
+              <div style="font-size:.75rem;color:var(--text2);
+                          margin-top:2px;">
+                ${sortedKeys.length}종목 · ${dayReps}reps ·
+                ${dayMins}분 · 정확도 ${dayAcc}%
               </div>
             </div>
           </div>
           <span id="${arrowId}" class="day-group-arrow"
-                style="transform:rotate(${isOpen?'0':'180deg'});">
+                style="transform:rotate(${isOpen ? '0' : '180deg'});">
             ▲
           </span>
         </div>
         <div id="${groupId}"
-             style="display:${isOpen?'block':'none'};margin-bottom:14px;">
+             style="display:${isOpen ? 'block' : 'none'};
+                    margin-bottom:14px;">
           <div class="record-list">
             ${sortedKeys.map(exName => {
               const m      = merged[exName];
@@ -2003,10 +2216,12 @@ async function loadDashboard() {
                 avgAc >= 60 ? 'var(--warning)' : 'var(--danger)';
               return `
                 <div class="record-item">
-                  <div class="r-left">${icon} ${exName} ${sess}</div>
+                  <div class="r-left">
+                    ${icon} ${escapeHtml(exName)} ${sess}
+                  </div>
                   <div class="r-right"
                        style="display:flex;align-items:center;gap:8px;">
-                    <span>${unit}</span>
+                    <span>${escapeHtml(unit)}</span>
                     <span style="color:${accColor};font-size:.82rem;">
                       ${avgAc}%
                     </span>
@@ -2019,15 +2234,11 @@ async function loadDashboard() {
           </div>
         </div>`;
     }).join('');
-
   } catch {
     showToast('⚠️ 데이터를 불러오지 못했습니다.');
   }
 }
 
-// ════════════════════════════════════════════════
-// ★ [수정4] 날짜 그룹 접기/펼치기 토글
-// ════════════════════════════════════════════════
 function toggleDayGroup(groupId, arrowId) {
   const group  = document.getElementById(groupId);
   const arrow  = document.getElementById(arrowId);
@@ -2044,16 +2255,19 @@ async function loadAchievement() {
   box.textContent = '데이터 분석 중...';
   try {
     const res = await gasCall({
-      action:'getStudentData', studentId:currentStudent.id
+      action: 'getStudentData', studentId: currentStudent.id
     });
-    const r      = res.exerciseRecords||[];
+    const r      = res.exerciseRecords || [];
     const n      = r.length;
-    const avgAcc = n>0
-      ? Math.round(r.reduce((s,x)=>s+(x.accuracy||0),0)/n) : 0;
+    const avgAcc = n > 0
+      ? Math.round(
+          r.reduce((s, x) => s + (x.accuracy || 0), 0) / n
+        ) : 0;
     const grade =
-      (n>=10&&avgAcc>=85)?'🏆 A+ 매우 우수':
-      (n>=7 &&avgAcc>=70)?'🥇 A  우수'     :
-      (n>=5 &&avgAcc>=60)?'🥈 B  보통'     :'🥉 C  노력 필요';
+      (n >= 10 && avgAcc >= 85) ? '🏆 A+ 매우 우수' :
+      (n >= 7  && avgAcc >= 70) ? '🥇 A  우수'      :
+      (n >= 5  && avgAcc >= 60) ? '🥈 B  보통'      :
+                                   '🥉 C  노력 필요';
     box.textContent =
       `📊 성취 기준 평가 결과\n\n` +
       `• 총 운동 세션: ${n}회\n` +
@@ -2066,47 +2280,64 @@ async function loadAchievement() {
 }
 
 // ════════════════════════════════════════════════
-// AI 채팅
+// AI 채팅 — DOM 방식으로 XSS 차단
 // ════════════════════════════════════════════════
+function addChatBubble(role, msg) {
+  const chat  = document.getElementById('aiChat');
+  const wrap  = document.createElement('div');
+  wrap.className = `ai-msg${role === 'user' ? ' user-msg' : ''}`;
+
+  if (role !== 'user') {
+    const avatar     = document.createElement('div');
+    avatar.className = 'ai-avatar';
+    avatar.textContent = '🏫';
+    wrap.appendChild(avatar);
+  }
+
+  const bubble     = document.createElement('div');
+  bubble.className =
+    `ai-bubble${role === 'user' ? ' user-bubble' : ''}`;
+  bubble.textContent = msg;
+  wrap.appendChild(bubble);
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+}
+
 function quickChat(msg) {
-  document.getElementById('chatInput').value=msg; sendChat();
+  document.getElementById('chatInput').value = msg;
+  sendChat();
 }
 function sendChat() {
   const input = document.getElementById('chatInput');
-  const msg   = input.value.trim(); if(!msg)return; input.value='';
-  const chat  = document.getElementById('aiChat');
-  chat.innerHTML+=
-    `<div class="ai-msg user-msg">` +
-    `<div class="ai-bubble user-bubble">${msg}</div></div>`;
-  setTimeout(()=>{
-    chat.innerHTML+=
-      `<div class="ai-msg">` +
-      `<div class="ai-avatar">🏫</div>` +
-      `<div class="ai-bubble">${generateAIReply(msg)}</div></div>`;
-    chat.scrollTop=chat.scrollHeight;
-  },800);
-  chat.scrollTop=chat.scrollHeight;
+  const msg   = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addChatBubble('user', msg);
+  setTimeout(() => {
+    addChatBubble('ai', generateAIReply(msg));
+  }, 800);
 }
+
 function generateAIReply(msg) {
-  const m=msg.toLowerCase();
-  if(m.includes('스쿼트'))
-    return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행! 발뒤꿈치 들리지 않도록 💪';
-  if(m.includes('런지'))
+  const m = msg.toLowerCase();
+  if (m.includes('스쿼트'))
+    return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행!\n발뒤꿈치 들리지 않도록 💪';
+  if (m.includes('런지'))
     return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
-  if(m.includes('플랭크'))
+  if (m.includes('플랭크'))
     return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
-  if(m.includes('푸시업')||m.includes('팔굽혀'))
+  if (m.includes('푸시업') || m.includes('팔굽혀'))
     return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
-  if(m.includes('버피'))
+  if (m.includes('버피'))
     return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→스쿼트→점프+박수! 🎉';
-  if(m.includes('줄넘기'))
+  if (m.includes('줄넘기'))
     return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기!';
-  if(m.includes('심박수')||m.includes('wod'))
+  if (m.includes('심박수') || m.includes('wod'))
     return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
-  if(m.includes('초보')||m.includes('처음'))
+  if (m.includes('초보') || m.includes('처음'))
     return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
-  if(m.includes('피드백')||m.includes('오늘'))
-    return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+  if (m.includes('피드백') || m.includes('오늘'))
+    return `💌 ${currentStudent?.name || '학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
@@ -2114,41 +2345,45 @@ function generateAIReply(msg) {
 // 일일 기록
 // ════════════════════════════════════════════════
 function changeWodSets(d) {
-  wodSetsCount = Math.max(0, wodSetsCount+d);
-  document.getElementById('wodSetsVal').textContent = wodSetsCount;
+  wodSetsCount = Math.max(0, wodSetsCount + d);
+  const el = document.getElementById('wodSetsVal');
+  el.textContent    = wodSetsCount;
+  el.style.transform = 'scale(1.3)';
+  el.style.color     = 'var(--accent)';
+  setTimeout(() => {
+    el.style.transform = 'scale(1)';
+    el.style.color     = '';
+  }, 200);
 }
 
-// ════════════════════════════════════════════════
-// ★ [수정5] saveDailyLog — date를 날짜+시간으로 저장
-// ════════════════════════════════════════════════
 async function saveDailyLog() {
-  if(!currentStudent) return;
+  if (!currentStudent) return;
   try {
     const res = await gasCall({
-      action:   'saveDailyLog',
-      date:     getNowDateTimeStr(),   // ★ 날짜+시간
-      studentId: currentStudent.id,
-      name:      currentStudent.name,
-      wodSets:   wodSetsCount,
-      totalReps: document.getElementById('repCount').textContent||0,
-      peakHR:    document.getElementById('peakHR').value       ||0,
-      avgHR:     document.getElementById('avgHR').value        ||0,
-      goodPoint:    document.getElementById('goodPoint').value,
-      improvePoint: document.getElementById('improvePoint').value,
-      breakfast:    document.getElementById('breakfast').value,
-      lunch:        document.getElementById('lunch').value,
-      dinner:       document.getElementById('dinner').value,
-      water: document.getElementById('water').value||0,
-      sleep: document.getElementById('sleep').value||0,
+      action       : 'saveDailyLog',
+      date         : getNowDateTimeStr(),
+      studentId    : currentStudent.id,
+      name         : currentStudent.name,
+      wodSets      : wodSetsCount,
+      totalReps    : sessionTotalReps,      // ★ DOM 의존 제거
+      peakHR       : document.getElementById('peakHR').value       || 0,
+      avgHR        : document.getElementById('avgHR').value        || 0,
+      goodPoint    : document.getElementById('goodPoint').value,
+      improvePoint : document.getElementById('improvePoint').value,
+      breakfast    : document.getElementById('breakfast').value,
+      lunch        : document.getElementById('lunch').value,
+      dinner       : document.getElementById('dinner').value,
+      water        : document.getElementById('water').value  || 0,
+      sleep        : document.getElementById('sleep').value  || 0,
     });
-    if(res.status==='success') {
+    if (res.status === 'success') {
       showToast('✅ 오늘의 기록이 저장되었습니다!');
       generateAITotal();
     } else {
-      showToast('⚠️ 저장 실패: '+(res.message||''));
+      showToast('⚠️ 저장 실패: ' + (res.message || ''));
     }
   } catch(err) {
-    showToast('⚠️ 서버 연결 실패: '+(err.message||''));
+    showToast('⚠️ 서버 연결 실패: ' + (err.message || ''));
   }
 }
 
@@ -2163,29 +2398,31 @@ function generateAITotal() {
     ? `✅ "${gp}" 정말 잘했어요!\n\n`
     : '오늘도 참여해줘서 고마워요! 😊\n\n';
   msg += ip ? `📈 "${ip}" 개선하려는 의지 훌륭해요!\n\n` : '';
-  msg += parseFloat(w) >=1.5
+  msg += parseFloat(w) >= 1.5
     ? '💧 수분 섭취 훌륭해요!\n'
     : '💧 물을 더 마시면 운동 효율이 올라가요!\n';
-  msg += parseFloat(sl)>=7
+  msg += parseFloat(sl) >= 7
     ? '🌙 충분한 수면 굿!\n'
     : '🌙 수면 7시간 이상을 목표로 해봐요!\n';
-  if(hr) msg+=`❤️ 최고 심박수 ${hr}BPM. 잘 했어요!\n`;
-  msg+='\n💪 내일도 파이팅!';
-  document.getElementById('aiTotalBox').textContent=msg;
+  if (hr) msg += `❤️ 최고 심박수 ${hr}BPM. 잘 했어요!\n`;
+  msg += '\n💪 내일도 파이팅!';
+  document.getElementById('aiTotalBox').textContent = msg;
 }
 
 // ════════════════════════════════════════════════
 // 토스트 & 초기화
 // ════════════════════════════════════════════════
 function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
-document.addEventListener('DOMContentLoaded', ()=>{
-  ['loginId','loginName','loginPw'].forEach(id=>
-    document.getElementById(id).addEventListener('keydown', e=>{
-      if(e.key==='Enter') handleAuth();
+
+document.addEventListener('DOMContentLoaded', () => {
+  ['loginId','loginName','loginPw'].forEach(id =>
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleAuth();
     })
   );
   document.getElementById('logDate').textContent =
