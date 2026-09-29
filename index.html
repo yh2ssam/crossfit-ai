@@ -25,7 +25,6 @@ body {
   background:var(--bg); color:var(--text); min-height:100vh;
   transition:background .3s,color .3s;
 }
-
 /* ── 로그인 ─────────────────────────────────────────────────── */
 #loginScreen {
   min-height:100vh; display:flex; align-items:center;
@@ -80,7 +79,6 @@ body {
   border-radius:10px; padding:10px 14px; margin-bottom:16px;
   line-height:1.6; text-align:left; white-space:pre-line;
 }
-
 /* ── 앱 레이아웃 ─────────────────────────────────────────────── */
 #appScreen { display:none; }
 .header {
@@ -126,7 +124,6 @@ body {
   font-size:1rem; font-weight:700; margin-bottom:16px;
   display:flex; align-items:center; gap:8px;
 }
-
 /* ── WOD 타이머 ──────────────────────────────────────────────── */
 .wod-timer-display {
   text-align:center; padding:28px 20px 16px;
@@ -166,7 +163,6 @@ body {
   color:#fff;
 }
 .wod-status { font-size:.9rem; color:var(--text2); margin-top:8px; }
-
 /* ── 버튼 공통 ───────────────────────────────────────────────── */
 .btn-row { display:flex; gap:10px; flex-wrap:wrap; }
 .btn {
@@ -179,7 +175,6 @@ body {
 .btn-success  { background:linear-gradient(135deg,#43e97b,#38f9d7); color:#0a2a1a; }
 .btn-danger   { background:linear-gradient(135deg,var(--danger),#ff8e8e); color:#fff; }
 .btn:hover    { transform:translateY(-1px); opacity:.9; }
-
 /* ── 운동 선택 ───────────────────────────────────────────────── */
 .exercise-grid {
   display:grid; grid-template-columns:repeat(3,1fr);
@@ -196,7 +191,6 @@ body {
   color:var(--accent);
 }
 .exercise-btn .ex-icon { font-size:1.5rem; display:block; margin-bottom:4px; }
-
 /* ── 카메라 ──────────────────────────────────────────────────── */
 .camera-wrap {
   position:relative; background:#000; border-radius:12px;
@@ -210,7 +204,6 @@ body {
   color:var(--text2); font-size:.9rem; gap:8px;
 }
 .camera-placeholder .cam-icon { font-size:3rem; }
-
 /* ── 통계 ────────────────────────────────────────────────────── */
 .stats-grid {
   display:grid; grid-template-columns:repeat(2,1fr);
@@ -241,7 +234,6 @@ body {
   border-radius:12px; padding:14px; font-size:.85rem; color:var(--text2);
   min-height:60px; line-height:1.6;
 }
-
 /* ── 백과사전 ────────────────────────────────────────────────── */
 .search-input {
   flex:1; padding:12px 16px; background:var(--surface2);
@@ -272,7 +264,6 @@ body {
   font-size:.8rem; font-weight:700; text-decoration:none; transition:opacity .2s;
 }
 .yt-btn:hover { opacity:.85; }
-
 /* ── 대시보드 ────────────────────────────────────────────────── */
 .dash-grid {
   display:grid; grid-template-columns:repeat(2,1fr);
@@ -303,7 +294,6 @@ body {
 .day-group-arrow {
   font-size:1.1rem; transition:transform .3s; display:inline-block;
 }
-
 /* ── AI 채팅 ─────────────────────────────────────────────────── */
 .ai-chat {
   background:var(--surface2); border-radius:12px;
@@ -340,7 +330,6 @@ body {
   cursor:pointer; transition:all .2s;
 }
 .quick-btn:hover { border-color:var(--accent); color:var(--accent); }
-
 /* ── 폼 ──────────────────────────────────────────────────────── */
 .form-group   { margin-bottom:16px; }
 .form-label   { font-size:.85rem; color:var(--text2); margin-bottom:8px; display:block; }
@@ -352,7 +341,6 @@ body {
 .form-input:focus, .form-textarea:focus { border-color:var(--accent); }
 .form-textarea { min-height:80px; resize:vertical; font-family:inherit; }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-
 /* ── 2카운터 UI ──────────────────────────────────────────────── */
 .wod-counter-wrap {
   display:grid; grid-template-columns:1fr 1fr; gap:16px;
@@ -419,7 +407,6 @@ body {
   font-size:.75rem; color:var(--text2); margin-bottom:12px;
   text-align:center;
 }
-
 /* ── AI 총평 ─────────────────────────────────────────────────── */
 .ai-total-box {
   background:linear-gradient(135deg,
@@ -428,7 +415,6 @@ body {
   padding:16px; font-size:.85rem; line-height:1.7; color:var(--text);
   margin-top:12px; white-space:pre-wrap;
 }
-
 /* ── 서버 상태 ───────────────────────────────────────────────── */
 .server-status {
   font-size:.78rem; padding:4px 10px;
@@ -437,7 +423,6 @@ body {
 .server-status.ok       { color:var(--success); border-color:var(--success); }
 .server-status.err      { color:var(--danger);  border-color:var(--danger);  }
 .server-status.checking { color:var(--warning); border-color:var(--warning); }
-
 /* ── 카메라 전/후면 ──────────────────────────────────────────── */
 .cam-toggle-wrap {
   display:flex; align-items:center; justify-content:center;
@@ -457,7 +442,6 @@ body {
 }
 .mobile-only { display:none; }
 @media(max-width:768px){ .mobile-only { display:flex; } }
-
 /* ── 모달 ────────────────────────────────────────────────────── */
 .modal-overlay {
   position:fixed; inset:0; background:rgba(0,0,0,.7);
@@ -495,7 +479,6 @@ body {
 }
 .guide-text strong { display:block; font-size:.9rem; margin-bottom:2px; }
 .guide-text span   { color:var(--text2); }
-
 /* ── 토스트 ──────────────────────────────────────────────────── */
 #toast {
   position:fixed; bottom:80px; left:50%;
@@ -506,7 +489,6 @@ body {
   opacity:0; transition:all .3s; pointer-events:none; white-space:nowrap;
 }
 #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-
 /* ── 반응형 ──────────────────────────────────────────────────── */
 @media(max-width:480px){
   .login-card { width:95%; padding:36px 24px; }
@@ -522,7 +504,6 @@ body {
 </style>
 </head>
 <body>
-
 <!-- ══════════════════ 로그인 화면 ══════════════════ -->
 <div id="loginScreen">
   <div class="login-card">
@@ -552,7 +533,6 @@ body {
     <div class="login-footer">문의: 체육과 교무실 | 1학년 체육2 전용</div>
   </div>
 </div>
-
 <!-- ══════════════════ 앱 화면 ══════════════════ -->
 <div id="appScreen">
   <!-- 헤더 -->
@@ -567,7 +547,6 @@ body {
       <button class="logout-btn" onclick="doLogout()">로그아웃</button>
     </div>
   </div>
-
   <!-- 탭바 -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('exercise')">
@@ -581,7 +560,6 @@ body {
     <button class="tab-btn" onclick="showTab('log')">
       <span class="tab-icon">📝</span>오늘기록</button>
   </div>
-
   <!-- ══ 섹션1: 운동/진단 ══ -->
   <div id="sec-exercise" class="section active">
     <div class="card">
@@ -604,7 +582,6 @@ body {
         <button class="btn btn-primary"   onclick="generateWOD()">🤖 자동생성</button>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">🦵 운동 선택</div>
       <div class="exercise-grid">
@@ -622,7 +599,6 @@ body {
           <span class="ex-icon">🪢</span>줄넘기</button>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">📷 실시간 AI 자세 진단</div>
       <div class="cam-toggle-wrap mobile-only">
@@ -674,7 +650,6 @@ body {
       </div>
     </div>
   </div>
-
   <!-- ══ 섹션2: 백과사전 ══ -->
   <div id="sec-wiki" class="section">
     <div class="card">
@@ -686,7 +661,6 @@ body {
       <div id="wikiList"></div>
     </div>
   </div>
-
   <!-- ══ 섹션3: 대시보드 ══ -->
   <div id="sec-dashboard" class="section">
     <div class="card">
@@ -721,7 +695,6 @@ body {
       </div>
     </div>
   </div>
-
   <!-- ══ 섹션4: AI/WOD ══ -->
   <div id="sec-ai" class="section">
     <div class="card">
@@ -762,14 +735,12 @@ body {
               onclick="openPwModal()">비밀번호 변경하기</button>
     </div>
   </div>
-
   <!-- ══ 섹션5: 오늘의 기록 ══ -->
   <div id="sec-log" class="section">
     <div class="card">
       <div class="card-title">📝 Daily Workout Log</div>
       <div style="font-size:.85rem;color:var(--text2);margin-bottom:16px;"
            id="logDate"></div>
-
       <!-- 2카운터 UI -->
       <div class="form-group">
         <label class="form-label">✅ WOD 완료 현황</label>
@@ -825,7 +796,6 @@ body {
           Config 시트의 todayWod 에서 분모 자동 계산
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">❤️ 최고 심박수 (Peak HR)</label>
@@ -883,7 +853,6 @@ body {
     </div>
   </div>
 </div>
-
 <!-- ── 강제 비밀번호 설정 모달 ── -->
 <div class="modal-overlay" id="pwForceModal">
   <div class="modal-box">
@@ -901,7 +870,6 @@ body {
             onclick="saveForcePw()">✅ 설정 완료</button>
   </div>
 </div>
-
 <!-- ── 비밀번호 변경 모달 ── -->
 <div class="modal-overlay" id="pwChangeModal">
   <div class="modal-box">
@@ -920,7 +888,6 @@ body {
     </div>
   </div>
 </div>
-
 <!-- ── 카메라 가이드 모달 ── -->
 <div class="modal-overlay" id="guideModal">
   <div class="modal-box" style="width:360px;">
@@ -956,7 +923,6 @@ body {
     </div>
   </div>
 </div>
-
 <!-- ── 스냅샷 분석 모달 ── -->
 <div class="modal-overlay" id="snapshotModal">
   <div class="modal-box" style="width:360px;">
@@ -967,9 +933,7 @@ body {
             onclick="closeSnapshot()">확인</button>
   </div>
 </div>
-
 <div id="toast"></div>
-
 <!-- MediaPipe -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
         crossorigin="anonymous"></script>
@@ -977,13 +941,11 @@ body {
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
         crossorigin="anonymous"></script>
-
 <script>
 // ════════════════════════════════════════════════════════════════
-// GAS URL — 배포 후 실제 URL로 교체
+// GAS URL
 // ════════════════════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzUUOQAdZDvSRAjSc6jR9RUdCWJzcCIh5mTftAfZe8XpVujgn6d5i_XcDY-Cq-BXu3Vxw/exec';
-
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx3ExIFxR0P960kjqtR4y1SjMcjmycz5cBYT0bSSRTDp09O0xIPNBtNaEHdqkymylxd9g/exec';
 // ════════════════════════════════════════════════════════════════
 // 전역 상태
 // ════════════════════════════════════════════════════════════════
@@ -1009,12 +971,10 @@ let lastKeypoints      = null;
 let currentFacingMode  = 'user';
 let accuracyScoreSum   = 0;
 let accuracyTicks      = 0;
-
-// 방안A 카운터 상태
+// 카운터 상태
 let wodRounds      = 0;
 let wodPartial     = 0;
 let wodDenominator = 0;
-
 // 관절 페이즈
 let squatPhase  = 'up';
 let lungePhase  = 'up';
@@ -1026,7 +986,6 @@ let burpeeStageReached = {
 let jumpPhase          = 'land';
 let jumpBaselineHipY   = null;
 let jumpHipYHistory    = [];
-
 // ════════════════════════════════════════════════════════════════
 // POSE_CONFIG
 // ════════════════════════════════════════════════════════════════
@@ -1039,7 +998,6 @@ let POSE_CONFIG = {
   pushupGoodMax       : 110,
   plankBodyAngleMin   : 145,
 };
-
 // ════════════════════════════════════════════════════════════════
 // 운동 & 백과사전 데이터
 // ════════════════════════════════════════════════════════════════
@@ -1051,7 +1009,6 @@ const EXERCISES = [
   { name:'버피',        icon:'🔥', key:'burpee' },
   { name:'줄넘기',      icon:'🪢', key:'jump'   },
 ];
-
 const WIKI_DATA = [
   {
     name:'에어 스쿼트', icon:'🦵',
@@ -1138,20 +1095,9 @@ const WIKI_DATA = [
     youtube:'https://youtu.be/82jNjDS19lg?si=HW0qhp9TIWimQpkO',
   },
 ];
-
 // ════════════════════════════════════════════════════════════════
 // 공통 유틸
 // ════════════════════════════════════════════════════════════════
-function getNowDateTimeStr() {
-  const now = new Date();
-  const y   = now.getFullYear();
-  const mo  = now.getMonth() + 1;
-  const d   = now.getDate();
-  const hh  = String(now.getHours()).padStart(2,'0');
-  const mm  = String(now.getMinutes()).padStart(2,'0');
-  const ss  = String(now.getSeconds()).padStart(2,'0');
-  return `${y}. ${mo}. ${d}. ${hh}:${mm}:${ss}`;
-}
 function parseKorDateToMs(dateStr) {
   const m = String(dateStr).match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
   if (!m) return 0;
@@ -1166,7 +1112,6 @@ function escapeHtml(str) {
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-
 // ════════════════════════════════════════════════════════════════
 // gasCall (JSONP)
 // ════════════════════════════════════════════════════════════════
@@ -1176,20 +1121,17 @@ function gasCall(params) {
       'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
     const s    = document.createElement('script');
     let   done = false;
-
     function cleanup() {
       try { delete window[cbName]; }     catch(e) {}
       try {
         if (s.parentNode) s.parentNode.removeChild(s);
       } catch(e) {}
     }
-
     const timer = setTimeout(() => {
       if (done) return;
       done = true; cleanup();
       reject(new Error('서버 응답 시간 초과 (30초)'));
     }, 30000);
-
     window[cbName] = function(data) {
       if (done) return;
       done = true; clearTimeout(timer); cleanup(); resolve(data);
@@ -1199,14 +1141,12 @@ function gasCall(params) {
       done = true; clearTimeout(timer); cleanup();
       reject(new Error('스크립트 로드 실패'));
     };
-
     const p = new URLSearchParams({ ...params, callback: cbName });
     s.src   = GAS_URL + '?' + p.toString();
     s.async = true;
     (document.head || document.body).appendChild(s);
   });
 }
-
 // ════════════════════════════════════════════════════════════════
 // WOD 파싱 & 렌더링
 // ════════════════════════════════════════════════════════════════
@@ -1215,7 +1155,6 @@ function parseAndRenderWod(wodText) {
   const items = clean.split('+')
     .map(s => s.trim()).filter(s => s.length > 0);
   wodDenominator = items.length;
-
   const wrap  = document.getElementById('wodItemsWrap');
   const badge = document.getElementById('wodDenominatorBadge');
   if (wrap) {
@@ -1224,10 +1163,8 @@ function parseAndRenderWod(wodText) {
       .join('');
   }
   if (badge) badge.textContent = `총 ${wodDenominator}종목`;
-
   refreshCounterUI();
 }
-
 // ════════════════════════════════════════════════════════════════
 // 카운터 UI 갱신
 // ════════════════════════════════════════════════════════════════
@@ -1240,38 +1177,30 @@ function refreshCounterUI() {
   const pctEl     = document.getElementById('summaryPct');
   const hintEl    = document.getElementById('summaryHint');
   const badgeWrap = document.getElementById('roundBadgeWrap');
-
   if (rEl) rEl.textContent = wodRounds;
   if (pEl) pEl.textContent = wodPartial;
-
   if (denomEl)
     denomEl.textContent = wodDenominator > 0 ? wodDenominator : '-';
-
   const partialPct = wodDenominator > 0
     ? Math.min(100, Math.round((wodPartial / wodDenominator) * 100)) : 0;
   if (fillEl) fillEl.style.width = partialPct + '%';
-
   const totalDone = wodRounds * wodDenominator + wodPartial;
   const overallPct = wodDenominator > 0
     ? Math.round((totalDone / wodDenominator) * 100) : 0;
-
   if (summaryEl)
     summaryEl.textContent = `${wodRounds}라운드 + ${wodPartial}종목`;
   if (pctEl) pctEl.textContent = overallPct + '%';
-
   if (hintEl) {
     hintEl.textContent = wodDenominator > 0
       ? `오늘 WOD ${wodDenominator}종목 기준 총 ${totalDone}종목 완료 (${overallPct}%)`
       : 'Config 시트의 todayWod 에서 분모 자동 계산';
   }
-
   if (badgeWrap) {
     badgeWrap.innerHTML = wodRounds > 0
       ? `<span class="round-complete-badge">🏆 ${wodRounds}라운드 완주!</span>`
       : '';
   }
 }
-
 // ════════════════════════════════════════════════════════════════
 // 카운터 조작
 // ════════════════════════════════════════════════════════════════
@@ -1280,7 +1209,6 @@ function changeRounds(delta) {
   animateCounter('roundsVal');
   refreshCounterUI();
 }
-
 function changePartial(delta) {
   const next = wodPartial + delta;
   if (next >= wodDenominator && wodDenominator > 0) {
@@ -1300,7 +1228,6 @@ function changePartial(delta) {
   animateCounter('partialVal');
   refreshCounterUI();
 }
-
 function animateCounter(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -1311,7 +1238,6 @@ function animateCounter(id) {
     el.style.color     = '';
   }, 200);
 }
-
 // ════════════════════════════════════════════════════════════════
 // loadPoseConfig
 // ════════════════════════════════════════════════════════════════
@@ -1348,7 +1274,6 @@ async function loadPoseConfig() {
     );
   }
 }
-
 // ════════════════════════════════════════════════════════════════
 // 인증
 // ════════════════════════════════════════════════════════════════
@@ -1359,7 +1284,6 @@ function switchAuthTab(mode) {
   document.getElementById('tabRegister')
     .classList.toggle('active', mode === 'register');
   document.getElementById('loginError').style.display = 'none';
-
   if (mode === 'login') {
     document.getElementById('authHint').textContent =
       '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
@@ -1374,14 +1298,12 @@ function switchAuthTab(mode) {
     document.getElementById('loginPw').style.display = 'none';
   }
 }
-
 async function handleAuth() {
   const studentId = document.getElementById('loginId').value.trim();
   const name      = document.getElementById('loginName').value.trim();
   const password  = document.getElementById('loginPw').value.trim();
   const errEl     = document.getElementById('loginError');
   errEl.style.display = 'none';
-
   if (!studentId) {
     errEl.textContent = '학번을 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -1402,11 +1324,9 @@ async function handleAuth() {
     errEl.textContent = '비밀번호를 입력하세요.';
     errEl.style.display = 'block'; return;
   }
-
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 처리 중... 잠시만 기다려주세요.';
   errEl.style.display = 'block';
-
   try {
     const res = await gasCall({
       action    : authMode,
@@ -1435,7 +1355,6 @@ async function handleAuth() {
     errEl.style.display = 'block';
   }
 }
-
 function enterApp(id, name) {
   currentStudent = { id, name };
   document.getElementById('headerName').textContent =
@@ -1448,7 +1367,6 @@ function enterApp(id, name) {
   loadDashboard();
   loadPoseConfig();
 }
-
 // ════════════════════════════════════════════════════════════════
 // 비밀번호 모달
 // ════════════════════════════════════════════════════════════════
@@ -1458,13 +1376,11 @@ function openPwForceModal() {
   document.getElementById('pwForceError').style.display = 'none';
   document.getElementById('pwForceModal').classList.add('show');
 }
-
 async function saveForcePw() {
   const pw1   = document.getElementById('pwForce1').value.trim();
   const pw2   = document.getElementById('pwForce2').value.trim();
   const errEl = document.getElementById('pwForceError');
   errEl.style.display = 'none';
-
   if (!pw1 || pw1.length < 4) {
     errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -1473,11 +1389,9 @@ async function saveForcePw() {
     errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
-
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 저장 중...';
   errEl.style.display = 'block';
-
   try {
     const res = await gasCall({
       action     : 'changePassword',
@@ -1499,7 +1413,6 @@ async function saveForcePw() {
     errEl.style.display = 'block';
   }
 }
-
 function openPwModal() {
   document.getElementById('pwNew1').value = '';
   document.getElementById('pwNew2').value = '';
@@ -1509,13 +1422,11 @@ function openPwModal() {
 function closePwModal() {
   document.getElementById('pwChangeModal').classList.remove('show');
 }
-
 async function saveNewPw() {
   const pw1   = document.getElementById('pwNew1').value.trim();
   const pw2   = document.getElementById('pwNew2').value.trim();
   const errEl = document.getElementById('pwNewError');
   errEl.style.display = 'none';
-
   if (!pw1 || pw1.length < 4) {
     errEl.textContent   = '4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
@@ -1524,7 +1435,6 @@ async function saveNewPw() {
     errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
-
   try {
     const res = await gasCall({
       action     : 'changePassword',
@@ -1544,7 +1454,6 @@ async function saveNewPw() {
     errEl.style.display = 'block';
   }
 }
-
 // ════════════════════════════════════════════════════════════════
 // 서버 확인 / 로그아웃 / 탭 / 테마
 // ════════════════════════════════════════════════════════════════
@@ -1561,24 +1470,20 @@ async function checkServer() {
     el.className   = 'server-status err';
   }
 }
-
 function doLogout() {
   stopMeasure(); stopCamera(); wodPause(); wodReset();
   repCount = 0; totalSeconds = 0; goodPostureSeconds = 0;
   accuracyScoreSum = 0; accuracyTicks = 0; sessionTotalReps = 0;
   wodRounds = 0; wodPartial = 0; wodDenominator = 0;
   resetPhases();
-
   ['peakHR','avgHR','goodPoint','improvePoint',
    'breakfast','lunch','dinner','water','sleep'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
   refreshCounterUI();
-
   document.getElementById('aiTotalBox').textContent =
     '기록을 저장하면 AI 선생님의 총평이 여기에 표시됩니다.';
-
   const chat = document.getElementById('aiChat');
   chat.innerHTML = `
     <div class="ai-msg">
@@ -1588,7 +1493,6 @@ function doLogout() {
         궁금한 것이 있으면 무엇이든 물어봐!
       </div>
     </div>`;
-
   currentStudent = null;
   document.getElementById('appScreen').style.display   = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
@@ -1597,7 +1501,6 @@ function doLogout() {
   document.getElementById('loginError').style.display = 'none';
   switchAuthTab('login');
 }
-
 function showTab(tab) {
   document.querySelectorAll('.section')
     .forEach(s => s.classList.remove('active'));
@@ -1612,13 +1515,11 @@ function showTab(tab) {
   if (tab === 'ai')        loadAchievement();
   if (tab === 'log')       refreshCounterUI();
 }
-
 function toggleTheme() {
   isLightMode = !isLightMode;
   document.body.classList.toggle('light-mode', isLightMode);
   document.querySelector('.theme-btn').textContent = isLightMode ? '☀️' : '🌙';
 }
-
 // ════════════════════════════════════════════════════════════════
 // 관절 페이즈 초기화
 // ════════════════════════════════════════════════════════════════
@@ -1630,7 +1531,6 @@ function resetPhases() {
   };
   jumpPhase = 'land'; jumpBaselineHipY = null; jumpHipYHistory = [];
 }
-
 // ════════════════════════════════════════════════════════════════
 // 운동 선택
 // ════════════════════════════════════════════════════════════════
@@ -1647,7 +1547,6 @@ function selectExercise(idx) {
   document.getElementById('repLabel').textContent =
     EXERCISES[idx].key === 'plank' ? '초 (sec)' : 'Reps';
 }
-
 // ════════════════════════════════════════════════════════════════
 // 카메라
 // ════════════════════════════════════════════════════════════════
@@ -1666,7 +1565,6 @@ async function switchFacing(mode) {
     await startCamera();
   }
 }
-
 function toggleCamera() {
   if (isCameraOn) stopCamera();
   else document.getElementById('guideModal').classList.add('show');
@@ -1674,7 +1572,6 @@ function toggleCamera() {
 function closeGuide()    { document.getElementById('guideModal').classList.remove('show'); }
 function closeSnapshot() { document.getElementById('snapshotModal').classList.remove('show'); }
 async function startCameraAfterGuide() { closeGuide(); await startCamera(); }
-
 async function startCamera() {
   if (typeof Pose === 'undefined') {
     showToast('⚠️ AI 자세 인식 라이브러리 로드 실패. 새로고침 해주세요.');
@@ -1683,7 +1580,6 @@ async function startCamera() {
   try {
     const videoEl  = document.getElementById('videoEl');
     const canvasEl = document.getElementById('canvasEl');
-
     stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode : { ideal: currentFacingMode },
@@ -1693,21 +1589,17 @@ async function startCamera() {
       }
     });
     videoEl.srcObject = stream;
-
     const flip = currentFacingMode === 'environment'
       ? 'scaleX(1)' : 'scaleX(-1)';
     videoEl.style.transform  = flip;
     canvasEl.style.transform = flip;
-
     await new Promise(resolve => {
       if (videoEl.readyState >= 2) resolve();
       else videoEl.onloadeddata = resolve;
     });
-
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
     document.getElementById('camToggleBtn').textContent = '📷 카메라 끄기';
-
     poseDetector = new Pose({
       locateFile: f =>
         `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}`
@@ -1736,7 +1628,6 @@ async function startCamera() {
         lastKeypoints = null;
       }
     });
-
     let animFrameId = null;
     async function sendFrame() {
       if (!isCameraOn || !poseDetector) return;
@@ -1749,7 +1640,6 @@ async function startCamera() {
       if (animFrameId) cancelAnimationFrame(animFrameId);
     }};
     sendFrame();
-
     showToast(`📷 ${currentFacingMode==='user'?'전면':'후면'} 카메라 활성화!`);
   } catch(err) {
     let msg = '⚠️ 카메라 접근에 실패했습니다.';
@@ -1759,7 +1649,6 @@ async function startCamera() {
     showToast(msg);
   }
 }
-
 function stopCamera() {
   if (mpCamera)     { try { mpCamera.stop(); }      catch(e){} mpCamera = null; }
   if (poseDetector) { try { poseDetector.close(); } catch(e){} poseDetector = null; }
@@ -1773,7 +1662,6 @@ function stopCamera() {
   lastKeypoints = null;
   document.getElementById('camToggleBtn').textContent = '📷 카메라 켜기';
 }
-
 // ════════════════════════════════════════════════════════════════
 // 측정
 // ════════════════════════════════════════════════════════════════
@@ -1793,7 +1681,6 @@ function startMeasure() {
   }, 1000);
   showToast('▶ 측정을 시작합니다!');
 }
-
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false;
@@ -1801,7 +1688,6 @@ async function stopMeasure() {
   const ex       = EXERCISES[currentExerciseIdx];
   const accuracy = accuracyTicks > 0
     ? Math.round(accuracyScoreSum / accuracyTicks) : 0;
-
   if (totalSeconds > 0 && totalSeconds <= 5) {
     showToast('⚠️ 운동 시간이 너무 짧습니다. (최소 5초 이상)');
     resetMeasure(); return;
@@ -1809,9 +1695,9 @@ async function stopMeasure() {
   if (currentStudent && totalSeconds > 5) {
     sessionTotalReps += repCount;
     try {
+      // ✅ 수정: date 파라미터 제거 (서버에서 getNowKST() 사용)
       await gasCall({
         action              : 'saveExercise',
-        date                : getNowDateTimeStr(),
         studentId           : currentStudent.id,
         name                : currentStudent.name,
         exercise            : ex.name,
@@ -1821,14 +1707,13 @@ async function stopMeasure() {
         accuracy,
       });
       showToast(
-        `✅ ${ex.name} 기록 저장! ` +
+        `✅ ${ex.name} 기록 저장!` +
         `(${ex.key==='plank' ? repCount+'초' : repCount+' Reps'})`
       );
     } catch { showToast('⚠️ 저장 실패.'); }
   }
   resetMeasure();
 }
-
 function resetMeasure() {
   repCount = 0; totalSeconds = 0;
   goodPostureSeconds = 0; accuracyScoreSum = 0; accuracyTicks = 0;
@@ -1839,7 +1724,6 @@ function resetMeasure() {
   document.getElementById('feedbackBox').textContent  =
     '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
-
 function updateMeasureUI() {
   const m = String(Math.floor(totalSeconds/60)).padStart(2,'0');
   const s = String(totalSeconds%60).padStart(2,'0');
@@ -1850,7 +1734,6 @@ function updateMeasureUI() {
   document.getElementById('accuracyPct').textContent = acc + '%';
   document.getElementById('accuracyBar').style.width = acc + '%';
 }
-
 // ════════════════════════════════════════════════════════════════
 // 관절 각도
 // ════════════════════════════════════════════════════════════════
@@ -1870,7 +1753,6 @@ function getBestAngle(kp, a1,b1,c1, a2,b2,c2) {
     ? getAngle(kp[a1],kp[b1],kp[c1])
     : getAngle(kp[a2],kp[b2],kp[c2]);
 }
-
 // ════════════════════════════════════════════════════════════════
 // analyzePoseByKeypoints
 // ════════════════════════════════════════════════════════════════
@@ -1887,9 +1769,7 @@ function analyzePoseByKeypoints() {
   const vis       = idx   => kp[idx] && kp[idx].visibility > VIS;
   const visEither = (L,R) => vis(L) || vis(R);
   let poseScore = 0, feedback = '';
-
   switch(ex.key) {
-
     case 'squat': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
         fb.textContent='⏳ 하체 관절을 인식하지 못했습니다.';
@@ -1921,7 +1801,6 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
-
     case 'lunge': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
         fb.textContent='⏳ 하체 관절을 인식하지 못했습니다.';
@@ -1957,7 +1836,6 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
-
     case 'plank': {
       if (!visEither(11,12)||!visEither(23,24)||!visEither(25,26)) {
         fb.textContent='⏳ 상체 관절을 인식하지 못했습니다.';
@@ -1986,7 +1864,6 @@ function analyzePoseByKeypoints() {
       }
       break;
     }
-
     case 'pushup': {
       if (!visEither(11,12)||!visEither(13,14)||!visEither(15,16)) {
         fb.textContent='⏳ 팔 관절을 인식하지 못했습니다.';
@@ -2014,7 +1891,6 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
-
     case 'burpee': {
       if (!visEither(11,12)||!visEither(23,24)) {
         fb.textContent='⏳ 상체 관절을 인식하지 못했습니다.';
@@ -2031,14 +1907,12 @@ function analyzePoseByKeypoints() {
       const hipLmB = vis(23) ? kp[23] : kp[24];
       const knLmB  = vis(25) ? kp[25] : kp[26];
       const bodyAB = getAngle(shLmB, hipLmB, knLmB);
-
       const isJump     = ankleY<0.35 && hipY2<0.55;
       const isStand    = kneeAB>155  && hipY2<0.65;
       const isSquat    = kneeAB>=POSE_CONFIG.squatGoodMin &&
                          kneeAB<=POSE_CONFIG.squatGoodMax;
       const isPlankPos = bodyAB>=POSE_CONFIG.plankBodyAngleMin && kneeAB>140;
       const isPushupDwn= isPlankPos && elbowAB<=POSE_CONFIG.pushupGoodMax;
-
       if (isJump && (burpeePhase==='squat2'||burpeePhase==='stand')) {
         if (burpeePhase==='squat2' && burpeeStageReached.squat2) {
           repCount++; poseScore = 100;
@@ -2096,7 +1970,6 @@ function analyzePoseByKeypoints() {
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
-
     case 'jump': {
       if (!visEither(23,24)) {
         fb.textContent='⏳ 엉덩이 관절을 인식하지 못했습니다.';
@@ -2108,7 +1981,6 @@ function analyzePoseByKeypoints() {
       if (jumpHipYHistory.length > 3) jumpHipYHistory.shift();
       const smoothHipY = jumpHipYHistory.reduce((a,b)=>a+b,0) /
                          jumpHipYHistory.length;
-
       if (jumpBaselineHipY === null) {
         jumpBaselineHipY = smoothHipY; poseScore = 50;
         feedback = '📏 기준 자세 측정 중... 제자리에 서 계세요!';
@@ -2134,12 +2006,10 @@ function analyzePoseByKeypoints() {
       break;
     }
   }
-
   accuracyScoreSum += poseScore;
   accuracyTicks++;
   fb.textContent = feedback || '📐 자세를 분석 중입니다...';
 }
-
 // ════════════════════════════════════════════════════════════════
 // 스냅샷 분석
 // ════════════════════════════════════════════════════════════════
@@ -2162,7 +2032,6 @@ function snapshotAnalysis() {
     document.getElementById('snapshotContent').textContent = a;
   }, 1200);
 }
-
 // ════════════════════════════════════════════════════════════════
 // WOD 타이머
 // ════════════════════════════════════════════════════════════════
@@ -2208,7 +2077,6 @@ function generateWOD() {
   parseAndRenderWod(sel);
   showToast(`🤖 WOD 생성! ${wodDenominator}종목`);
 }
-
 // ════════════════════════════════════════════════════════════════
 // 백과사전
 // ════════════════════════════════════════════════════════════════
@@ -2240,7 +2108,6 @@ function renderWiki(filter = '') {
 function filterWiki() {
   renderWiki(document.getElementById('wikiSearch').value.trim());
 }
-
 // ════════════════════════════════════════════════════════════════
 // 대시보드
 // ════════════════════════════════════════════════════════════════
@@ -2263,28 +2130,24 @@ async function loadDashboard() {
     document.getElementById('dTotalReps').textContent     = totalReps;
     document.getElementById('dAvgAccuracy').textContent   = avgAcc + '%';
     document.getElementById('dTotalTime').textContent     = totalMins + '분';
-
     const recEl = document.getElementById('recentRecords');
     if (n === 0) {
       recEl.innerHTML =
         '<div class="empty-state">아직 기록이 없습니다</div>';
       return;
     }
-
     function extractDate(dateStr) {
       const m = String(dateStr).match(/\d{4}\.\s*\d{1,2}\.\s*\d{1,2}\./);
       return m
         ? m[0].replace(/\s+/g,' ').trim()
         : String(dateStr).trim();
     }
-
     const dateGroups = {};
     r.forEach(x => {
       const k = extractDate(x.date);
       if (!dateGroups[k]) dateGroups[k] = [];
       dateGroups[k].push(x);
     });
-
     const sortedDates = Object.keys(dateGroups).sort(
       (a,b) => parseKorDateToMs(b) - parseKorDateToMs(a)
     );
@@ -2293,7 +2156,6 @@ async function loadDashboard() {
       '플랭크':'💪','푸시업':'⬆️','에어 스쿼트':'🦵',
       '런지':'🏃','버피':'🔥','줄넘기':'🪢'
     };
-
     recEl.innerHTML = sortedDates.map((dateKey, idx) => {
       const records = dateGroups[dateKey];
       const merged  = {};
@@ -2307,7 +2169,6 @@ async function loadDashboard() {
         merged[key].duration    += x.duration || 0;
         merged[key].count++;
       });
-
       const sortedKeys = Object.keys(merged).sort((a,b) => {
         const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
         if (ia===-1&&ib===-1) return 0;
@@ -2315,7 +2176,6 @@ async function loadDashboard() {
         if (ib===-1)          return -1;
         return ia - ib;
       });
-
       const dayReps = records.reduce((s,x) => s+(x.reps||0), 0);
       const dayMins = Math.round(
         records.reduce((s,x) => s+(x.duration||0), 0) / 60
@@ -2326,7 +2186,6 @@ async function loadDashboard() {
       const isOpen  = idx === 0;
       const gid     = `dg_${idx}`;
       const aid     = `da_${idx}`;
-
       return `
         <div class="day-group-header"
              onclick="toggleDayGroup('${gid}','${aid}')">
@@ -2388,7 +2247,6 @@ async function loadDashboard() {
     showToast('⚠️ 데이터를 불러오지 못했습니다.');
   }
 }
-
 function toggleDayGroup(gid, aid) {
   const g    = document.getElementById(gid);
   const a    = document.getElementById(aid);
@@ -2396,7 +2254,6 @@ function toggleDayGroup(gid, aid) {
   g.style.display   = open ? 'none'  : 'block';
   a.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
 }
-
 // ════════════════════════════════════════════════════════════════
 // 성취 기준
 // ════════════════════════════════════════════════════════════════
@@ -2425,7 +2282,6 @@ async function loadAchievement() {
     box.textContent = '데이터를 불러올 수 없습니다.';
   }
 }
-
 // ════════════════════════════════════════════════════════════════
 // AI 채팅
 // ════════════════════════════════════════════════════════════════
@@ -2447,7 +2303,6 @@ function addChatBubble(role, msg) {
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
 }
-
 function quickChat(msg) {
   document.getElementById('chatInput').value = msg;
   sendChat();
@@ -2482,20 +2337,19 @@ function generateAIReply(msg) {
     return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉 대시보드에서 기록을 확인해봐요!`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
-
 // ════════════════════════════════════════════════════════════════
-// 일일 기록 저장
+// 일일 기록 저장 ✅ 전체 수정
 // ════════════════════════════════════════════════════════════════
 async function saveDailyLog() {
   if (!currentStudent) return;
   try {
     const res = await gasCall({
       action         : 'saveDailyLog',
-      date           : getNowDateTimeStr(),
+      // ✅ 수정: date 파라미터 제거 (서버 getNowKST() 사용)
       studentId      : currentStudent.id,
       name           : currentStudent.name,
-      wodRounds      : wodRounds,
-      wodPartial     : wodPartial,
+      wodRounds      : wodRounds,        // ✅ 수정: 키 명확히
+      wodPartial     : wodPartial,       // ✅ 추가
       wodDenominator : wodDenominator,
       totalReps      : sessionTotalReps,
       peakHR         : document.getElementById('peakHR').value      || 0,
@@ -2518,27 +2372,22 @@ async function saveDailyLog() {
     showToast('⚠️ 서버 연결 실패: ' + (err.message || ''));
   }
 }
-
 function generateAITotal() {
   const gp = document.getElementById('goodPoint').value;
   const ip = document.getElementById('improvePoint').value;
   const w  = document.getElementById('water').value;
   const sl = document.getElementById('sleep').value;
   const hr = document.getElementById('peakHR').value;
-
   const totalDone  = wodRounds * wodDenominator + wodPartial;
   const overallPct = wodDenominator > 0
     ? Math.round((totalDone / wodDenominator) * 100) : 0;
-
   let msg = '👨‍🏫 AI 선생님의 오늘 총평\n\n';
   msg += `📊 WOD 달성: ${wodRounds}라운드 완주 + ${wodPartial}종목 추가\n`;
-  msg += `   (총 ${totalDone}/${wodDenominator}종목, ${overallPct}%)\n\n`;
-
+  msg +=    `(총 ${totalDone}/${wodDenominator}종목, ${overallPct}%)\n\n`;
   if (wodRounds >= 2)        msg += '🏆 2라운드 이상! 정말 대단해요!\n\n';
   else if (wodRounds === 1)  msg += '💪 1라운드 완주! 훌륭해요!\n\n';
   else if (wodPartial > 0)   msg += '🌱 부분 완료! 내일은 1라운드 도전해봐요!\n\n';
   else                       msg += '📌 오늘 참여만으로도 의미 있어요! 😊\n\n';
-
   msg += gp ? `✅ "${gp}" 정말 잘했어요!\n\n` : '';
   msg += ip ? `📈 "${ip}" 개선하려는 의지 훌륭해요!\n\n` : '';
   msg += parseFloat(w)  >= 1.5
@@ -2549,10 +2398,8 @@ function generateAITotal() {
     : '🌙 수면 7시간 이상을 목표로 해봐요!\n';
   if (hr) msg += `❤️ 최고 심박수 ${hr}BPM. 잘 했어요!\n`;
   msg += '\n💪 내일도 파이팅!';
-
   document.getElementById('aiTotalBox').textContent = msg;
 }
-
 // ════════════════════════════════════════════════════════════════
 // 토스트
 // ════════════════════════════════════════════════════════════════
@@ -2562,7 +2409,6 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-
 // ════════════════════════════════════════════════════════════════
 // 초기화
 // ════════════════════════════════════════════════════════════════
