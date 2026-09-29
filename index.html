@@ -7,368 +7,523 @@
                maximum-scale=1.0, user-scalable=no">
 <title>명문고 체육2 CrossFit AI</title>
 <style>
-  :root {
-    --bg:#0a0a0f; --surface:#13131a; --surface2:#1a1a24;
-    --border:#2a2a3a; --accent:#6c63ff; --accent2:#ff6584;
-    --accent3:#43e97b; --text:#e8e8f0; --text2:#9090a8;
-    --card:#16161f; --success:#43e97b; --warning:#ffd93d;
-    --danger:#ff6b6b;
-  }
-  .light-mode {
-    --bg:#f0f2f8; --surface:#ffffff; --surface2:#f5f6fa;
-    --border:#dde1f0; --text:#1a1a2e; --text2:#5a5a7a;
-    --card:#ffffff;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Segoe UI',-apple-system,sans-serif;
-       background:var(--bg);color:var(--text);min-height:100vh;
-       transition:background .3s,color .3s;}
-  /* ── 로그인 ── */
-  #loginScreen{min-height:100vh;display:flex;align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#0a0a0f 0%,#1a0a2e 50%,#0a0a0f 100%);}
-  .login-card{background:var(--surface);border:1px solid var(--border);
-    border-radius:24px;padding:48px 40px;width:380px;text-align:center;
-    box-shadow:0 20px 60px rgba(108,99,255,.15);}
-  .login-logo{font-size:3rem;margin-bottom:8px;}
-  .login-title{font-size:1.4rem;font-weight:700;margin-bottom:4px;}
-  .login-sub{font-size:.85rem;color:var(--text2);margin-bottom:20px;}
-  .auth-toggle{display:flex;background:var(--surface2);border-radius:12px;
-    padding:4px;margin-bottom:20px;gap:4px;}
-  .auth-tab{flex:1;padding:10px;border:none;border-radius:10px;
-    background:transparent;color:var(--text2);font-size:.85rem;
-    font-weight:600;cursor:pointer;transition:all .2s;}
-  .auth-tab.active{
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#fff;}
-  .login-input{width:100%;padding:14px 16px;background:var(--surface2);
-    border:1px solid var(--border);border-radius:12px;color:var(--text);
-    font-size:1rem;margin-bottom:12px;outline:none;transition:border .2s;}
-  .login-input:focus{border-color:var(--accent);}
-  .login-btn{width:100%;padding:14px;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    border:none;border-radius:12px;color:#fff;font-size:1rem;
-    font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;
-    margin-top:4px;}
-  .login-btn:hover{transform:translateY(-2px);
-    box-shadow:0 8px 24px rgba(108,99,255,.4);}
-  .login-error{color:var(--danger);font-size:.85rem;margin-top:8px;
-    display:none;line-height:1.5;white-space:pre-line;}
-  .login-success{color:var(--success);font-size:.85rem;
-    margin-top:8px;display:none;}
-  .login-footer{font-size:.75rem;color:var(--text2);margin-top:24px;}
-  .login-hint{font-size:.78rem;color:var(--text2);
-    background:var(--surface2);border-radius:10px;padding:10px 14px;
-    margin-bottom:16px;line-height:1.6;text-align:left;white-space:pre-line;}
-  /* ── 앱 레이아웃 ── */
-  #appScreen{display:none;}
-  .header{background:var(--surface);border-bottom:1px solid var(--border);
-    padding:0 20px;height:60px;display:flex;align-items:center;
-    justify-content:space-between;position:sticky;top:0;z-index:100;}
-  .header-left{display:flex;align-items:center;gap:12px;}
-  .header-logo{font-size:1.3rem;font-weight:800;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .header-right{display:flex;align-items:center;gap:12px;}
-  .header-student{font-size:.85rem;color:var(--text2);}
-  .header-student span{color:var(--accent);font-weight:700;}
-  .theme-btn,.logout-btn{padding:6px 12px;border-radius:8px;
-    border:1px solid var(--border);background:var(--surface2);
-    color:var(--text);font-size:.8rem;cursor:pointer;transition:all .2s;}
-  .theme-btn:hover,.logout-btn:hover{border-color:var(--accent);}
-  .tab-bar{display:flex;background:var(--surface);
-    border-bottom:1px solid var(--border);
-    overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .tab-bar::-webkit-scrollbar{display:none;}
-  .tab-btn{flex:1;min-width:80px;padding:14px 8px;border:none;
-    background:transparent;color:var(--text2);font-size:.75rem;
-    cursor:pointer;transition:all .2s;
-    border-bottom:3px solid transparent;white-space:nowrap;}
-  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
-  .tab-btn .tab-icon{font-size:1.2rem;display:block;margin-bottom:2px;}
-  .section{display:none;padding:20px;max-width:900px;margin:0 auto;}
-  .section.active{display:block;}
-  .card{background:var(--card);border:1px solid var(--border);
-    border-radius:16px;padding:20px;margin-bottom:16px;}
-  .card-title{font-size:1rem;font-weight:700;margin-bottom:16px;
-    display:flex;align-items:center;gap:8px;}
-  /* ── WOD 타이머 ── */
-  .wod-timer-display{text-align:center;padding:28px 20px 16px;
-    background:linear-gradient(135deg,
-      rgba(108,99,255,.1),rgba(255,101,132,.1));
-    border-radius:16px;margin-bottom:16px;}
-  .wod-time{font-size:4rem;font-weight:900;letter-spacing:4px;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .wod-today-box{
-    margin-top:10px;padding:8px 14px;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(108,99,255,.25);
-    border-radius:10px;font-size:.82rem;color:var(--text2);
-    line-height:1.6;min-height:28px;word-break:keep-all;}
-  .wod-today-label{font-size:.72rem;font-weight:700;color:var(--accent);
-    margin-bottom:3px;letter-spacing:.5px;}
-  .wod-status{font-size:.9rem;color:var(--text2);margin-top:6px;}
-  /* ── WOD 종목 카드 (파싱 결과 표시) ── */
-  .wod-items-wrap{
-    display:flex;flex-wrap:wrap;gap:6px;
-    margin-top:10px;justify-content:center;}
-  .wod-item-chip{
-    padding:4px 10px;border-radius:20px;font-size:.76rem;font-weight:600;
-    background:rgba(108,99,255,.15);
-    border:1px solid rgba(108,99,255,.3);
-    color:var(--accent);}
-  .wod-denominator-badge{
-    display:inline-block;
-    margin-top:8px;padding:4px 14px;border-radius:20px;
-    font-size:.78rem;font-weight:700;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#fff;}
-  .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
-  .btn{padding:10px 20px;border-radius:10px;border:none;font-size:.9rem;
-    font-weight:600;cursor:pointer;transition:all .2s;
-    flex:1;min-width:80px;}
-  .btn-primary{
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#fff;}
-  .btn-secondary{background:var(--surface2);color:var(--text);
-    border:1px solid var(--border);}
-  .btn-success{
-    background:linear-gradient(135deg,#43e97b,#38f9d7);
-    color:#0a2a1a;}
-  .btn-danger{
-    background:linear-gradient(135deg,var(--danger),#ff8e8e);
-    color:#fff;}
-  .btn:hover{transform:translateY(-1px);opacity:.9;}
-  /* ── 운동 선택 ── */
-  .exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);
-    gap:10px;margin-bottom:16px;}
-  .exercise-btn{padding:14px 8px;border-radius:12px;
-    border:2px solid var(--border);background:var(--surface2);
-    color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer;
-    transition:all .2s;text-align:center;}
-  .exercise-btn.active{border-color:var(--accent);
-    background:rgba(108,99,255,.15);color:var(--accent);}
-  .exercise-btn .ex-icon{font-size:1.5rem;display:block;margin-bottom:4px;}
-  /* ── 카메라 ── */
-  .camera-wrap{position:relative;background:#000;border-radius:12px;
-    overflow:hidden;margin-bottom:12px;aspect-ratio:4/3;}
-  #videoEl{width:100%;height:100%;object-fit:cover;display:block;
-    transform:scaleX(-1);}
-  #canvasEl{position:absolute;top:0;left:0;width:100%;height:100%;
-    transform:scaleX(-1);}
-  .camera-placeholder{position:absolute;inset:0;display:flex;
-    flex-direction:column;align-items:center;justify-content:center;
-    color:var(--text2);font-size:.9rem;gap:8px;}
-  .camera-placeholder .cam-icon{font-size:3rem;}
-  /* ── 통계 ── */
-  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);
-    gap:12px;margin-bottom:12px;}
-  .stat-item{background:var(--surface2);border-radius:12px;
-    padding:16px;text-align:center;}
-  .stat-value{font-size:2rem;font-weight:800;color:var(--accent);}
-  .stat-label{font-size:.75rem;color:var(--text2);margin-top:4px;}
-  .accuracy-wrap{margin-bottom:12px;}
-  .accuracy-bar-bg{background:var(--surface2);border-radius:100px;
-    height:12px;overflow:hidden;}
-  .accuracy-bar-fill{height:100%;border-radius:100px;
-    background:linear-gradient(90deg,var(--accent3),var(--accent));
-    transition:width .5s;width:0%;}
-  .accuracy-label{display:flex;justify-content:space-between;
-    font-size:.8rem;color:var(--text2);margin-bottom:6px;}
-  .feedback-box{background:rgba(108,99,255,.08);
-    border:1px solid rgba(108,99,255,.2);border-radius:12px;
-    padding:14px;font-size:.85rem;color:var(--text2);
-    min-height:60px;line-height:1.6;}
-  /* ── 백과사전 ── */
-  .search-wrap{display:flex;gap:10px;margin-bottom:16px;}
-  .search-input{flex:1;padding:12px 16px;background:var(--surface2);
-    border:1px solid var(--border);border-radius:12px;color:var(--text);
-    font-size:.9rem;outline:none;}
-  .search-input:focus{border-color:var(--accent);}
-  .ex-card-list{display:grid;gap:12px;}
-  .ex-card{background:var(--surface2);border:1px solid var(--border);
-    border-radius:12px;padding:16px;transition:all .2s;}
-  .ex-card:hover{border-color:var(--accent);transform:translateY(-2px);}
-  .ex-card-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-  .ex-card-icon{font-size:2rem;}
-  .ex-card-name{font-size:1rem;font-weight:700;}
-  .ex-card-target{font-size:.8rem;color:var(--accent);margin-top:2px;}
-  .ex-card-body{font-size:.82rem;color:var(--text2);line-height:1.6;}
-  .ex-card-body ul{padding-left:16px;margin-top:6px;}
-  .ex-card-body li{margin-bottom:3px;}
-  .ex-tag{display:inline-block;padding:3px 8px;border-radius:6px;
-    font-size:.72rem;font-weight:600;margin-right:4px;margin-top:6px;}
-  .tag-good{background:rgba(67,233,123,.15);color:var(--accent3);}
-  .yt-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;
-    padding:8px 14px;border-radius:8px;background:#ff0000;color:#fff;
-    font-size:.8rem;font-weight:700;text-decoration:none;
-    transition:opacity .2s;}
-  .yt-btn:hover{opacity:.85;}
-  /* ── 대시보드 ── */
-  .dash-grid{display:grid;grid-template-columns:repeat(2,1fr);
-    gap:12px;margin-bottom:16px;}
-  .dash-stat{background:var(--surface2);border-radius:12px;
-    padding:20px;text-align:center;}
-  .dash-stat-value{font-size:2.2rem;font-weight:900;color:var(--accent);}
-  .dash-stat-label{font-size:.78rem;color:var(--text2);margin-top:4px;}
-  .record-list{display:grid;gap:8px;}
-  .record-item{background:var(--surface2);border-radius:10px;
-    padding:12px 16px;display:flex;justify-content:space-between;
-    align-items:center;font-size:.85rem;}
-  .record-item .r-left{color:var(--text2);}
-  .record-item .r-right{font-weight:700;color:var(--accent);}
-  .empty-state{text-align:center;color:var(--text2);
-    padding:40px;font-size:.9rem;}
-  /* ── 날짜 그룹 헤더 ── */
-  .day-group-header{
-    display:flex;justify-content:space-between;align-items:center;
-    cursor:pointer;background:var(--surface2);border-radius:12px;
-    padding:12px 16px;margin-bottom:6px;
-    border:1px solid var(--border);transition:border-color .2s;}
-  .day-group-header:hover{border-color:var(--accent);}
-  .day-group-arrow{
-    font-size:1.1rem;transition:transform .3s;display:inline-block;}
-  /* ── AI 채팅 ── */
-  .ai-chat{background:var(--surface2);border-radius:12px;
-    min-height:200px;max-height:360px;overflow-y:auto;
-    padding:16px;margin-bottom:12px;display:flex;
-    flex-direction:column;gap:12px;}
-  .ai-msg{display:flex;gap:10px;align-items:flex-start;}
-  .ai-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    display:flex;align-items:center;justify-content:center;font-size:1rem;}
-  .ai-bubble{background:var(--card);border:1px solid var(--border);
-    border-radius:12px;padding:10px 14px;font-size:.85rem;color:var(--text);
-    line-height:1.6;max-width:calc(100% - 50px);white-space:pre-wrap;}
-  .user-msg{flex-direction:row-reverse;}
-  .user-bubble{
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#fff;border:none;}
-  .chat-input-wrap{display:flex;gap:10px;}
-  .chat-input{flex:1;padding:12px 16px;background:var(--surface2);
-    border:1px solid var(--border);border-radius:12px;color:var(--text);
-    font-size:.9rem;outline:none;}
-  .quick-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
-  .quick-btn{padding:6px 12px;border-radius:20px;
-    border:1px solid var(--border);background:var(--surface2);
-    color:var(--text2);font-size:.78rem;cursor:pointer;transition:all .2s;}
-  .quick-btn:hover{border-color:var(--accent);color:var(--accent);}
-  /* ── 일일 기록 폼 ── */
-  .form-group{margin-bottom:16px;}
-  .form-label{font-size:.85rem;color:var(--text2);
-    margin-bottom:8px;display:block;}
-  .form-input,.form-textarea{width:100%;padding:12px 16px;
-    background:var(--surface2);border:1px solid var(--border);
-    border-radius:10px;color:var(--text);font-size:.9rem;outline:none;
-    transition:border .2s;}
-  .form-input:focus,.form-textarea:focus{border-color:var(--accent);}
-  .form-textarea{min-height:80px;resize:vertical;font-family:inherit;}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  /* ── WOD 세트 카운터 (분모 포함) ── */
-  .counter-wrap{display:flex;align-items:center;gap:12px;}
-  .counter-btn{width:40px;height:40px;border-radius:50%;
-    border:1px solid var(--border);background:var(--surface2);
-    color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;
-    align-items:center;justify-content:center;transition:all .2s;}
-  .counter-btn:hover{border-color:var(--accent);color:var(--accent);}
-  .counter-value{font-size:1.5rem;font-weight:700;
-    min-width:40px;text-align:center;transition:transform .2s,color .2s;}
-  /* ★ 분모 표시 스타일 */
-  .counter-denominator{
-    font-size:1.1rem;font-weight:600;color:var(--text2);
-    display:flex;align-items:center;gap:4px;}
-  .counter-denominator .denom-slash{font-size:1.4rem;color:var(--border);}
-  .counter-denominator .denom-num{
-    font-size:1.3rem;font-weight:800;color:var(--accent2);}
-  .wod-sets-progress{
-    margin-top:10px;height:8px;border-radius:100px;
-    background:var(--surface2);overflow:hidden;}
-  .wod-sets-progress-fill{
-    height:100%;border-radius:100px;transition:width .4s;
-    background:linear-gradient(90deg,var(--accent3),var(--accent));}
-  .wod-sets-hint{
-    font-size:.76rem;color:var(--text2);margin-top:6px;
-    display:flex;justify-content:space-between;align-items:center;}
-  .ai-total-box{
-    background:linear-gradient(135deg,
-      rgba(108,99,255,.1),rgba(255,101,132,.1));
-    border:1px solid rgba(108,99,255,.2);border-radius:12px;
-    padding:16px;font-size:.85rem;line-height:1.7;color:var(--text);
-    margin-top:12px;white-space:pre-wrap;}
-  /* ── 모달 ── */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);
-    display:flex;align-items:center;justify-content:center;
-    z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s;}
-  .modal-overlay.show{opacity:1;pointer-events:auto;}
-  .modal-box{background:var(--surface);border:1px solid var(--border);
-    border-radius:20px;padding:32px;width:340px;text-align:center;
-    transform:scale(.9);transition:transform .3s;}
-  .modal-overlay.show .modal-box{transform:scale(1);}
-  .modal-title{font-size:1.2rem;font-weight:700;margin-bottom:8px;}
-  .modal-sub{font-size:.85rem;color:var(--text2);
-    margin-bottom:20px;line-height:1.6;}
-  .modal-input{width:100%;padding:12px 16px;background:var(--surface2);
-    border:1px solid var(--border);border-radius:10px;color:var(--text);
-    font-size:.9rem;outline:none;margin-bottom:10px;transition:border .2s;}
-  .modal-input:focus{border-color:var(--accent);}
-  .modal-error{color:var(--danger);font-size:.82rem;
-    margin-bottom:10px;display:none;}
-  .modal-btn-row{display:flex;gap:10px;margin-top:8px;}
-  .guide-list{text-align:left;margin:16px 0;}
-  .guide-item{display:flex;gap:12px;align-items:flex-start;
-    background:var(--surface2);border-radius:10px;
-    padding:12px;margin-bottom:8px;font-size:.85rem;}
-  .guide-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#fff;font-weight:700;display:flex;align-items:center;
-    justify-content:center;font-size:.8rem;}
-  .guide-text strong{display:block;font-size:.9rem;margin-bottom:2px;}
-  .guide-text span{color:var(--text2);}
-  /* ── 토스트 ── */
-  #toast{position:fixed;bottom:80px;left:50%;
-    transform:translateX(-50%) translateY(20px);
-    background:var(--surface);border:1px solid var(--border);
-    border-radius:12px;padding:12px 20px;font-size:.85rem;color:var(--text);
-    box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:999;opacity:0;
-    transition:all .3s;pointer-events:none;white-space:nowrap;}
-  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-  /* ── 서버 상태 ── */
-  .server-status{font-size:.78rem;padding:4px 10px;
-    border-radius:20px;border:1px solid var(--border);}
-  .server-status.ok{color:var(--success);border-color:var(--success);}
-  .server-status.err{color:var(--danger);border-color:var(--danger);}
-  .server-status.checking{color:var(--warning);border-color:var(--warning);}
-  /* ── 카메라 전/후면 ── */
-  .cam-toggle-wrap{display:flex;align-items:center;
-    justify-content:center;gap:10px;margin-bottom:10px;}
-  .cam-facing-toggle{display:flex;background:var(--surface2);
-    border:1px solid var(--border);border-radius:10px;
-    overflow:hidden;flex:1;}
-  .cam-facing-btn{flex:1;padding:9px 8px;border:none;
-    background:transparent;color:var(--text2);font-size:.82rem;
-    font-weight:600;cursor:pointer;transition:all .2s;}
-  .cam-facing-btn.active{
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#fff;}
-  .mobile-only{display:none;}
-  @media(max-width:768px){.mobile-only{display:flex;}}
-  @media(max-width:480px){
-    .login-card{width:95%;padding:36px 24px;}
-    .dash-grid{grid-template-columns:repeat(2,1fr);}
-    .exercise-grid{grid-template-columns:repeat(3,1fr);}
-    .form-row{grid-template-columns:1fr;}
-    .wod-time{font-size:3rem;}
-    .section{padding:12px;}
-    .header{padding:0 12px;}
-  }
-  ::-webkit-scrollbar{width:6px;}
-  ::-webkit-scrollbar-track{background:transparent;}
-  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+/* ── CSS 변수 ───────────────────────────────────────────────── */
+:root {
+  --bg:#0a0a0f; --surface:#13131a; --surface2:#1a1a24;
+  --border:#2a2a3a; --accent:#6c63ff; --accent2:#ff6584;
+  --accent3:#43e97b; --text:#e8e8f0; --text2:#9090a8;
+  --card:#16161f; --success:#43e97b; --warning:#ffd93d;
+  --danger:#ff6b6b;
+}
+.light-mode {
+  --bg:#f0f2f8; --surface:#ffffff; --surface2:#f5f6fa;
+  --border:#dde1f0; --text:#1a1a2e; --text2:#5a5a7a; --card:#ffffff;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Segoe UI',-apple-system,sans-serif;
+  background:var(--bg); color:var(--text); min-height:100vh;
+  transition:background .3s,color .3s;
+}
+
+/* ── 로그인 ─────────────────────────────────────────────────── */
+#loginScreen {
+  min-height:100vh; display:flex; align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#0a0a0f 0%,#1a0a2e 50%,#0a0a0f 100%);
+}
+.login-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:24px; padding:48px 40px; width:380px; text-align:center;
+  box-shadow:0 20px 60px rgba(108,99,255,.15);
+}
+.login-logo  { font-size:3rem; margin-bottom:8px; }
+.login-title { font-size:1.4rem; font-weight:700; margin-bottom:4px; }
+.login-sub   { font-size:.85rem; color:var(--text2); margin-bottom:20px; }
+.auth-toggle {
+  display:flex; background:var(--surface2); border-radius:12px;
+  padding:4px; margin-bottom:20px; gap:4px;
+}
+.auth-tab {
+  flex:1; padding:10px; border:none; border-radius:10px;
+  background:transparent; color:var(--text2); font-size:.85rem;
+  font-weight:600; cursor:pointer; transition:all .2s;
+}
+.auth-tab.active {
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+}
+.login-input {
+  width:100%; padding:14px 16px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:12px; color:var(--text);
+  font-size:1rem; margin-bottom:12px; outline:none; transition:border .2s;
+}
+.login-input:focus { border-color:var(--accent); }
+.login-btn {
+  width:100%; padding:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none; border-radius:12px; color:#fff; font-size:1rem;
+  font-weight:700; cursor:pointer; transition:transform .2s,box-shadow .2s;
+  margin-top:4px;
+}
+.login-btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(108,99,255,.4);
+}
+.login-error {
+  color:var(--danger); font-size:.85rem; margin-top:8px;
+  display:none; line-height:1.5; white-space:pre-line;
+}
+.login-footer { font-size:.75rem; color:var(--text2); margin-top:24px; }
+.login-hint {
+  font-size:.78rem; color:var(--text2); background:var(--surface2);
+  border-radius:10px; padding:10px 14px; margin-bottom:16px;
+  line-height:1.6; text-align:left; white-space:pre-line;
+}
+
+/* ── 앱 레이아웃 ─────────────────────────────────────────────── */
+#appScreen { display:none; }
+.header {
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding:0 20px; height:60px; display:flex; align-items:center;
+  justify-content:space-between; position:sticky; top:0; z-index:100;
+}
+.header-logo {
+  font-size:1.3rem; font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.header-right { display:flex; align-items:center; gap:12px; }
+.header-student { font-size:.85rem; color:var(--text2); }
+.header-student span { color:var(--accent); font-weight:700; }
+.theme-btn, .logout-btn {
+  padding:6px 12px; border-radius:8px; border:1px solid var(--border);
+  background:var(--surface2); color:var(--text); font-size:.8rem;
+  cursor:pointer; transition:all .2s;
+}
+.theme-btn:hover, .logout-btn:hover { border-color:var(--accent); }
+.tab-bar {
+  display:flex; background:var(--surface);
+  border-bottom:1px solid var(--border);
+  overflow-x:auto; -webkit-overflow-scrolling:touch;
+}
+.tab-bar::-webkit-scrollbar { display:none; }
+.tab-btn {
+  flex:1; min-width:80px; padding:14px 8px; border:none;
+  background:transparent; color:var(--text2); font-size:.75rem;
+  cursor:pointer; transition:all .2s;
+  border-bottom:3px solid transparent; white-space:nowrap;
+}
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-btn .tab-icon { font-size:1.2rem; display:block; margin-bottom:2px; }
+.section { display:none; padding:20px; max-width:900px; margin:0 auto; }
+.section.active { display:block; }
+.card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:20px; margin-bottom:16px;
+}
+.card-title {
+  font-size:1rem; font-weight:700; margin-bottom:16px;
+  display:flex; align-items:center; gap:8px;
+}
+
+/* ── WOD 타이머 ──────────────────────────────────────────────── */
+.wod-timer-display {
+  text-align:center; padding:28px 20px 16px;
+  background:linear-gradient(135deg,
+    rgba(108,99,255,.1),rgba(255,101,132,.1));
+  border-radius:16px; margin-bottom:16px;
+}
+.wod-time {
+  font-size:4rem; font-weight:900; letter-spacing:4px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.wod-today-box {
+  margin-top:10px; padding:8px 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(108,99,255,.25);
+  border-radius:10px; font-size:.82rem; color:var(--text2);
+  line-height:1.6;
+}
+.wod-today-label {
+  font-size:.72rem; font-weight:700; color:var(--accent);
+  margin-bottom:6px; letter-spacing:.5px;
+}
+.wod-items-wrap {
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin-bottom:8px; justify-content:center;
+}
+.wod-item-chip {
+  padding:4px 10px; border-radius:20px; font-size:.76rem; font-weight:600;
+  background:rgba(108,99,255,.15); border:1px solid rgba(108,99,255,.3);
+  color:var(--accent);
+}
+.wod-denominator-badge {
+  display:inline-block; padding:4px 14px; border-radius:20px;
+  font-size:.78rem; font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+}
+.wod-status { font-size:.9rem; color:var(--text2); margin-top:8px; }
+
+/* ── 버튼 공통 ───────────────────────────────────────────────── */
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; }
+.btn {
+  padding:10px 20px; border-radius:10px; border:none; font-size:.9rem;
+  font-weight:600; cursor:pointer; transition:all .2s;
+  flex:1; min-width:80px;
+}
+.btn-primary  { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; }
+.btn-secondary{ background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+.btn-success  { background:linear-gradient(135deg,#43e97b,#38f9d7); color:#0a2a1a; }
+.btn-danger   { background:linear-gradient(135deg,var(--danger),#ff8e8e); color:#fff; }
+.btn:hover    { transform:translateY(-1px); opacity:.9; }
+
+/* ── 운동 선택 ───────────────────────────────────────────────── */
+.exercise-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:10px; margin-bottom:16px;
+}
+.exercise-btn {
+  padding:14px 8px; border-radius:12px;
+  border:2px solid var(--border); background:var(--surface2);
+  color:var(--text); font-size:.8rem; font-weight:600;
+  cursor:pointer; transition:all .2s; text-align:center;
+}
+.exercise-btn.active {
+  border-color:var(--accent); background:rgba(108,99,255,.15);
+  color:var(--accent);
+}
+.exercise-btn .ex-icon { font-size:1.5rem; display:block; margin-bottom:4px; }
+
+/* ── 카메라 ──────────────────────────────────────────────────── */
+.camera-wrap {
+  position:relative; background:#000; border-radius:12px;
+  overflow:hidden; margin-bottom:12px; aspect-ratio:4/3;
+}
+#videoEl  { width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); }
+#canvasEl { position:absolute; top:0; left:0; width:100%; height:100%; transform:scaleX(-1); }
+.camera-placeholder {
+  position:absolute; inset:0; display:flex;
+  flex-direction:column; align-items:center; justify-content:center;
+  color:var(--text2); font-size:.9rem; gap:8px;
+}
+.camera-placeholder .cam-icon { font-size:3rem; }
+
+/* ── 통계 ────────────────────────────────────────────────────── */
+.stats-grid {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:12px; margin-bottom:12px;
+}
+.stat-item {
+  background:var(--surface2); border-radius:12px;
+  padding:16px; text-align:center;
+}
+.stat-value  { font-size:2rem; font-weight:800; color:var(--accent); }
+.stat-label  { font-size:.75rem; color:var(--text2); margin-top:4px; }
+.accuracy-wrap { margin-bottom:12px; }
+.accuracy-bar-bg {
+  background:var(--surface2); border-radius:100px;
+  height:12px; overflow:hidden;
+}
+.accuracy-bar-fill {
+  height:100%; border-radius:100px;
+  background:linear-gradient(90deg,var(--accent3),var(--accent));
+  transition:width .5s; width:0%;
+}
+.accuracy-label {
+  display:flex; justify-content:space-between;
+  font-size:.8rem; color:var(--text2); margin-bottom:6px;
+}
+.feedback-box {
+  background:rgba(108,99,255,.08); border:1px solid rgba(108,99,255,.2);
+  border-radius:12px; padding:14px; font-size:.85rem; color:var(--text2);
+  min-height:60px; line-height:1.6;
+}
+
+/* ── 백과사전 ────────────────────────────────────────────────── */
+.search-input {
+  flex:1; padding:12px 16px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:12px; color:var(--text);
+  font-size:.9rem; outline:none;
+}
+.search-input:focus { border-color:var(--accent); }
+.ex-card {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:12px; padding:16px; transition:all .2s; margin-bottom:12px;
+}
+.ex-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+.ex-card-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.ex-card-icon   { font-size:2rem; }
+.ex-card-name   { font-size:1rem; font-weight:700; }
+.ex-card-target { font-size:.8rem; color:var(--accent); margin-top:2px; }
+.ex-card-body   { font-size:.82rem; color:var(--text2); line-height:1.6; }
+.ex-card-body ul { padding-left:16px; margin-top:6px; }
+.ex-card-body li { margin-bottom:3px; }
+.ex-tag {
+  display:inline-block; padding:3px 8px; border-radius:6px;
+  font-size:.72rem; font-weight:600; margin-right:4px; margin-top:6px;
+}
+.tag-good { background:rgba(67,233,123,.15); color:var(--accent3); }
+.yt-btn {
+  display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+  padding:8px 14px; border-radius:8px; background:#ff0000; color:#fff;
+  font-size:.8rem; font-weight:700; text-decoration:none; transition:opacity .2s;
+}
+.yt-btn:hover { opacity:.85; }
+
+/* ── 대시보드 ────────────────────────────────────────────────── */
+.dash-grid {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:12px; margin-bottom:16px;
+}
+.dash-stat {
+  background:var(--surface2); border-radius:12px;
+  padding:20px; text-align:center;
+}
+.dash-stat-value { font-size:2.2rem; font-weight:900; color:var(--accent); }
+.dash-stat-label { font-size:.78rem; color:var(--text2); margin-top:4px; }
+.record-list { display:grid; gap:8px; }
+.record-item {
+  background:var(--surface2); border-radius:10px;
+  padding:12px 16px; display:flex; justify-content:space-between;
+  align-items:center; font-size:.85rem;
+}
+.record-item .r-left  { color:var(--text2); }
+.record-item .r-right { font-weight:700; color:var(--accent); }
+.empty-state { text-align:center; color:var(--text2); padding:40px; font-size:.9rem; }
+.day-group-header {
+  display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; background:var(--surface2); border-radius:12px;
+  padding:12px 16px; margin-bottom:6px;
+  border:1px solid var(--border); transition:border-color .2s;
+}
+.day-group-header:hover { border-color:var(--accent); }
+.day-group-arrow {
+  font-size:1.1rem; transition:transform .3s; display:inline-block;
+}
+
+/* ── AI 채팅 ─────────────────────────────────────────────────── */
+.ai-chat {
+  background:var(--surface2); border-radius:12px;
+  min-height:200px; max-height:360px; overflow-y:auto;
+  padding:16px; margin-bottom:12px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.ai-msg { display:flex; gap:10px; align-items:flex-start; }
+.ai-avatar {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex; align-items:center; justify-content:center; font-size:1rem;
+}
+.ai-bubble {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:10px 14px; font-size:.85rem; color:var(--text);
+  line-height:1.6; max-width:calc(100% - 50px); white-space:pre-wrap;
+}
+.user-msg { flex-direction:row-reverse; }
+.user-bubble {
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff; border:none;
+}
+.chat-input-wrap { display:flex; gap:10px; }
+.chat-input {
+  flex:1; padding:12px 16px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:12px; color:var(--text);
+  font-size:.9rem; outline:none;
+}
+.quick-btns { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.quick-btn {
+  padding:6px 12px; border-radius:20px; border:1px solid var(--border);
+  background:var(--surface2); color:var(--text2); font-size:.78rem;
+  cursor:pointer; transition:all .2s;
+}
+.quick-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ── 폼 ──────────────────────────────────────────────────────── */
+.form-group   { margin-bottom:16px; }
+.form-label   { font-size:.85rem; color:var(--text2); margin-bottom:8px; display:block; }
+.form-input, .form-textarea {
+  width:100%; padding:12px 16px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:10px; color:var(--text);
+  font-size:.9rem; outline:none; transition:border .2s;
+}
+.form-input:focus, .form-textarea:focus { border-color:var(--accent); }
+.form-textarea { min-height:80px; resize:vertical; font-family:inherit; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+/* ── 2카운터 UI ──────────────────────────────────────────────── */
+.wod-counter-wrap {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+  margin-bottom:12px;
+}
+.counter-box {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:14px; padding:16px; text-align:center;
+  transition:border-color .2s;
+}
+.counter-box:hover { border-color:var(--accent); }
+.counter-box-label {
+  font-size:.78rem; font-weight:700; color:var(--text2);
+  margin-bottom:10px; letter-spacing:.3px;
+}
+.counter-box-label .cb-icon { font-size:1rem; margin-right:4px; }
+.counter-row {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+.counter-btn {
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid var(--border); background:var(--surface);
+  color:var(--text); font-size:1.2rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; flex-shrink:0;
+}
+.counter-btn:hover { border-color:var(--accent); color:var(--accent); }
+.counter-value {
+  font-size:2rem; font-weight:900; min-width:44px; text-align:center;
+  transition:transform .2s, color .2s;
+}
+.counter-denom {
+  display:flex; align-items:baseline; gap:2px;
+  font-size:.85rem; color:var(--text2); margin-top:4px;
+}
+.counter-denom .denom-slash { font-size:1rem; color:var(--border); margin:0 2px; }
+.counter-denom .denom-num   { font-size:1.1rem; font-weight:800; color:var(--accent2); }
+.partial-progress-bg {
+  height:6px; border-radius:100px; background:var(--surface);
+  overflow:hidden; margin-top:8px;
+}
+.partial-progress-fill {
+  height:100%; border-radius:100px; transition:width .4s;
+  background:linear-gradient(90deg,var(--accent3),var(--accent));
+}
+.round-complete-badge {
+  display:inline-block; margin-top:8px; padding:3px 10px;
+  border-radius:20px; font-size:.72rem; font-weight:700;
+  background:linear-gradient(135deg,var(--accent3),#38f9d7);
+  color:#0a2a1a;
+}
+.wod-summary-bar {
+  background:linear-gradient(135deg,
+    rgba(108,99,255,.08),rgba(255,101,132,.08));
+  border:1px solid rgba(108,99,255,.2);
+  border-radius:12px; padding:12px 16px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:.83rem; color:var(--text2); margin-bottom:4px;
+}
+.wod-summary-bar .summary-val {
+  font-size:1rem; font-weight:800; color:var(--accent);
+}
+.wod-summary-hint {
+  font-size:.75rem; color:var(--text2); margin-bottom:12px;
+  text-align:center;
+}
+
+/* ── AI 총평 ─────────────────────────────────────────────────── */
+.ai-total-box {
+  background:linear-gradient(135deg,
+    rgba(108,99,255,.1),rgba(255,101,132,.1));
+  border:1px solid rgba(108,99,255,.2); border-radius:12px;
+  padding:16px; font-size:.85rem; line-height:1.7; color:var(--text);
+  margin-top:12px; white-space:pre-wrap;
+}
+
+/* ── 서버 상태 ───────────────────────────────────────────────── */
+.server-status {
+  font-size:.78rem; padding:4px 10px;
+  border-radius:20px; border:1px solid var(--border);
+}
+.server-status.ok       { color:var(--success); border-color:var(--success); }
+.server-status.err      { color:var(--danger);  border-color:var(--danger);  }
+.server-status.checking { color:var(--warning); border-color:var(--warning); }
+
+/* ── 카메라 전/후면 ──────────────────────────────────────────── */
+.cam-toggle-wrap {
+  display:flex; align-items:center; justify-content:center;
+  gap:10px; margin-bottom:10px;
+}
+.cam-facing-toggle {
+  display:flex; background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden; flex:1;
+}
+.cam-facing-btn {
+  flex:1; padding:9px 8px; border:none; background:transparent;
+  color:var(--text2); font-size:.82rem; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.cam-facing-btn.active {
+  background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff;
+}
+.mobile-only { display:none; }
+@media(max-width:768px){ .mobile-only { display:flex; } }
+
+/* ── 모달 ────────────────────────────────────────────────────── */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.7);
+  display:flex; align-items:center; justify-content:center;
+  z-index:1000; opacity:0; pointer-events:none; transition:opacity .3s;
+}
+.modal-overlay.show { opacity:1; pointer-events:auto; }
+.modal-box {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:32px; width:340px; text-align:center;
+  transform:scale(.9); transition:transform .3s;
+}
+.modal-overlay.show .modal-box { transform:scale(1); }
+.modal-title { font-size:1.2rem; font-weight:700; margin-bottom:8px; }
+.modal-sub   { font-size:.85rem; color:var(--text2); margin-bottom:20px; line-height:1.6; }
+.modal-input {
+  width:100%; padding:12px 16px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:10px; color:var(--text);
+  font-size:.9rem; outline:none; margin-bottom:10px; transition:border .2s;
+}
+.modal-input:focus { border-color:var(--accent); }
+.modal-error { color:var(--danger); font-size:.82rem; margin-bottom:10px; display:none; }
+.modal-btn-row { display:flex; gap:10px; margin-top:8px; }
+.guide-list { text-align:left; margin:16px 0; }
+.guide-item {
+  display:flex; gap:12px; align-items:flex-start;
+  background:var(--surface2); border-radius:10px;
+  padding:12px; margin-bottom:8px; font-size:.85rem;
+}
+.guide-num {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff; font-weight:700; display:flex;
+  align-items:center; justify-content:center; font-size:.8rem;
+}
+.guide-text strong { display:block; font-size:.9rem; margin-bottom:2px; }
+.guide-text span   { color:var(--text2); }
+
+/* ── 토스트 ──────────────────────────────────────────────────── */
+#toast {
+  position:fixed; bottom:80px; left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:12px 20px; font-size:.85rem; color:var(--text);
+  box-shadow:0 8px 24px rgba(0,0,0,.3); z-index:999;
+  opacity:0; transition:all .3s; pointer-events:none; white-space:nowrap;
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ── 반응형 ──────────────────────────────────────────────────── */
+@media(max-width:480px){
+  .login-card { width:95%; padding:36px 24px; }
+  .wod-time   { font-size:3rem; }
+  .section    { padding:12px; }
+  .header     { padding:0 12px; }
+  .form-row   { grid-template-columns:1fr; }
+  .wod-counter-wrap { grid-template-columns:1fr; gap:10px; }
+}
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 </style>
 </head>
 <body>
-<!-- ═══════════ 로그인 화면 ═══════════ -->
+
+<!-- ══════════════════ 로그인 화면 ══════════════════ -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">🏋️</div>
@@ -390,26 +545,21 @@
            placeholder="이름 (한글 2~4자)" maxlength="4">
     <input id="loginPw"   class="login-input" type="password"
            placeholder="비밀번호" maxlength="20">
-    <div id="loginError"   class="login-error"></div>
-    <div id="loginSuccess" class="login-success"></div>
-    <button class="login-btn" id="authBtn"
-            onclick="handleAuth()">수업 입장하기 →</button>
-    <div class="login-footer">
-      문의: 체육과 교무실 | 1학년 체육2 전용
-    </div>
+    <div id="loginError" class="login-error"></div>
+    <button class="login-btn" id="authBtn" onclick="handleAuth()">
+      수업 입장하기 →
+    </button>
+    <div class="login-footer">문의: 체육과 교무실 | 1학년 체육2 전용</div>
   </div>
 </div>
-<!-- ═══════════ 앱 화면 ═══════════ -->
+
+<!-- ══════════════════ 앱 화면 ══════════════════ -->
 <div id="appScreen">
   <!-- 헤더 -->
   <div class="header">
-    <div class="header-left">
-      <div class="header-logo">🏋️ 명문고 CrossFit AI</div>
-    </div>
+    <div class="header-logo">🏋️ 명문고 CrossFit AI</div>
     <div class="header-right">
-      <div id="serverStatus" class="server-status checking">
-        ● 연결 확인 중
-      </div>
+      <div id="serverStatus" class="server-status checking">● 연결 확인 중</div>
       <div class="header-student">
         <span id="headerName">-</span>
       </div>
@@ -417,6 +567,7 @@
       <button class="logout-btn" onclick="doLogout()">로그아웃</button>
     </div>
   </div>
+
   <!-- 탭바 -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('exercise')">
@@ -430,6 +581,7 @@
     <button class="tab-btn" onclick="showTab('log')">
       <span class="tab-icon">📝</span>오늘기록</button>
   </div>
+
   <!-- ══ 섹션1: 운동/진단 ══ -->
   <div id="sec-exercise" class="section active">
     <div class="card">
@@ -438,62 +590,50 @@
         <div class="wod-time" id="wodDisplay">15:00</div>
         <div class="wod-today-box">
           <div class="wod-today-label">🔥 오늘의 WOD</div>
-          <!-- ★ WOD 종목 칩 표시 영역 -->
           <div id="wodItemsWrap" class="wod-items-wrap"></div>
           <div style="text-align:center;">
-            <span id="wodDenominatorBadge" class="wod-denominator-badge">
-              총 0종목
-            </span>
+            <span id="wodDenominatorBadge" class="wod-denominator-badge">총 0종목</span>
           </div>
         </div>
         <div class="wod-status" id="wodStatus">준비</div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-success"
-                onclick="wodStart()">▶ 시작</button>
-        <button class="btn btn-secondary"
-                onclick="wodPause()">⏸ 일시정지</button>
-        <button class="btn btn-secondary"
-                onclick="wodReset()">↺ 리셋</button>
-        <button class="btn btn-primary"
-                onclick="generateWOD()">🤖 자동생성</button>
+        <button class="btn btn-success"   onclick="wodStart()">▶ 시작</button>
+        <button class="btn btn-secondary" onclick="wodPause()">⏸ 일시정지</button>
+        <button class="btn btn-secondary" onclick="wodReset()">↺ 리셋</button>
+        <button class="btn btn-primary"   onclick="generateWOD()">🤖 자동생성</button>
       </div>
     </div>
+
     <div class="card">
       <div class="card-title">🦵 운동 선택</div>
       <div class="exercise-grid">
-        <button class="exercise-btn active" aria-pressed="true"
-                onclick="selectExercise(0)">
+        <button class="exercise-btn active" onclick="selectExercise(0)">
           <span class="ex-icon">💪</span>플랭크</button>
-        <button class="exercise-btn" aria-pressed="false"
-                onclick="selectExercise(1)">
+        <button class="exercise-btn" onclick="selectExercise(1)">
           <span class="ex-icon">⬆️</span>푸시업</button>
-        <button class="exercise-btn" aria-pressed="false"
-                onclick="selectExercise(2)">
+        <button class="exercise-btn" onclick="selectExercise(2)">
           <span class="ex-icon">🦵</span>에어스쿼트</button>
-        <button class="exercise-btn" aria-pressed="false"
-                onclick="selectExercise(3)">
+        <button class="exercise-btn" onclick="selectExercise(3)">
           <span class="ex-icon">🏃</span>런지</button>
-        <button class="exercise-btn" aria-pressed="false"
-                onclick="selectExercise(4)">
+        <button class="exercise-btn" onclick="selectExercise(4)">
           <span class="ex-icon">🔥</span>버피</button>
-        <button class="exercise-btn" aria-pressed="false"
-                onclick="selectExercise(5)">
+        <button class="exercise-btn" onclick="selectExercise(5)">
           <span class="ex-icon">🪢</span>줄넘기</button>
       </div>
     </div>
+
     <div class="card">
       <div class="card-title">📷 실시간 AI 자세 진단</div>
       <div class="cam-toggle-wrap mobile-only">
         <div class="cam-facing-toggle">
           <button class="cam-facing-btn active" id="btnFacingUser"
-                  onclick="switchFacing('user')">🤳 전면 카메라</button>
+                  onclick="switchFacing('user')">🤳 전면</button>
           <button class="cam-facing-btn" id="btnFacingEnv"
-                  onclick="switchFacing('environment')">📷 후면 카메라</button>
+                  onclick="switchFacing('environment')">📷 후면</button>
         </div>
       </div>
-      <div class="camera-wrap" role="img"
-           aria-label="AI 자세 인식 카메라 화면">
+      <div class="camera-wrap">
         <video id="videoEl" autoplay playsinline muted></video>
         <canvas id="canvasEl"></canvas>
         <div class="camera-placeholder" id="camPlaceholder">
@@ -504,16 +644,12 @@
       <div class="btn-row" style="margin-bottom:12px;">
         <button class="btn btn-secondary" id="camToggleBtn"
                 onclick="toggleCamera()">📷 카메라 켜기</button>
-        <button class="btn btn-primary"
-                onclick="startMeasure()">▶ 측정 시작</button>
-        <button class="btn btn-danger"
-                onclick="stopMeasure()">⏹ 완료 & 저장</button>
+        <button class="btn btn-primary"  onclick="startMeasure()">▶ 측정 시작</button>
+        <button class="btn btn-danger"   onclick="stopMeasure()">⏹ 완료&저장</button>
       </div>
       <button class="btn btn-secondary"
               style="width:100%;margin-bottom:12px;"
-              onclick="snapshotAnalysis()">
-        🔍 자세 정밀 분석 (스냅샷)
-      </button>
+              onclick="snapshotAnalysis()">🔍 자세 정밀 분석</button>
       <div class="stats-grid">
         <div class="stat-item">
           <div class="stat-value" id="repCount">0</div>
@@ -538,17 +674,19 @@
       </div>
     </div>
   </div>
+
   <!-- ══ 섹션2: 백과사전 ══ -->
   <div id="sec-wiki" class="section">
     <div class="card">
       <div class="card-title">📚 크로스핏 운동 백과사전</div>
-      <div class="search-wrap">
+      <div style="display:flex;gap:10px;margin-bottom:16px;">
         <input id="wikiSearch" class="search-input"
                placeholder="운동 검색..." oninput="filterWiki()">
       </div>
-      <div class="ex-card-list" id="wikiList"></div>
+      <div id="wikiList"></div>
     </div>
   </div>
+
   <!-- ══ 섹션3: 대시보드 ══ -->
   <div id="sec-dashboard" class="section">
     <div class="card">
@@ -583,23 +721,20 @@
       </div>
     </div>
   </div>
+
   <!-- ══ 섹션4: AI/WOD ══ -->
   <div id="sec-ai" class="section">
     <div class="card">
       <div class="card-title">🤖 AI 체육 선생님</div>
       <div class="quick-btns">
         <button class="quick-btn"
-                onclick="quickChat('오늘 나의 운동 피드백 부탁해')">
-          💌 오늘 피드백</button>
+                onclick="quickChat('오늘 나의 운동 피드백 부탁해')">💌 오늘 피드백</button>
         <button class="quick-btn"
-                onclick="quickChat('15분 WOD 심박수 조절 팁 알려줘')">
-          ❤️ 심박수 팁</button>
+                onclick="quickChat('15분 WOD 심박수 조절 팁 알려줘')">❤️ 심박수 팁</button>
         <button class="quick-btn"
-                onclick="quickChat('스쿼트 올바른 자세 설명해줘')">
-          🦵 스쿼트 자세</button>
+                onclick="quickChat('스쿼트 올바른 자세 설명해줘')">🦵 스쿼트 자세</button>
         <button class="quick-btn"
-                onclick="quickChat('크로스핏 초보자 팁 알려줘')">
-          🌱 초보자 팁</button>
+                onclick="quickChat('크로스핏 초보자 팁 알려줘')">🌱 초보자 팁</button>
       </div>
       <div class="ai-chat" id="aiChat">
         <div class="ai-msg">
@@ -619,9 +754,7 @@
     </div>
     <div class="card">
       <div class="card-title">📋 체육 수업 성취 기준 평가</div>
-      <div id="achievementBox" class="feedback-box">
-        현재까지의 운동량 데이터 분석 중...
-      </div>
+      <div id="achievementBox" class="feedback-box">데이터 분석 중...</div>
     </div>
     <div class="card">
       <div class="card-title">🔐 비밀번호 변경</div>
@@ -629,38 +762,70 @@
               onclick="openPwModal()">비밀번호 변경하기</button>
     </div>
   </div>
+
   <!-- ══ 섹션5: 오늘의 기록 ══ -->
   <div id="sec-log" class="section">
     <div class="card">
       <div class="card-title">📝 Daily Workout Log</div>
       <div style="font-size:.85rem;color:var(--text2);margin-bottom:16px;"
            id="logDate"></div>
-      <!-- ★ WOD 세트 카운터 (분모 자동 표시) -->
+
+      <!-- 2카운터 UI -->
       <div class="form-group">
-        <label class="form-label">✅ 완료한 WOD 종목 수</label>
-        <div class="counter-wrap">
-          <button class="counter-btn"
-                  onclick="changeWodSets(-1)"
-                  aria-label="감소">−</button>
-          <div class="counter-value" id="wodSetsVal">0</div>
-          <div class="counter-denominator">
-            <span class="denom-slash">/</span>
-            <span class="denom-num" id="wodDenomDisplay">-</span>
+        <label class="form-label">✅ WOD 완료 현황</label>
+        <div class="wod-counter-wrap">
+          <!-- 완성 라운드 카운터 -->
+          <div class="counter-box">
+            <div class="counter-box-label">
+              <span class="cb-icon">🏆</span>완성 라운드 (Rounds)
+            </div>
+            <div class="counter-row">
+              <button class="counter-btn" onclick="changeRounds(-1)"
+                      aria-label="라운드 감소">−</button>
+              <div class="counter-value" id="roundsVal">0</div>
+              <button class="counter-btn" onclick="changeRounds(1)"
+                      aria-label="라운드 증가">+</button>
+            </div>
+            <div id="roundBadgeWrap" style="min-height:28px;margin-top:6px;"></div>
           </div>
-          <button class="counter-btn"
-                  onclick="changeWodSets(1)"
-                  aria-label="증가">+</button>
+          <!-- 추가 완료 종목 카운터 -->
+          <div class="counter-box">
+            <div class="counter-box-label">
+              <span class="cb-icon">➕</span>추가 완료 종목
+            </div>
+            <div class="counter-row">
+              <button class="counter-btn" onclick="changePartial(-1)"
+                      aria-label="종목 감소">−</button>
+              <div class="counter-value" id="partialVal">0</div>
+              <div style="display:flex;flex-direction:column;align-items:flex-start;">
+                <div class="counter-denom">
+                  <span class="denom-slash">/</span>
+                  <span class="denom-num" id="denomDisplay">-</span>
+                </div>
+              </div>
+              <button class="counter-btn" onclick="changePartial(1)"
+                      aria-label="종목 증가">+</button>
+            </div>
+            <div class="partial-progress-bg" style="margin-top:8px;">
+              <div class="partial-progress-fill"
+                   id="partialProgressFill" style="width:0%;"></div>
+            </div>
+          </div>
         </div>
-        <!-- 진행 바 -->
-        <div class="wod-sets-progress" style="margin-top:10px;">
-          <div class="wod-sets-progress-fill"
-               id="wodSetsProgressFill" style="width:0%;"></div>
+        <!-- 합산 요약 -->
+        <div class="wod-summary-bar">
+          <span>📊 오늘 총 달성</span>
+          <span>
+            <span class="summary-val" id="summaryText">0라운드 + 0종목</span>
+          </span>
+          <span id="summaryPct"
+                style="font-weight:800;color:var(--accent2);">0%</span>
         </div>
-        <div class="wod-sets-hint">
-          <span id="wodSetsHintText">Config 시트에서 todayWod 로 종목 수 자동 계산</span>
-          <span id="wodSetsPercent" style="color:var(--accent);font-weight:700;">0%</span>
+        <div class="wod-summary-hint" id="summaryHint">
+          Config 시트의 todayWod 에서 분모 자동 계산
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">❤️ 최고 심박수 (Peak HR)</label>
@@ -718,33 +883,34 @@
     </div>
   </div>
 </div>
+
 <!-- ── 강제 비밀번호 설정 모달 ── -->
 <div class="modal-overlay" id="pwForceModal">
   <div class="modal-box">
     <div class="modal-title">🔐 비밀번호 새로 설정</div>
     <div class="modal-sub">
-      등록이 완료되었습니다! 🎉<br>
-      초기 비밀번호(0000) 대신 사용할<br>
+      등록 완료! 🎉<br>초기 비밀번호(0000) 대신<br>
       새 비밀번호를 지금 설정해주세요.
     </div>
     <input id="pwForce1" class="modal-input" type="password"
-           placeholder="새 비밀번호 (4자리 이상)">
+           placeholder="새 비밀번호 (4자리 이상)" maxlength="20">
     <input id="pwForce2" class="modal-input" type="password"
-           placeholder="새 비밀번호 확인">
+           placeholder="새 비밀번호 확인" maxlength="20">
     <div id="pwForceError" class="modal-error"></div>
     <button class="btn btn-primary" style="width:100%;"
             onclick="saveForcePw()">✅ 설정 완료</button>
   </div>
 </div>
+
 <!-- ── 비밀번호 변경 모달 ── -->
 <div class="modal-overlay" id="pwChangeModal">
   <div class="modal-box">
     <div class="modal-title">🔐 비밀번호 변경</div>
     <div class="modal-sub">새로운 비밀번호를 입력하세요.</div>
     <input id="pwNew1" class="modal-input" type="password"
-           placeholder="새 비밀번호 (4자리 이상)">
+           placeholder="새 비밀번호 (4자리 이상)" maxlength="20">
     <input id="pwNew2" class="modal-input" type="password"
-           placeholder="새 비밀번호 확인">
+           placeholder="새 비밀번호 확인" maxlength="20">
     <div id="pwNewError" class="modal-error"></div>
     <div class="modal-btn-row">
       <button class="btn btn-secondary" style="flex:1;"
@@ -754,6 +920,7 @@
     </div>
   </div>
 </div>
+
 <!-- ── 카메라 가이드 모달 ── -->
 <div class="modal-overlay" id="guideModal">
   <div class="modal-box" style="width:360px;">
@@ -763,8 +930,7 @@
         <div class="guide-num">1</div>
         <div class="guide-text">
           <strong>전신 촬영 (필수)</strong>
-          <span>카메라와 2.5m~3m 거리,
-                머리부터 발끝까지 보이게 세워주세요.</span>
+          <span>카메라와 2.5~3m 거리, 머리부터 발끝까지 보이게 세워주세요.</span>
         </div>
       </div>
       <div class="guide-item">
@@ -790,19 +956,20 @@
     </div>
   </div>
 </div>
+
 <!-- ── 스냅샷 분석 모달 ── -->
 <div class="modal-overlay" id="snapshotModal">
   <div class="modal-box" style="width:360px;">
     <div class="modal-title">🔍 AI 스냅샷 자세 정밀 분석</div>
     <div id="snapshotContent" class="feedback-box"
-         style="text-align:left;margin:12px 0;">
-      AI가 현재 프레임을 분석 중입니다...
-    </div>
+         style="text-align:left;margin:12px 0;">분석 중...</div>
     <button class="btn btn-primary" style="width:100%;"
             onclick="closeSnapshot()">확인</button>
   </div>
 </div>
+
 <div id="toast"></div>
+
 <!-- MediaPipe -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
         crossorigin="anonymous"></script>
@@ -810,15 +977,16 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
         crossorigin="anonymous"></script>
-<script>
-// ════════════════════════════════════════════════
-// GAS URL
-// ════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzJTJj1Cofc0wvvymK-EXF_arW9hjAIe7NUMnDCDDqCpjbVSzcbwHciTWlyWn0AgRPQ4A/exec';
 
-// ════════════════════════════════════════════════
+<script>
+// ════════════════════════════════════════════════════════════════
+// GAS URL — 배포 후 실제 URL로 교체
+// ════════════════════════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzUUOQAdZDvSRAjSc6jR9RUdCWJzcCIh5mTftAfZe8XpVujgn6d5i_XcDY-Cq-BXu3Vxw/exec';
+
+// ════════════════════════════════════════════════════════════════
 // 전역 상태
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 let currentStudent     = null;
 let authMode           = 'login';
 let isLightMode        = false;
@@ -834,17 +1002,20 @@ let wodInterval        = null;
 let wodSeconds         = 900;
 let wodDefaultSeconds  = 900;
 let wodRunning         = false;
-let wodSetsCount       = 0;
 let stream             = null;
 let poseDetector       = null;
 let mpCamera           = null;
 let lastKeypoints      = null;
 let currentFacingMode  = 'user';
+let accuracyScoreSum   = 0;
+let accuracyTicks      = 0;
 
-// ★ WOD 분모 (todayWod 파싱 결과)
+// 방안A 카운터 상태
+let wodRounds      = 0;
+let wodPartial     = 0;
 let wodDenominator = 0;
 
-// 페이즈
+// 관절 페이즈
 let squatPhase  = 'up';
 let lungePhase  = 'up';
 let pushupPhase = 'up';
@@ -852,17 +1023,13 @@ let burpeePhase = 'stand';
 let burpeeStageReached = {
   squat:false, plank:false, pushup:false, squat2:false
 };
-let jumpPhase        = 'land';
-let jumpBaselineHipY = null;
-let jumpHipYHistory  = [];
+let jumpPhase          = 'land';
+let jumpBaselineHipY   = null;
+let jumpHipYHistory    = [];
 
-// 정확도 누적
-let accuracyScoreSum = 0;
-let accuracyTicks    = 0;
-
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // POSE_CONFIG
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 let POSE_CONFIG = {
   visibilityThreshold : 0.35,
   squatGoodMin        : 65,
@@ -873,9 +1040,9 @@ let POSE_CONFIG = {
   plankBodyAngleMin   : 145,
 };
 
-// ════════════════════════════════════════════════
-// 운동 목록
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 운동 & 백과사전 데이터
+// ════════════════════════════════════════════════════════════════
 const EXERCISES = [
   { name:'플랭크',      icon:'💪', key:'plank'  },
   { name:'푸시업',      icon:'⬆️', key:'pushup' },
@@ -885,190 +1052,144 @@ const EXERCISES = [
   { name:'줄넘기',      icon:'🪢', key:'jump'   },
 ];
 
-// ════════════════════════════════════════════════
-// 백과사전 데이터
-// ════════════════════════════════════════════════
 const WIKI_DATA = [
   {
     name:'에어 스쿼트', icon:'🦵',
     target:'대퇴사두근, 햄스트링, 둔근, 코어',
-    correct:['발은 어깨너비로 벌리기','발끝은 30도 외회전',
-             '무릎은 발끝 방향 유지',
-             '허벅지가 바닥과 평행될 때까지 앉기',
-             '가슴과 어깨는 수직 유지'],
-    mistakes:['무릎이 안쪽으로 모임','상체가 과도하게 앞으로 숙여짐',
-              '발뒤꿈치가 들림','무릎이 발끝을 넘어감'],
+    correct:[
+      '발은 어깨너비로 벌리기','발끝은 30도 외회전',
+      '무릎은 발끝 방향 유지','허벅지가 바닥과 평행될 때까지 앉기',
+      '가슴과 어깨는 수직 유지',
+    ],
+    mistakes:[
+      '무릎이 안쪽으로 모임','상체가 과도하게 앞으로 숙여짐',
+      '발뒤꿈치가 들림','무릎이 발끝을 넘어감',
+    ],
     tips:'시선은 정면, 팔은 앞으로 뻗어 균형 유지',
-    youtube:'https://youtu.be/rMvwVtlqjTE?si=ev9SkyYsrIYlS6y4'
+    youtube:'https://youtu.be/rMvwVtlqjTE?si=ev9SkyYsrIYlS6y4',
   },
   {
     name:'런지', icon:'🏃',
     target:'대퇴사두근, 햄스트링, 둔근, 종아리',
-    correct:['앞발은 90도 굴곡','뒷무릎은 바닥에 살짝 닿도록',
-             '상체는 수직 유지','보폭은 어깨너비 이상'],
-    mistakes:['앞무릎이 발끝을 많이 넘어감',
-              '상체가 앞으로 기울어짐','발이 일직선으로 놓임'],
+    correct:[
+      '앞발은 90도 굴곡','뒷무릎은 바닥에 살짝 닿도록',
+      '상체는 수직 유지','보폭은 어깨너비 이상',
+    ],
+    mistakes:[
+      '앞무릎이 발끝을 많이 넘어감','상체가 앞으로 기울어짐',
+      '발이 일직선으로 놓임',
+    ],
     tips:'코어에 힘을 주고 균형을 잡아가며 수행',
-    youtube:'https://youtu.be/ZPoMxOrIeO4?si=OUunKl5HmWWfSyh_'
+    youtube:'https://youtu.be/ZPoMxOrIeO4?si=OUunKl5HmWWfSyh_',
   },
   {
     name:'플랭크', icon:'💪',
     target:'코어(복직근, 복횡근), 어깨, 둔근',
-    correct:['팔꿈치는 어깨 바로 아래','몸은 일직선 유지',
-             '엉덩이가 너무 높거나 낮지 않게','시선은 바닥 약간 앞'],
-    mistakes:['엉덩이가 위로 올라감','허리가 처짐',
-              '어깨가 귀 방향으로 올라감'],
+    correct:[
+      '팔꿈치는 어깨 바로 아래','몸은 일직선 유지',
+      '엉덩이가 너무 높거나 낮지 않게','시선은 바닥 약간 앞',
+    ],
+    mistakes:[
+      '엉덩이가 위로 올라감','허리가 처짐','어깨가 귀 방향으로 올라감',
+    ],
     tips:'배꼽을 척추 방향으로 당기는 느낌으로 코어 활성화',
-    youtube:'https://youtu.be/sZxrs3C209k?si=JqxTZmo1biK7og3z'
+    youtube:'https://youtu.be/sZxrs3C209k?si=JqxTZmo1biK7og3z',
   },
   {
     name:'푸시업', icon:'⬆️',
     target:'대흉근, 삼두근, 전면삼각근, 코어',
-    correct:['손은 가슴 옆 어깨너비',
-             '몸은 머리부터 발까지 일직선',
-             '팔꿈치는 45도 각도 유지',
-             '가슴이 바닥에 살짝 닿도록'],
-    mistakes:['엉덩이가 위로 올라감',
-              '팔꿈치가 옆으로 크게 벌어짐','머리가 아래로 처짐'],
+    correct:[
+      '손은 가슴 옆 어깨너비','몸은 머리부터 발까지 일직선',
+      '팔꿈치는 45도 각도 유지','가슴이 바닥에 살짝 닿도록',
+    ],
+    mistakes:[
+      '엉덩이가 위로 올라감','팔꿈치가 옆으로 크게 벌어짐',
+      '머리가 아래로 처짐',
+    ],
     tips:'초보자는 무릎 대고 수행, 점진적으로 강도 높이기',
-    youtube:'https://youtu.be/0pkjOk0EiAk?si=KVChGLAE6ZFQKWIH'
+    youtube:'https://youtu.be/0pkjOk0EiAk?si=KVChGLAE6ZFQKWIH',
   },
   {
     name:'버피', icon:'🔥',
     target:'전신(상하체 복합 유산소 운동)',
-    correct:['스쿼트→플랭크→푸시업→스쿼트→점프(박수) 순서',
-             '착지 시 무릎 살짝 굽혀 충격 흡수',
-             '일정한 리듬으로 수행'],
-    mistakes:['착지 시 무릎이 안쪽으로 모임',
-              '푸시업 동작 생략',
-              '속도만 추구하고 자세 무너짐'],
+    correct:[
+      '스쿼트→플랭크→푸시업→스쿼트→점프(박수) 순서',
+      '착지 시 무릎 살짝 굽혀 충격 흡수','일정한 리듬으로 수행',
+    ],
+    mistakes:[
+      '착지 시 무릎이 안쪽으로 모임','푸시업 동작 생략',
+      '속도만 추구하고 자세 무너짐',
+    ],
     tips:'체력 소모가 크므로 본인 페이스 유지가 중요',
-    youtube:'https://youtu.be/auBLPXO8Fww?si=gb50BY0iiQrBYssP'
+    youtube:'https://youtu.be/auBLPXO8Fww?si=gb50BY0iiQrBYssP',
   },
   {
     name:'줄넘기', icon:'🪢',
     target:'종아리, 햄스트링, 심폐지구력',
-    correct:['발끝으로 가볍게 착지','팔꿈치는 몸 옆에 고정',
-             '손목으로 줄 돌리기','상체는 수직 유지'],
-    mistakes:['발 전체로 쿵 착지',
-              '팔꿈치가 옆으로 크게 벌어짐','너무 높이 점프'],
+    correct:[
+      '발끝으로 가볍게 착지','팔꿈치는 몸 옆에 고정',
+      '손목으로 줄 돌리기','상체는 수직 유지',
+    ],
+    mistakes:[
+      '발 전체로 쿵 착지','팔꿈치가 옆으로 크게 벌어짐',
+      '너무 높이 점프',
+    ],
     tips:'2~3cm 정도 낮게 뛰는 것이 가장 효율적',
-    youtube:'https://youtu.be/82jNjDS19lg?si=HW0qhp9TIWimQpkO'
+    youtube:'https://youtu.be/82jNjDS19lg?si=HW0qhp9TIWimQpkO',
   },
 ];
 
-// ════════════════════════════════════════════════
-// ★ WOD 파싱 핵심 함수
-// ════════════════════════════════════════════════
-/**
- * todayWod 문자열을 "+" 기준으로 파싱해서
- * - 화면 칩 렌더링
- * - wodDenominator 전역 변수 갱신
- * - 오늘기록 탭 분모 표시 갱신
- */
-function parseAndRenderWod(wodText) {
-  const raw   = String(wodText || '').trim();
-  // "🔥 " 접두사 제거 (generateWOD에서 추가하는 것 대비)
-  const clean = raw.replace(/^🔥\s*/, '');
-
-  // "+" 기준 split → 앞뒤 공백 제거 → 빈 항목 제거
-  const items = clean
-    .split('+')
-    .map(s => s.trim())
-    .filter(s => s.length > 0);
-
-  wodDenominator = items.length;
-
-  // ── WOD 타이머 카드 칩 렌더링 ──
-  const wrap = document.getElementById('wodItemsWrap');
-  if (wrap) {
-    wrap.innerHTML = items
-      .map(item => `<span class="wod-item-chip">${escapeHtml(item)}</span>`)
-      .join('');
-  }
-
-  // ── 분모 배지 ──
-  const badge = document.getElementById('wodDenominatorBadge');
-  if (badge) badge.textContent = `총 ${wodDenominator}종목`;
-
-  // ── 오늘기록 탭 분모 표시 갱신 ──
-  updateDenominatorDisplay();
-}
-
-/**
- * 오늘기록 탭의 분모 / 진행 바 갱신
- */
-function updateDenominatorDisplay() {
-  const denomEl = document.getElementById('wodDenomDisplay');
-  const fillEl  = document.getElementById('wodSetsProgressFill');
-  const pctEl   = document.getElementById('wodSetsPercent');
-  const hintEl  = document.getElementById('wodSetsHintText');
-
-  if (denomEl) {
-    denomEl.textContent =
-      wodDenominator > 0 ? wodDenominator : '-';
-  }
-
-  // 진행률
-  const pct = wodDenominator > 0
-    ? Math.min(100, Math.round((wodSetsCount / wodDenominator) * 100))
-    : 0;
-
-  if (fillEl) fillEl.style.width = pct + '%';
-  if (pctEl)  pctEl.textContent  = pct + '%';
-  if (hintEl) {
-    hintEl.textContent = wodDenominator > 0
-      ? `오늘 WOD ${wodDenominator}종목 중 ${wodSetsCount}종목 완료`
-      : 'Config 시트의 todayWod 에서 종목 수 자동 계산';
-  }
-}
-
-// ════════════════════════════════════════════════
-// 유틸 함수
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 공통 유틸
+// ════════════════════════════════════════════════════════════════
 function getNowDateTimeStr() {
-  const now  = new Date();
-  const y    = now.getFullYear();
-  const mo   = now.getMonth() + 1;
-  const d    = now.getDate();
-  const hh   = String(now.getHours()).padStart(2, '0');
-  const mm   = String(now.getMinutes()).padStart(2, '0');
-  const ss   = String(now.getSeconds()).padStart(2, '0');
+  const now = new Date();
+  const y   = now.getFullYear();
+  const mo  = now.getMonth() + 1;
+  const d   = now.getDate();
+  const hh  = String(now.getHours()).padStart(2,'0');
+  const mm  = String(now.getMinutes()).padStart(2,'0');
+  const ss  = String(now.getSeconds()).padStart(2,'0');
   return `${y}. ${mo}. ${d}. ${hh}:${mm}:${ss}`;
 }
 function parseKorDateToMs(dateStr) {
   const m = String(dateStr).match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
   if (!m) return 0;
   return new Date(
-    parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])
+    parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3])
   ).getTime();
 }
-function validateStudentId(id) { return /^\d{5}$/.test(id); }
-function validateName(name)    { return /^[가-힣]{2,4}$/.test(name); }
+function validateStudentId(id)  { return /^\d{5}$/.test(id); }
+function validateName(name)     { return /^[가-힣]{2,4}$/.test(name); }
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // gasCall (JSONP)
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function gasCall(params) {
   return new Promise((resolve, reject) => {
     const cbName =
       'gcb_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-    const s  = document.createElement('script');
-    let done = false;
+    const s    = document.createElement('script');
+    let   done = false;
+
     function cleanup() {
       try { delete window[cbName]; }     catch(e) {}
-      try { if (s.parentNode) s.parentNode.removeChild(s); } catch(e) {}
+      try {
+        if (s.parentNode) s.parentNode.removeChild(s);
+      } catch(e) {}
     }
+
     const timer = setTimeout(() => {
       if (done) return;
       done = true; cleanup();
       reject(new Error('서버 응답 시간 초과 (30초)'));
     }, 30000);
+
     window[cbName] = function(data) {
       if (done) return;
       done = true; clearTimeout(timer); cleanup(); resolve(data);
@@ -1078,6 +1199,7 @@ function gasCall(params) {
       done = true; clearTimeout(timer); cleanup();
       reject(new Error('스크립트 로드 실패'));
     };
+
     const p = new URLSearchParams({ ...params, callback: cbName });
     s.src   = GAS_URL + '?' + p.toString();
     s.async = true;
@@ -1085,66 +1207,164 @@ function gasCall(params) {
   });
 }
 
-// ════════════════════════════════════════════════
-// ★ loadPoseConfig — todayWod 파싱 포함
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// WOD 파싱 & 렌더링
+// ════════════════════════════════════════════════════════════════
+function parseAndRenderWod(wodText) {
+  const clean = String(wodText || '').trim().replace(/^🔥\s*/,'');
+  const items = clean.split('+')
+    .map(s => s.trim()).filter(s => s.length > 0);
+  wodDenominator = items.length;
+
+  const wrap  = document.getElementById('wodItemsWrap');
+  const badge = document.getElementById('wodDenominatorBadge');
+  if (wrap) {
+    wrap.innerHTML = items
+      .map(item => `<span class="wod-item-chip">${escapeHtml(item)}</span>`)
+      .join('');
+  }
+  if (badge) badge.textContent = `총 ${wodDenominator}종목`;
+
+  refreshCounterUI();
+}
+
+// ════════════════════════════════════════════════════════════════
+// 카운터 UI 갱신
+// ════════════════════════════════════════════════════════════════
+function refreshCounterUI() {
+  const rEl       = document.getElementById('roundsVal');
+  const pEl       = document.getElementById('partialVal');
+  const denomEl   = document.getElementById('denomDisplay');
+  const fillEl    = document.getElementById('partialProgressFill');
+  const summaryEl = document.getElementById('summaryText');
+  const pctEl     = document.getElementById('summaryPct');
+  const hintEl    = document.getElementById('summaryHint');
+  const badgeWrap = document.getElementById('roundBadgeWrap');
+
+  if (rEl) rEl.textContent = wodRounds;
+  if (pEl) pEl.textContent = wodPartial;
+
+  if (denomEl)
+    denomEl.textContent = wodDenominator > 0 ? wodDenominator : '-';
+
+  const partialPct = wodDenominator > 0
+    ? Math.min(100, Math.round((wodPartial / wodDenominator) * 100)) : 0;
+  if (fillEl) fillEl.style.width = partialPct + '%';
+
+  const totalDone = wodRounds * wodDenominator + wodPartial;
+  const overallPct = wodDenominator > 0
+    ? Math.round((totalDone / wodDenominator) * 100) : 0;
+
+  if (summaryEl)
+    summaryEl.textContent = `${wodRounds}라운드 + ${wodPartial}종목`;
+  if (pctEl) pctEl.textContent = overallPct + '%';
+
+  if (hintEl) {
+    hintEl.textContent = wodDenominator > 0
+      ? `오늘 WOD ${wodDenominator}종목 기준 총 ${totalDone}종목 완료 (${overallPct}%)`
+      : 'Config 시트의 todayWod 에서 분모 자동 계산';
+  }
+
+  if (badgeWrap) {
+    badgeWrap.innerHTML = wodRounds > 0
+      ? `<span class="round-complete-badge">🏆 ${wodRounds}라운드 완주!</span>`
+      : '';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// 카운터 조작
+// ════════════════════════════════════════════════════════════════
+function changeRounds(delta) {
+  wodRounds = Math.max(0, wodRounds + delta);
+  animateCounter('roundsVal');
+  refreshCounterUI();
+}
+
+function changePartial(delta) {
+  const next = wodPartial + delta;
+  if (next >= wodDenominator && wodDenominator > 0) {
+    wodRounds++;
+    wodPartial = 0;
+    showToast(`🏆 ${wodRounds}라운드 완주!`);
+  } else if (next < 0) {
+    if (wodRounds > 0) {
+      wodRounds--;
+      wodPartial = Math.max(0, wodDenominator - 1);
+    } else {
+      wodPartial = 0;
+    }
+  } else {
+    wodPartial = next;
+  }
+  animateCounter('partialVal');
+  refreshCounterUI();
+}
+
+function animateCounter(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.transform = 'scale(1.35)';
+  el.style.color     = 'var(--accent)';
+  setTimeout(() => {
+    el.style.transform = 'scale(1)';
+    el.style.color     = '';
+  }, 200);
+}
+
+// ════════════════════════════════════════════════════════════════
+// loadPoseConfig
+// ════════════════════════════════════════════════════════════════
 async function loadPoseConfig() {
   try {
-    const res = await gasCall({ action: 'getConfig' });
+    const res = await gasCall({ action:'getConfig' });
     if (res.status === 'success' && res.config) {
       const cfg = res.config;
-
-      // POSE_CONFIG 갱신
       Object.keys(POSE_CONFIG).forEach(k => {
         if (k in cfg) {
           const v = parseFloat(cfg[k]);
           if (!isNaN(v)) POSE_CONFIG[k] = v;
         }
       });
-
-      // WOD 타이머 시간 갱신
       if (cfg.wodTimerSeconds !== undefined) {
         const sec = parseInt(cfg.wodTimerSeconds, 10);
         if (!isNaN(sec) && sec > 0) {
           wodDefaultSeconds = sec;
           if (!wodRunning) {
             wodSeconds = sec;
-            const mm = String(Math.floor(sec / 60)).padStart(2, '0');
-            const ss = String(sec % 60).padStart(2, '0');
+            const mm = String(Math.floor(sec/60)).padStart(2,'0');
+            const ss = String(sec%60).padStart(2,'0');
             document.getElementById('wodDisplay').textContent = `${mm}:${ss}`;
           }
         }
       }
-
-      // ★ todayWod 파싱 → 분모 자동 계산
-      if (cfg.todayWod !== undefined && String(cfg.todayWod).trim()) {
+      if (cfg.todayWod && String(cfg.todayWod).trim()) {
         parseAndRenderWod(String(cfg.todayWod).trim());
       }
     }
   } catch(e) {
-    // 기본값으로 파싱 시도
     parseAndRenderWod(
       '플랭크 + 푸시업 + 에어스쿼트 + 런지 + 버피 + 줄넘기'
     );
   }
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 인증
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function switchAuthTab(mode) {
   authMode = mode;
   document.getElementById('tabLogin')
     .classList.toggle('active', mode === 'login');
   document.getElementById('tabRegister')
     .classList.toggle('active', mode === 'register');
-  document.getElementById('loginError').style.display   = 'none';
-  document.getElementById('loginSuccess').style.display = 'none';
+  document.getElementById('loginError').style.display = 'none';
+
   if (mode === 'login') {
     document.getElementById('authHint').textContent =
       '📌 학번 + 이름 + 비밀번호가 모두 일치해야 로그인됩니다.';
-    document.getElementById('authBtn').textContent   = '수업 입장하기 →';
-    document.getElementById('loginPw').placeholder   = '비밀번호';
+    document.getElementById('authBtn').textContent  = '수업 입장하기 →';
+    document.getElementById('loginPw').placeholder  = '비밀번호';
     document.getElementById('loginPw').style.display = 'block';
   } else {
     document.getElementById('authHint').textContent =
@@ -1154,19 +1374,20 @@ function switchAuthTab(mode) {
     document.getElementById('loginPw').style.display = 'none';
   }
 }
+
 async function handleAuth() {
   const studentId = document.getElementById('loginId').value.trim();
   const name      = document.getElementById('loginName').value.trim();
   const password  = document.getElementById('loginPw').value.trim();
   const errEl     = document.getElementById('loginError');
   errEl.style.display = 'none';
-  document.getElementById('loginSuccess').style.display = 'none';
+
   if (!studentId) {
     errEl.textContent = '학번을 입력하세요.';
     errEl.style.display = 'block'; return;
   }
   if (!validateStudentId(studentId)) {
-    errEl.textContent = '학번은 숫자 5자리여야 합니다. (예: 10101)';
+    errEl.textContent = '학번은 숫자 5자리여야 합니다.';
     errEl.style.display = 'block'; return;
   }
   if (!name) {
@@ -1174,20 +1395,24 @@ async function handleAuth() {
     errEl.style.display = 'block'; return;
   }
   if (!validateName(name)) {
-    errEl.textContent = '이름은 한글 2~4자여야 합니다. (예: 홍길동)';
+    errEl.textContent = '이름은 한글 2~4자여야 합니다.';
     errEl.style.display = 'block'; return;
   }
   if (authMode === 'login' && !password) {
     errEl.textContent = '비밀번호를 입력하세요.';
     errEl.style.display = 'block'; return;
   }
+
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 처리 중... 잠시만 기다려주세요.';
   errEl.style.display = 'block';
+
   try {
     const res = await gasCall({
-      action: authMode, studentId, name,
-      ...(authMode === 'login' ? { password } : {})
+      action    : authMode,
+      studentId,
+      name,
+      ...(authMode === 'login' ? { password } : {}),
     });
     errEl.style.color = 'var(--danger)';
     if (res.status === 'success') {
@@ -1210,54 +1435,59 @@ async function handleAuth() {
     errEl.style.display = 'block';
   }
 }
+
 function enterApp(id, name) {
   currentStudent = { id, name };
-  document.getElementById('headerName').textContent    =
+  document.getElementById('headerName').textContent =
     `${escapeHtml(name)} (${escapeHtml(id)})`;
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appScreen').style.display   = 'block';
-  document.getElementById('logDate').textContent       =
+  document.getElementById('logDate').textContent =
     '📅 ' + new Date().toLocaleDateString('ko-KR');
   checkServer();
   loadDashboard();
-  loadPoseConfig();   // ★ 여기서 todayWod 파싱 실행
+  loadPoseConfig();
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 비밀번호 모달
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function openPwForceModal() {
-  document.getElementById('pwForce1').value             = '';
-  document.getElementById('pwForce2').value             = '';
+  document.getElementById('pwForce1').value = '';
+  document.getElementById('pwForce2').value = '';
   document.getElementById('pwForceError').style.display = 'none';
   document.getElementById('pwForceModal').classList.add('show');
 }
+
 async function saveForcePw() {
   const pw1   = document.getElementById('pwForce1').value.trim();
   const pw2   = document.getElementById('pwForce2').value.trim();
   const errEl = document.getElementById('pwForceError');
   errEl.style.display = 'none';
+
   if (!pw1 || pw1.length < 4) {
-    errEl.textContent = '비밀번호를 4자리 이상 입력하세요.';
+    errEl.textContent   = '비밀번호를 4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
   }
   if (pw1 !== pw2) {
-    errEl.textContent = '비밀번호가 일치하지 않습니다.';
+    errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
+
   errEl.style.color   = 'var(--warning)';
   errEl.textContent   = '⏳ 저장 중...';
   errEl.style.display = 'block';
+
   try {
     const res = await gasCall({
       action     : 'changePassword',
       studentId  : currentStudent.id,
       name       : currentStudent.name,
-      newPassword: pw1
+      newPassword: pw1,
     });
     if (res.status === 'success') {
       document.getElementById('pwForceModal').classList.remove('show');
-      showToast(`🎉 ${currentStudent.name}님 등록 완료! 새 비밀번호로 로그인하세요.`);
+      showToast(`🎉 ${currentStudent.name}님 등록 완료!`);
     } else {
       errEl.style.color   = 'var(--danger)';
       errEl.textContent   = res.message || '저장 실패';
@@ -1269,34 +1499,38 @@ async function saveForcePw() {
     errEl.style.display = 'block';
   }
 }
+
 function openPwModal() {
-  document.getElementById('pwNew1').value             = '';
-  document.getElementById('pwNew2').value             = '';
+  document.getElementById('pwNew1').value = '';
+  document.getElementById('pwNew2').value = '';
   document.getElementById('pwNewError').style.display = 'none';
   document.getElementById('pwChangeModal').classList.add('show');
 }
 function closePwModal() {
   document.getElementById('pwChangeModal').classList.remove('show');
 }
+
 async function saveNewPw() {
   const pw1   = document.getElementById('pwNew1').value.trim();
   const pw2   = document.getElementById('pwNew2').value.trim();
   const errEl = document.getElementById('pwNewError');
   errEl.style.display = 'none';
+
   if (!pw1 || pw1.length < 4) {
-    errEl.textContent = '비밀번호를 4자리 이상 입력하세요.';
+    errEl.textContent   = '4자리 이상 입력하세요.';
     errEl.style.display = 'block'; return;
   }
   if (pw1 !== pw2) {
-    errEl.textContent = '비밀번호가 일치하지 않습니다.';
+    errEl.textContent   = '비밀번호가 일치하지 않습니다.';
     errEl.style.display = 'block'; return;
   }
+
   try {
     const res = await gasCall({
       action     : 'changePassword',
       studentId  : currentStudent.id,
       name       : currentStudent.name,
-      newPassword: pw1
+      newPassword: pw1,
     });
     if (res.status === 'success') {
       closePwModal();
@@ -1311,15 +1545,15 @@ async function saveNewPw() {
   }
 }
 
-// ════════════════════════════════════════════════
-// 서버 / 로그아웃 / 탭 / 테마
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 서버 확인 / 로그아웃 / 탭 / 테마
+// ════════════════════════════════════════════════════════════════
 async function checkServer() {
   const el = document.getElementById('serverStatus');
   el.textContent = '● 연결 확인 중';
   el.className   = 'server-status checking';
   try {
-    await gasCall({ action: 'initSheets' });
+    await gasCall({ action:'initSheets' });
     el.textContent = '● 서버 연결됨';
     el.className   = 'server-status ok';
   } catch {
@@ -1327,89 +1561,79 @@ async function checkServer() {
     el.className   = 'server-status err';
   }
 }
+
 function doLogout() {
-  stopMeasure();
-  stopCamera();
-  wodPause();
-  wodReset();
+  stopMeasure(); stopCamera(); wodPause(); wodReset();
   repCount = 0; totalSeconds = 0; goodPostureSeconds = 0;
-  accuracyScoreSum = 0; accuracyTicks = 0;
-  wodSetsCount = 0; sessionTotalReps = 0;
-  wodDenominator = 0;
+  accuracyScoreSum = 0; accuracyTicks = 0; sessionTotalReps = 0;
+  wodRounds = 0; wodPartial = 0; wodDenominator = 0;
   resetPhases();
+
   ['peakHR','avgHR','goodPoint','improvePoint',
-   'breakfast','lunch','dinner','water','sleep']
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-  document.getElementById('wodSetsVal').textContent = '0';
+   'breakfast','lunch','dinner','water','sleep'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  refreshCounterUI();
+
   document.getElementById('aiTotalBox').textContent =
     '기록을 저장하면 AI 선생님의 총평이 여기에 표시됩니다.';
-  // 채팅 초기화
-  const chatWrap   = document.getElementById('aiChat');
-  const avatar     = document.createElement('div');
-  avatar.className = 'ai-avatar';
-  avatar.textContent = '🏫';
-  const bubble     = document.createElement('div');
-  bubble.className = 'ai-bubble';
-  bubble.textContent =
-    '안녕! 선생님이야~ 체육2 수업에 온 것을 환영해! 😊\n' +
-    '궁금한 것이 있으면 무엇이든 물어봐!';
-  const msgWrap    = document.createElement('div');
-  msgWrap.className = 'ai-msg';
-  msgWrap.appendChild(avatar);
-  msgWrap.appendChild(bubble);
-  chatWrap.innerHTML = '';
-  chatWrap.appendChild(msgWrap);
+
+  const chat = document.getElementById('aiChat');
+  chat.innerHTML = `
+    <div class="ai-msg">
+      <div class="ai-avatar">🏫</div>
+      <div class="ai-bubble">
+        안녕! 선생님이야~ 체육2 수업에 온 것을 환영해! 😊
+        궁금한 것이 있으면 무엇이든 물어봐!
+      </div>
+    </div>`;
+
   currentStudent = null;
   document.getElementById('appScreen').style.display   = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
-  ['loginId','loginName','loginPw']
-    .forEach(id => document.getElementById(id).value = '');
-  document.getElementById('loginError').style.display   = 'none';
-  document.getElementById('loginSuccess').style.display = 'none';
+  ['loginId','loginName','loginPw'].forEach(id =>
+    document.getElementById(id).value = '');
+  document.getElementById('loginError').style.display = 'none';
   switchAuthTab('login');
 }
+
 function showTab(tab) {
   document.querySelectorAll('.section')
-          .forEach(s => s.classList.remove('active'));
+    .forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn')
-          .forEach(b => b.classList.remove('active'));
+    .forEach(b => b.classList.remove('active'));
   document.getElementById('sec-' + tab).classList.add('active');
   const tabs = ['exercise','wiki','dashboard','ai','log'];
   document.querySelectorAll('.tab-btn')[tabs.indexOf(tab)]
-          .classList.add('active');
+    .classList.add('active');
   if (tab === 'wiki')      renderWiki();
   if (tab === 'dashboard') loadDashboard();
   if (tab === 'ai')        loadAchievement();
-  if (tab === 'log')       updateDenominatorDisplay(); // ★ 탭 전환 시 갱신
+  if (tab === 'log')       refreshCounterUI();
 }
+
 function toggleTheme() {
   isLightMode = !isLightMode;
   document.body.classList.toggle('light-mode', isLightMode);
   document.querySelector('.theme-btn').textContent = isLightMode ? '☀️' : '🌙';
 }
 
-// ════════════════════════════════════════════════
-// 페이즈 초기화
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 관절 페이즈 초기화
+// ════════════════════════════════════════════════════════════════
 function resetPhases() {
-  squatPhase  = 'up';
-  lungePhase  = 'up';
-  pushupPhase = 'up';
+  squatPhase  = 'up'; lungePhase  = 'up'; pushupPhase = 'up';
   burpeePhase = 'stand';
   burpeeStageReached = {
     squat:false, plank:false, pushup:false, squat2:false
   };
-  jumpPhase        = 'land';
-  jumpBaselineHipY = null;
-  jumpHipYHistory  = [];
+  jumpPhase = 'land'; jumpBaselineHipY = null; jumpHipYHistory = [];
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 운동 선택
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function selectExercise(idx) {
   if (idx === currentExerciseIdx) return;
   if (isMeasuring) {
@@ -1417,47 +1641,40 @@ function selectExercise(idx) {
     stopMeasure();
   }
   currentExerciseIdx = idx;
-  document.querySelectorAll('.exercise-btn').forEach((b, i) => {
-    b.classList.toggle('active', i === idx);
-    b.setAttribute('aria-pressed', i === idx ? 'true' : 'false');
-  });
-  resetPhases();
-  resetMeasure();
+  document.querySelectorAll('.exercise-btn').forEach((b, i) =>
+    b.classList.toggle('active', i === idx));
+  resetPhases(); resetMeasure();
   document.getElementById('repLabel').textContent =
     EXERCISES[idx].key === 'plank' ? '초 (sec)' : 'Reps';
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 카메라
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 async function switchFacing(mode) {
   document.getElementById('btnFacingUser')
     .classList.toggle('active', mode === 'user');
   document.getElementById('btnFacingEnv')
     .classList.toggle('active', mode === 'environment');
   currentFacingMode = mode;
-  const v    = document.getElementById('videoEl');
-  const c    = document.getElementById('canvasEl');
   const flip = mode === 'environment' ? 'scaleX(1)' : 'scaleX(-1)';
-  v.style.transform = flip;
-  c.style.transform = flip;
+  document.getElementById('videoEl').style.transform  = flip;
+  document.getElementById('canvasEl').style.transform = flip;
   if (isCameraOn) {
     stopCamera();
     await new Promise(r => setTimeout(r, 600));
     await startCamera();
   }
 }
+
 function toggleCamera() {
   if (isCameraOn) stopCamera();
   else document.getElementById('guideModal').classList.add('show');
 }
-function closeGuide() {
-  document.getElementById('guideModal').classList.remove('show');
-}
-async function startCameraAfterGuide() {
-  closeGuide();
-  await startCamera();
-}
+function closeGuide()    { document.getElementById('guideModal').classList.remove('show'); }
+function closeSnapshot() { document.getElementById('snapshotModal').classList.remove('show'); }
+async function startCameraAfterGuide() { closeGuide(); await startCamera(); }
+
 async function startCamera() {
   if (typeof Pose === 'undefined') {
     showToast('⚠️ AI 자세 인식 라이브러리 로드 실패. 새로고침 해주세요.');
@@ -1466,38 +1683,43 @@ async function startCamera() {
   try {
     const videoEl  = document.getElementById('videoEl');
     const canvasEl = document.getElementById('canvasEl');
+
     stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode : { ideal: currentFacingMode },
         width      : { ideal: 640 },
         height     : { ideal: 480 },
-        frameRate  : { ideal: 30 }
+        frameRate  : { ideal: 30 },
       }
     });
     videoEl.srcObject = stream;
+
     const flip = currentFacingMode === 'environment'
-                 ? 'scaleX(1)' : 'scaleX(-1)';
+      ? 'scaleX(1)' : 'scaleX(-1)';
     videoEl.style.transform  = flip;
     canvasEl.style.transform = flip;
+
     await new Promise(resolve => {
       if (videoEl.readyState >= 2) resolve();
       else videoEl.onloadeddata = resolve;
     });
+
     document.getElementById('camPlaceholder').style.display = 'none';
     isCameraOn = true;
     document.getElementById('camToggleBtn').textContent = '📷 카메라 끄기';
+
     poseDetector = new Pose({
       locateFile: f =>
         `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}`
     });
     poseDetector.setOptions({
-      modelComplexity        : 1,
-      smoothLandmarks        : true,
-      smoothSegmentation     : false,
-      enableSegmentation     : false,
-      selfieMode             : false,
-      minDetectionConfidence : 0.5,
-      minTrackingConfidence  : 0.5
+      modelComplexity       : 1,
+      smoothLandmarks       : true,
+      smoothSegmentation    : false,
+      enableSegmentation    : false,
+      selfieMode            : false,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence : 0.5,
     });
     poseDetector.onResults(results => {
       canvasEl.width  = videoEl.videoWidth  || 640;
@@ -1510,21 +1732,11 @@ async function startCamera() {
           { color:'#6c63ff', lineWidth:3 });
         drawLandmarks(ctx, results.poseLandmarks,
           { color:'#ff6584', fillColor:'#ffb3c1', lineWidth:2, radius:6 });
-        results.poseLandmarks.forEach(lm => {
-          if (lm.visibility < 0.5) {
-            ctx.beginPath();
-            ctx.arc(
-              lm.x * canvasEl.width, lm.y * canvasEl.height,
-              5, 0, 2 * Math.PI
-            );
-            ctx.fillStyle = 'rgba(255,200,0,0.5)';
-            ctx.fill();
-          }
-        });
       } else {
         lastKeypoints = null;
       }
     });
+
     let animFrameId = null;
     async function sendFrame() {
       if (!isCameraOn || !poseDetector) return;
@@ -1537,10 +1749,8 @@ async function startCamera() {
       if (animFrameId) cancelAnimationFrame(animFrameId);
     }};
     sendFrame();
-    showToast(
-      `📷 ${currentFacingMode === 'user' ? '전면' : '후면'}` +
-      `카메라 & AI 자세 인식 활성화!`
-    );
+
+    showToast(`📷 ${currentFacingMode==='user'?'전면':'후면'} 카메라 활성화!`);
   } catch(err) {
     let msg = '⚠️ 카메라 접근에 실패했습니다.';
     if (err.name === 'NotAllowedError')  msg = '⚠️ 카메라 권한을 허용해주세요.';
@@ -1549,9 +1759,10 @@ async function startCamera() {
     showToast(msg);
   }
 }
+
 function stopCamera() {
-  if (mpCamera)     { try { mpCamera.stop(); }      catch(e) {} mpCamera     = null; }
-  if (poseDetector) { try { poseDetector.close(); } catch(e) {} poseDetector = null; }
+  if (mpCamera)     { try { mpCamera.stop(); }      catch(e){} mpCamera = null; }
+  if (poseDetector) { try { poseDetector.close(); } catch(e){} poseDetector = null; }
   if (stream)       { stream.getTracks().forEach(t => t.stop()); stream = null; }
   const videoEl  = document.getElementById('videoEl');
   const canvasEl = document.getElementById('canvasEl');
@@ -1563,15 +1774,15 @@ function stopCamera() {
   document.getElementById('camToggleBtn').textContent = '📷 카메라 켜기';
 }
 
-// ════════════════════════════════════════════════
-// 측정 시작 / 완료 / 리셋
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 측정
+// ════════════════════════════════════════════════════════════════
 function startMeasure() {
-  if (!isCameraOn)  { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
-  if (isMeasuring)  return;
+  if (!isCameraOn) { showToast('⚠️ 먼저 카메라를 켜주세요!'); return; }
+  if (isMeasuring) return;
   isMeasuring = true;
-  totalSeconds = 0; goodPostureSeconds = 0; repCount = 0;
-  accuracyScoreSum = 0; accuracyTicks = 0;
+  totalSeconds = 0; goodPostureSeconds = 0;
+  repCount = 0; accuracyScoreSum = 0; accuracyTicks = 0;
   resetPhases();
   document.getElementById('repLabel').textContent =
     EXERCISES[currentExerciseIdx].key === 'plank' ? '초 (sec)' : 'Reps';
@@ -1582,18 +1793,18 @@ function startMeasure() {
   }, 1000);
   showToast('▶ 측정을 시작합니다!');
 }
+
 async function stopMeasure() {
   if (!isMeasuring) return;
   isMeasuring = false;
-  clearInterval(measureTimer);
-  measureTimer = null;
+  clearInterval(measureTimer); measureTimer = null;
   const ex       = EXERCISES[currentExerciseIdx];
   const accuracy = accuracyTicks > 0
     ? Math.round(accuracyScoreSum / accuracyTicks) : 0;
+
   if (totalSeconds > 0 && totalSeconds <= 5) {
     showToast('⚠️ 운동 시간이 너무 짧습니다. (최소 5초 이상)');
-    resetMeasure();
-    return;
+    resetMeasure(); return;
   }
   if (currentStudent && totalSeconds > 5) {
     sessionTotalReps += repCount;
@@ -1607,23 +1818,20 @@ async function stopMeasure() {
         reps                : repCount,
         duration            : totalSeconds,
         goodPostureDuration : goodPostureSeconds,
-        accuracy
+        accuracy,
       });
       showToast(
         `✅ ${ex.name} 기록 저장! ` +
-        `(${ex.key === 'plank'
-          ? repCount + '초 유지'
-          : repCount + ' Reps'})`
+        `(${ex.key==='plank' ? repCount+'초' : repCount+' Reps'})`
       );
-    } catch {
-      showToast('⚠️ 저장 실패.');
-    }
+    } catch { showToast('⚠️ 저장 실패.'); }
   }
   resetMeasure();
 }
+
 function resetMeasure() {
-  repCount = 0; totalSeconds = 0; goodPostureSeconds = 0;
-  accuracyScoreSum = 0; accuracyTicks = 0;
+  repCount = 0; totalSeconds = 0;
+  goodPostureSeconds = 0; accuracyScoreSum = 0; accuracyTicks = 0;
   document.getElementById('repCount').textContent     = '0';
   document.getElementById('timerDisplay').textContent = '00:00';
   document.getElementById('accuracyPct').textContent  = '0%';
@@ -1631,9 +1839,10 @@ function resetMeasure() {
   document.getElementById('feedbackBox').textContent  =
     '운동을 시작하면 실시간 자세 피드백이 제공됩니다.';
 }
+
 function updateMeasureUI() {
-  const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-  const s = String(totalSeconds % 60).padStart(2, '0');
+  const m = String(Math.floor(totalSeconds/60)).padStart(2,'0');
+  const s = String(totalSeconds%60).padStart(2,'0');
   document.getElementById('timerDisplay').textContent = `${m}:${s}`;
   document.getElementById('repCount').textContent     = repCount;
   const acc = accuracyTicks > 0
@@ -1642,179 +1851,178 @@ function updateMeasureUI() {
   document.getElementById('accuracyBar').style.width = acc + '%';
 }
 
-// ════════════════════════════════════════════════
-// 관절 각도 계산
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 관절 각도
+// ════════════════════════════════════════════════════════════════
 function getAngle(a, b, c) {
-  const ab  = { x: a.x - b.x, y: a.y - b.y };
-  const cb  = { x: c.x - b.x, y: c.y - b.y };
-  const dot = ab.x * cb.x + ab.y * cb.y;
-  const mag = Math.sqrt(ab.x**2 + ab.y**2) *
-              Math.sqrt(cb.x**2 + cb.y**2);
+  const ab  = { x: a.x-b.x, y: a.y-b.y };
+  const cb  = { x: c.x-b.x, y: c.y-b.y };
+  const dot = ab.x*cb.x + ab.y*cb.y;
+  const mag = Math.sqrt(ab.x**2+ab.y**2) *
+              Math.sqrt(cb.x**2+cb.y**2);
   if (mag === 0) return 0;
-  return Math.acos(Math.min(1, Math.max(-1, dot / mag))) * (180 / Math.PI);
+  return Math.acos(Math.min(1, Math.max(-1, dot/mag))) * (180/Math.PI);
 }
-function getBestAngle(kp, a1, b1, c1, a2, b2, c2) {
-  const v1 = (kp[a1].visibility + kp[b1].visibility + kp[c1].visibility) / 3;
-  const v2 = (kp[a2].visibility + kp[b2].visibility + kp[c2].visibility) / 3;
+function getBestAngle(kp, a1,b1,c1, a2,b2,c2) {
+  const v1 = (kp[a1].visibility+kp[b1].visibility+kp[c1].visibility)/3;
+  const v2 = (kp[a2].visibility+kp[b2].visibility+kp[c2].visibility)/3;
   return v1 >= v2
-    ? getAngle(kp[a1], kp[b1], kp[c1])
-    : getAngle(kp[a2], kp[b2], kp[c2]);
+    ? getAngle(kp[a1],kp[b1],kp[c1])
+    : getAngle(kp[a2],kp[b2],kp[c2]);
 }
 
-// ════════════════════════════════════════════════
-// analyzePoseByKeypoints (원본 유지)
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// analyzePoseByKeypoints
+// ════════════════════════════════════════════════════════════════
 function analyzePoseByKeypoints() {
-  const fb = document.getElementById('feedbackBox');
+  const fb  = document.getElementById('feedbackBox');
   if (!lastKeypoints) {
     fb.textContent =
-      '⏳ 관절 인식 중... 카메라와 2~3m 거리를 두고 ' +
-      '전신이 화면에 보이도록 서주세요.';
+      '⏳ 관절 인식 중... 전신이 화면에 보이도록 서주세요.';
     accuracyTicks++; return;
   }
   const kp  = lastKeypoints;
   const ex  = EXERCISES[currentExerciseIdx];
   const VIS = POSE_CONFIG.visibilityThreshold;
-  const vis       = idx    => kp[idx] && kp[idx].visibility > VIS;
-  const visEither = (L, R) => vis(L) || vis(R);
+  const vis       = idx   => kp[idx] && kp[idx].visibility > VIS;
+  const visEither = (L,R) => vis(L) || vis(R);
   let poseScore = 0, feedback = '';
-  switch (ex.key) {
+
+  switch(ex.key) {
+
     case 'squat': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
-        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 서주세요.';
+        fb.textContent='⏳ 하체 관절을 인식하지 못했습니다.';
         accuracyTicks++; return;
       }
       const knee = getBestAngle(kp,23,25,27,24,26,28);
       const { squatGoodMin:mn, squatGoodMax:mx } = POSE_CONFIG;
       if (knee > 160) {
-        if (squatPhase === 'down') {
+        if (squatPhase==='down') {
           repCount++;
-          feedback  = `🎉 스쿼트 ${repCount}회 완료! 다시 내려가세요.`;
-          poseScore = 100;
+          feedback = `🎉 스쿼트 ${repCount}회 완료!`; poseScore = 100;
         } else {
-          feedback  = '⚠️ 서 있는 상태입니다. 스쿼트 동작을 시작하세요.';
-          poseScore = 20;
+          feedback = '⚠️ 스쿼트 동작을 시작하세요.'; poseScore = 20;
         }
         squatPhase = 'up';
       } else if (knee > mx) {
-        poseScore  = Math.round(40 + (160 - knee) / (160 - mx) * 30);
-        feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
+        poseScore = Math.round(40+(160-knee)/(160-mx)*30);
+        feedback  = `📐 더 깊이 내려가세요! (현재 ${Math.round(knee)}°, 목표 ${mx}° 이하)`;
         squatPhase = 'going_down';
       } else if (knee >= mn) {
         poseScore  = 100;
-        feedback   = `✅ 스쿼트 완벽! 무릎 각도 ${Math.round(knee)}° 👍 이제 올라오세요!`;
+        feedback   = `✅ 스쿼트 완벽! ${Math.round(knee)}° 👍`;
         squatPhase = 'down';
       } else {
         poseScore  = 60;
-        feedback   = '⚠️ 너무 깊이 앉았습니다. 조금 올라오세요.';
+        feedback   = '⚠️ 너무 깊이 앉았습니다.';
         squatPhase = 'down';
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
+
     case 'lunge': {
       if (!visEither(23,24)||!visEither(25,26)||!visEither(27,28)) {
-        fb.textContent = '⏳ 하체 관절을 인식하지 못했습니다. 전신이 보이도록 서주세요.';
+        fb.textContent='⏳ 하체 관절을 인식하지 못했습니다.';
         accuracyTicks++; return;
       }
-      const kneeL = vis(23)&&vis(25)&&vis(27) ? getAngle(kp[23],kp[25],kp[27]) : 180;
-      const kneeR = vis(24)&&vis(26)&&vis(28) ? getAngle(kp[24],kp[26],kp[28]) : 180;
+      const kneeL = vis(23)&&vis(25)&&vis(27)
+        ? getAngle(kp[23],kp[25],kp[27]) : 180;
+      const kneeR = vis(24)&&vis(26)&&vis(28)
+        ? getAngle(kp[24],kp[26],kp[28]) : 180;
       const frontKnee = Math.min(kneeL, kneeR);
       const { lungeGoodMin:mn, lungeGoodMax:mx } = POSE_CONFIG;
       if (frontKnee > 155) {
         if (lungePhase === 'down') {
           repCount++;
-          feedback  = `🎉 런지 ${repCount}회 완료!`;
-          poseScore = 100;
+          feedback = `🎉 런지 ${repCount}회 완료!`; poseScore = 100;
         } else {
-          feedback  = '⚠️ 런지 동작을 시작하세요. 한 발 앞으로 내딛어주세요.';
-          poseScore = 20;
+          feedback = '⚠️ 런지 동작을 시작하세요.'; poseScore = 20;
         }
         lungePhase = 'up';
       } else if (frontKnee > mx) {
-        poseScore  = Math.round(40 + (155 - frontKnee) / (155 - mx) * 30);
+        poseScore  = Math.round(40+(155-frontKnee)/(155-mx)*30);
         feedback   = `📐 더 깊이 내려가세요! (현재 ${Math.round(frontKnee)}°)`;
         lungePhase = 'going_down';
       } else if (frontKnee >= mn) {
         poseScore  = 100;
-        feedback   = `✅ 런지 완벽 자세! 앞무릎 ${Math.round(frontKnee)}° 👍 이제 올라오세요!`;
+        feedback   = `✅ 런지 완벽! ${Math.round(frontKnee)}° 👍`;
         lungePhase = 'down';
       } else {
         poseScore  = 60;
-        feedback   = '⚠️ 앞무릎이 너무 굽었습니다. 조금 올라오세요.';
+        feedback   = '⚠️ 너무 깊이 앉았습니다.';
         lungePhase = 'down';
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
+
     case 'plank': {
       if (!visEither(11,12)||!visEither(23,24)||!visEither(25,26)) {
-        fb.textContent = '⏳ 상체 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
+        fb.textContent='⏳ 상체 관절을 인식하지 못했습니다.';
         accuracyTicks++; return;
       }
       const shLm  = vis(11) ? kp[11] : kp[12];
       const hipLm = vis(23) ? kp[23] : kp[24];
       const knLm  = vis(25) ? kp[25] : kp[26];
       const bodyAngle = getAngle(shLm, hipLm, knLm);
-      const { plankBodyAngleMin:minAngle } = POSE_CONFIG;
+      const { plankBodyAngleMin: minAngle } = POSE_CONFIG;
       const hipY = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2 : hipLm.y;
       const shdY = vis(11)&&vis(12) ? (kp[11].y+kp[12].y)/2 : shLm.y;
       const kneY = vis(25)&&vis(26) ? (kp[25].y+kp[26].y)/2 : knLm.y;
-      const hipHigher = hipY < Math.min(shdY, kneY) - 0.04;
-      const hipLower  = hipY > Math.max(shdY, kneY) + 0.04;
       if (bodyAngle >= minAngle) {
         poseScore = 100; repCount++; goodPostureSeconds++;
-        feedback  = `✅ 플랭크 완벽 유지 중! ${repCount}초째 💪 몸이 일직선입니다.`;
-      } else if (hipHigher) {
-        poseScore = Math.max(20, Math.round((bodyAngle / minAngle) * 70));
-        feedback  = '⚠️ 엉덩이가 너무 높습니다. 내려서 몸을 일직선으로 만드세요.';
-      } else if (hipLower) {
-        poseScore = Math.max(20, Math.round((bodyAngle / minAngle) * 70));
-        feedback  = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주고 엉덩이를 올리세요!';
+        feedback  = `✅ 플랭크 완벽! ${repCount}초째 💪`;
+      } else if (hipY < Math.min(shdY, kneY) - 0.04) {
+        poseScore = Math.max(20, Math.round((bodyAngle/minAngle)*70));
+        feedback  = '⚠️ 엉덩이가 너무 높습니다.';
+      } else if (hipY > Math.max(shdY, kneY) + 0.04) {
+        poseScore = Math.max(20, Math.round((bodyAngle/minAngle)*70));
+        feedback  = '⚠️ 허리가 처지고 있습니다. 코어에 힘을 주세요!';
       } else {
-        poseScore = Math.round((bodyAngle / minAngle) * 85);
-        feedback  = `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°, 목표 ${minAngle}° 이상)`;
+        poseScore = Math.round((bodyAngle/minAngle)*85);
+        feedback  = `📐 거의 좋습니다! (현재 ${Math.round(bodyAngle)}°)`;
       }
       break;
     }
+
     case 'pushup': {
       if (!visEither(11,12)||!visEither(13,14)||!visEither(15,16)) {
-        fb.textContent = '⏳ 팔 관절을 인식하지 못했습니다. 측면이 보이도록 위치를 조정하세요.';
+        fb.textContent='⏳ 팔 관절을 인식하지 못했습니다.';
         accuracyTicks++; return;
       }
       const elbow = getBestAngle(kp,11,13,15,12,14,16);
-      const { pushupGoodMax:mx } = POSE_CONFIG;
+      const { pushupGoodMax: mx } = POSE_CONFIG;
       if (elbow > 155) {
         if (pushupPhase === 'down') {
           repCount++;
-          feedback  = `🎉 푸시업 ${repCount}회 완료!`;
-          poseScore = 100;
+          feedback = `🎉 푸시업 ${repCount}회 완료!`; poseScore = 100;
         } else {
-          feedback  = '📐 팔을 굽혀 내려가세요. 가슴이 바닥에 살짝 닿도록!';
-          poseScore = 30;
+          feedback = '📐 팔을 굽혀 내려가세요!'; poseScore = 30;
         }
         pushupPhase = 'up';
       } else if (elbow > mx) {
-        poseScore   = Math.round(40 + (155 - elbow) / (155 - mx) * 40);
+        poseScore   = Math.round(40+(155-elbow)/(155-mx)*40);
         feedback    = `📐 더 내려가세요! (현재 ${Math.round(elbow)}°, 목표 ${mx}° 이하)`;
         pushupPhase = 'going_down';
       } else {
         poseScore   = 100;
-        feedback    = `✅ 푸시업 최저점! 팔꿈치 ${Math.round(elbow)}° 👍 이제 올라오세요!`;
+        feedback    = `✅ 푸시업 최저점! ${Math.round(elbow)}° 👍`;
         pushupPhase = 'down';
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
+
     case 'burpee': {
       if (!visEither(11,12)||!visEither(23,24)) {
-        fb.textContent = '⏳ 상체 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
+        fb.textContent='⏳ 상체 관절을 인식하지 못했습니다.';
         accuracyTicks++; return;
       }
-      const hipY2  = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2
-                                       : (vis(23) ? kp[23].y : kp[24].y);
-      const ankleY = vis(27) ? kp[27].y : (vis(28) ? kp[28].y : 1.0);
+      const hipY2  = vis(23)&&vis(24)
+        ? (kp[23].y+kp[24].y)/2 : (vis(23)?kp[23].y:kp[24].y);
+      const ankleY = vis(27)?kp[27].y:(vis(28)?kp[28].y:1.0);
       const kneeAB = visEither(25,26)&&visEither(27,28)
         ? getBestAngle(kp,23,25,27,24,26,28) : 180;
       const elbowAB = visEither(11,12)&&visEither(13,14)&&visEither(15,16)
@@ -1823,44 +2031,42 @@ function analyzePoseByKeypoints() {
       const hipLmB = vis(23) ? kp[23] : kp[24];
       const knLmB  = vis(25) ? kp[25] : kp[26];
       const bodyAB = getAngle(shLmB, hipLmB, knLmB);
-      const isJump     = ankleY < 0.35 && hipY2 < 0.55;
-      const isStand    = kneeAB > 155  && hipY2 < 0.65;
-      const isSquat    =
-        kneeAB >= POSE_CONFIG.squatGoodMin &&
-        kneeAB <= POSE_CONFIG.squatGoodMax;
-      const isPlankPos =
-        bodyAB >= POSE_CONFIG.plankBodyAngleMin && kneeAB > 140;
-      const isPushupDwn =
-        isPlankPos && elbowAB <= POSE_CONFIG.pushupGoodMax;
-      if (isJump && (burpeePhase==='squat2' || burpeePhase==='stand')) {
+
+      const isJump     = ankleY<0.35 && hipY2<0.55;
+      const isStand    = kneeAB>155  && hipY2<0.65;
+      const isSquat    = kneeAB>=POSE_CONFIG.squatGoodMin &&
+                         kneeAB<=POSE_CONFIG.squatGoodMax;
+      const isPlankPos = bodyAB>=POSE_CONFIG.plankBodyAngleMin && kneeAB>140;
+      const isPushupDwn= isPlankPos && elbowAB<=POSE_CONFIG.pushupGoodMax;
+
+      if (isJump && (burpeePhase==='squat2'||burpeePhase==='stand')) {
         if (burpeePhase==='squat2' && burpeeStageReached.squat2) {
           repCount++; poseScore = 100;
-          feedback = `🎉 버피 ${repCount}회 완료! 점프+박수! 🔥`;
-          burpeeStageReached = { squat:false, plank:false, pushup:false, squat2:false };
+          feedback = `🎉 버피 ${repCount}회 완료! 🔥`;
+          burpeeStageReached = {
+            squat:false, plank:false, pushup:false, squat2:false
+          };
         } else {
           poseScore = 70;
-          feedback  = '⚠️ squat→plank→pushup→squat 순서를 모두 완료 후 점프하세요!';
+          feedback  = '⚠️ 순서를 모두 완료 후 점프하세요!';
         }
         burpeePhase = 'stand';
       } else if (isStand && !isJump) {
-        poseScore   = 40;
-        feedback    = '🏃 버피 시작! 아래로 쪼그려 앉으세요!';
+        poseScore = 40;
+        feedback  = '🏃 버피 시작! 아래로 쪼그려 앉으세요!';
         burpeePhase = 'stand';
       } else if (isSquat && !isPlankPos) {
         if (burpeePhase === 'stand') {
           burpeePhase = 'squat'; burpeeStageReached.squat = true;
-          poseScore = 90;
-          feedback  = '✅ ① 스쿼트! 이제 발을 뒤로 뻗어 플랭크 자세로!';
+          poseScore   = 90;
+          feedback    = '✅ ① 스쿼트! 발을 뒤로 뻗어 플랭크 자세로!';
         } else if (
-          (burpeePhase==='pushup' || burpeePhase==='plank') &&
+          (burpeePhase==='pushup'||burpeePhase==='plank') &&
           burpeeStageReached.pushup
         ) {
           burpeePhase = 'squat2'; burpeeStageReached.squat2 = true;
-          poseScore = 90;
-          feedback  = '✅ ⑤ 스쿼트 복귀! 이제 일어서서 점프+박수! 👏';
-        } else if (burpeePhase === 'squat2') {
-          poseScore = 80;
-          feedback  = '✅ ⑤ 스쿼트 자세 유지! 이제 점프하세요!';
+          poseScore   = 90;
+          feedback    = '✅ ⑤ 스쿼트 복귀! 이제 점프+박수! 👏';
         } else {
           poseScore = 50;
           feedback  = `📐 스쿼트 감지 (현재 단계: ${burpeePhase})`;
@@ -1868,11 +2074,8 @@ function analyzePoseByKeypoints() {
       } else if (isPushupDwn) {
         if (burpeePhase==='plank' && burpeeStageReached.plank) {
           burpeePhase = 'pushup'; burpeeStageReached.pushup = true;
-          poseScore = 100;
-          feedback  = `✅ ④ 푸시업! 팔꿈치 ${Math.round(elbowAB)}° 👍`;
-        } else if (burpeePhase === 'pushup') {
-          poseScore = 100;
-          feedback  = `✅ ④ 푸시업 유지 중! ${Math.round(elbowAB)}°`;
+          poseScore   = 100;
+          feedback    = `✅ ④ 푸시업! ${Math.round(elbowAB)}° 👍`;
         } else {
           poseScore = 60;
           feedback  = '⚠️ 플랭크 자세 먼저 완료하세요!';
@@ -1880,51 +2083,50 @@ function analyzePoseByKeypoints() {
       } else if (isPlankPos && !isPushupDwn) {
         if (burpeePhase==='squat' && burpeeStageReached.squat) {
           burpeePhase = 'plank'; burpeeStageReached.plank = true;
-          poseScore = 100;
-          feedback  = `✅ ③ 플랭크! 몸 일직선 ${Math.round(bodyAB)}° 👍 이제 팔굽혀펴기!`;
-        } else if (burpeePhase === 'plank') {
-          poseScore = 90;
-          feedback  = '✅ ③ 플랭크 유지 중! 이제 팔꿈치를 굽혀 푸시업하세요!';
+          poseScore   = 100;
+          feedback    = `✅ ③ 플랭크! ${Math.round(bodyAB)}° 👍`;
         } else {
           poseScore = 50;
-          feedback  = '⚠️ 플랭크 감지 — 스쿼트 단계를 먼저 완료하세요.';
+          feedback  = '⚠️ 스쿼트 단계를 먼저 완료하세요.';
         }
       } else {
         poseScore = 40;
-        feedback  = `🔄 동작 전환 중... [현재: ${burpeePhase}]`;
+        feedback  = `🔄 동작 전환 중... [${burpeePhase}]`;
       }
       goodPostureSeconds += poseScore >= 80 ? 1 : 0;
       break;
     }
+
     case 'jump': {
       if (!visEither(23,24)) {
-        fb.textContent = '⏳ 엉덩이 관절을 인식하지 못했습니다. 전신이 보이도록 거리를 조절하세요.';
+        fb.textContent='⏳ 엉덩이 관절을 인식하지 못했습니다.';
         accuracyTicks++; return;
       }
-      const rawHipY = vis(23)&&vis(24) ? (kp[23].y+kp[24].y)/2
-                                        : (vis(23) ? kp[23].y : kp[24].y);
+      const rawHipY = vis(23)&&vis(24)
+        ? (kp[23].y+kp[24].y)/2 : (vis(23)?kp[23].y:kp[24].y);
       jumpHipYHistory.push(rawHipY);
       if (jumpHipYHistory.length > 3) jumpHipYHistory.shift();
       const smoothHipY = jumpHipYHistory.reduce((a,b)=>a+b,0) /
                          jumpHipYHistory.length;
+
       if (jumpBaselineHipY === null) {
         jumpBaselineHipY = smoothHipY; poseScore = 50;
         feedback = '📏 기준 자세 측정 중... 제자리에 서 계세요!';
         accuracyScoreSum += poseScore; accuracyTicks++;
         fb.textContent = feedback; return;
       }
-      jumpBaselineHipY = jumpBaselineHipY * 0.99 + smoothHipY * 0.01;
+      jumpBaselineHipY = jumpBaselineHipY*0.99 + smoothHipY*0.01;
       const isAir = smoothHipY < jumpBaselineHipY - 0.03;
       if (isAir) {
         jumpPhase = 'air'; poseScore = 100;
-        feedback  = `🦘 점프 중! (높이 ${Math.round((jumpBaselineHipY-smoothHipY)*1000)}) 발끝 착지 준비!`;
+        feedback  = '🦘 점프 중! 발끝 착지 준비!';
       } else {
         if (jumpPhase === 'air') {
           repCount++; poseScore = 100;
-          feedback  = `✅ 줄넘기 ${repCount}회! 리듬 유지! 🪢`;
+          feedback = `✅ 줄넘기 ${repCount}회! 🪢`;
         } else {
           poseScore = 60;
-          feedback  = '🪢 리듬감 있게 발끝으로 가볍게 뛰어주세요!';
+          feedback  = '🪢 발끝으로 가볍게 뛰어주세요!';
         }
         jumpPhase = 'land';
       }
@@ -1932,43 +2134,38 @@ function analyzePoseByKeypoints() {
       break;
     }
   }
+
   accuracyScoreSum += poseScore;
   accuracyTicks++;
   fb.textContent = feedback || '📐 자세를 분석 중입니다...';
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 스냅샷 분석
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function snapshotAnalysis() {
   if (!isCameraOn) { showToast('⚠️ 카메라를 먼저 켜주세요!'); return; }
-  const ex = EXERCISES[currentExerciseIdx];
   document.getElementById('snapshotModal').classList.add('show');
   document.getElementById('snapshotContent').textContent =
-    'AI가 현재 프레임을 분석 중입니다...';
+    'AI가 분석 중입니다...';
+  const ex   = EXERCISES[currentExerciseIdx];
+  const tips = WIKI_DATA.find(w => w.name === ex.name) || WIKI_DATA[0];
   setTimeout(() => {
-    const tips =
-      WIKI_DATA.find(w => w.name === ex.name) ||
-      WIKI_DATA.find(w => w.name.includes(ex.name)) ||
-      WIKI_DATA[0];
-    let a = `📊 ${ex.name} 자세 정밀 분석 결과\n\n✅ 올바른 자세:\n`;
-    tips.correct.forEach((c, i) => a += `${i+1}. ${c}\n`);
+    let a = `📊 ${ex.name} 자세 정밀 분석\n\n✅ 올바른 자세:\n`;
+    tips.correct.forEach((c,i) => a+=`${i+1}. ${c}\n`);
     a += `\n⚠️ 주의 실수:\n`;
-    tips.mistakes.forEach((m, i) => a += `${i+1}. ${m}\n`);
+    tips.mistakes.forEach((m,i) => a+=`${i+1}. ${m}\n`);
     a += `\n💡 팁: ${tips.tips}`;
     a += lastKeypoints
-      ? '\n\n🦴 관절 인식: ✅ 정상 감지됨'
-      : '\n\n🦴 관절 인식: ⚠️ 미감지 — 카메라 거리를 조절하세요.';
+      ? '\n\n🦴 관절 인식: ✅ 정상'
+      : '\n\n🦴 관절 인식: ⚠️ 미감지';
     document.getElementById('snapshotContent').textContent = a;
   }, 1200);
 }
-function closeSnapshot() {
-  document.getElementById('snapshotModal').classList.remove('show');
-}
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // WOD 타이머
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function wodStart() {
   if (wodRunning) return;
   wodRunning = true;
@@ -1982,80 +2179,71 @@ function wodStart() {
     }
     wodSeconds--;
     document.getElementById('wodDisplay').textContent =
-      String(Math.floor(wodSeconds / 60)).padStart(2, '0') + ':' +
-      String(wodSeconds % 60).padStart(2, '0');
+      String(Math.floor(wodSeconds/60)).padStart(2,'0') + ':' +
+      String(wodSeconds%60).padStart(2,'0');
   }, 1000);
 }
 function wodPause() {
-  wodRunning = false;
-  clearInterval(wodInterval);
+  wodRunning = false; clearInterval(wodInterval);
   if (wodSeconds > 0 && wodSeconds < wodDefaultSeconds)
     document.getElementById('wodStatus').textContent = '일시정지';
 }
 function wodReset() {
-  wodPause();
-  wodSeconds = wodDefaultSeconds;
-  const mm = String(Math.floor(wodSeconds / 60)).padStart(2, '0');
-  const ss = String(wodSeconds % 60).padStart(2, '0');
-  document.getElementById('wodDisplay').textContent = `${mm}:${ss}`;
-  document.getElementById('wodStatus').textContent  = '준비';
+  wodPause(); wodSeconds = wodDefaultSeconds;
+  document.getElementById('wodDisplay').textContent =
+    String(Math.floor(wodSeconds/60)).padStart(2,'0') + ':' +
+    String(wodSeconds%60).padStart(2,'0');
+  document.getElementById('wodStatus').textContent = '준비';
 }
-// ★ generateWOD — "+" 구분자 형식으로 생성
 function generateWOD() {
   wodReset();
   const wods = [
-    '플랭크 20초 + 푸시업 5개 + 에어스쿼트 5개 + 런지 10개 + 버피 3개 + 줄넘기 1분',
-    '에어스쿼트 15개 + 푸시업 10개 + 버피 5개',
-    '런지 20개 + 플랭크 30초 + 줄넘기 50개',
-    '버피 10개 + 에어스쿼트 20개 + 줄넘기 30개',
-    '푸시업 15개 + 런지 20개 + 플랭크 45초',
+    '플랭크 + 푸시업 + 에어스쿼트 + 런지 + 버피 + 줄넘기',
+    '에어스쿼트 + 푸시업 + 버피',
+    '런지 + 플랭크 + 줄넘기',
+    '버피 + 에어스쿼트 + 줄넘기',
+    '푸시업 + 런지 + 플랭크',
   ];
-  const selected = wods[Math.floor(Math.random() * wods.length)];
-  // ★ 파싱 함수 재사용 → 분모 자동 갱신
-  parseAndRenderWod(selected);
-  document.getElementById('wodStatus').textContent = '준비';
-  showToast(`🤖 WOD 생성 완료! ${wodDenominator}종목`);
+  const sel = wods[Math.floor(Math.random() * wods.length)];
+  parseAndRenderWod(sel);
+  showToast(`🤖 WOD 생성! ${wodDenominator}종목`);
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 백과사전
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function renderWiki(filter = '') {
   const filtered = WIKI_DATA.filter(w =>
-    w.name.includes(filter) || w.target.includes(filter)
-  );
-  document.getElementById('wikiList').innerHTML =
-    filtered.map(w => `
-      <div class="ex-card">
-        <div class="ex-card-header">
-          <div class="ex-card-icon">${w.icon}</div>
-          <div>
-            <div class="ex-card-name">${escapeHtml(w.name)}</div>
-            <div class="ex-card-target">🎯 ${escapeHtml(w.target)}</div>
-          </div>
+    w.name.includes(filter) || w.target.includes(filter));
+  document.getElementById('wikiList').innerHTML = filtered.map(w => `
+    <div class="ex-card">
+      <div class="ex-card-header">
+        <div class="ex-card-icon">${w.icon}</div>
+        <div>
+          <div class="ex-card-name">${escapeHtml(w.name)}</div>
+          <div class="ex-card-target">🎯 ${escapeHtml(w.target)}</div>
         </div>
-        <div class="ex-card-body">
-          <strong>✅ 올바른 자세:</strong>
-          <ul>${w.correct.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>
-          <strong style="display:block;margin-top:8px;">⚠️ 피해야 할 실수:</strong>
-          <ul>${w.mistakes.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
-          <div style="margin-top:8px;">
-            <span class="ex-tag tag-good">💡 ${escapeHtml(w.tips)}</span>
-          </div>
-          <a class="yt-btn" href="${escapeHtml(w.youtube)}"
-             target="_blank" rel="noopener noreferrer">
-            ▶ 유튜브 영상 보기
-          </a>
+      </div>
+      <div class="ex-card-body">
+        <strong>✅ 올바른 자세:</strong>
+        <ul>${w.correct.map(c=>`<li>${escapeHtml(c)}</li>`).join('')}</ul>
+        <strong style="display:block;margin-top:8px;">⚠️ 피해야 할 실수:</strong>
+        <ul>${w.mistakes.map(m=>`<li>${escapeHtml(m)}</li>`).join('')}</ul>
+        <div style="margin-top:8px;">
+          <span class="ex-tag tag-good">💡 ${escapeHtml(w.tips)}</span>
         </div>
-      </div>`).join('');
+        <a class="yt-btn" href="${escapeHtml(w.youtube)}"
+           target="_blank" rel="noopener noreferrer">▶ 유튜브 영상 보기</a>
+      </div>
+    </div>`).join('');
 }
 function filterWiki() {
   renderWiki(document.getElementById('wikiSearch').value.trim());
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 대시보드
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 async function loadDashboard() {
   if (!currentStudent) return;
   try {
@@ -2063,116 +2251,135 @@ async function loadDashboard() {
       action: 'getStudentData', studentId: currentStudent.id
     });
     if (res.status !== 'success') return;
-    const r = res.exerciseRecords || [];
-    const n = r.length;
-    const totalReps = r.reduce((s, x) => s + (x.reps || 0), 0);
+    const r         = res.exerciseRecords || [];
+    const n         = r.length;
+    const totalReps = r.reduce((s,x) => s+(x.reps||0), 0);
     const avgAcc    = n > 0
-      ? Math.round(r.reduce((s, x) => s + (x.accuracy || 0), 0) / n) : 0;
-    const totalMins =
-      Math.round(r.reduce((s, x) => s + (x.duration || 0), 0) / 60);
+      ? Math.round(r.reduce((s,x) => s+(x.accuracy||0), 0) / n) : 0;
+    const totalMins = Math.round(
+      r.reduce((s,x) => s+(x.duration||0), 0) / 60
+    );
     document.getElementById('dTotalSessions').textContent = n;
     document.getElementById('dTotalReps').textContent     = totalReps;
     document.getElementById('dAvgAccuracy').textContent   = avgAcc + '%';
     document.getElementById('dTotalTime').textContent     = totalMins + '분';
+
     const recEl = document.getElementById('recentRecords');
     if (n === 0) {
-      recEl.innerHTML = '<div class="empty-state">아직 기록이 없습니다</div>';
+      recEl.innerHTML =
+        '<div class="empty-state">아직 기록이 없습니다</div>';
       return;
     }
+
     function extractDate(dateStr) {
-      if (!dateStr) return '날짜 없음';
       const m = String(dateStr).match(/\d{4}\.\s*\d{1,2}\.\s*\d{1,2}\./);
-      return m ? m[0].replace(/\s+/g,' ').trim() : String(dateStr).trim();
+      return m
+        ? m[0].replace(/\s+/g,' ').trim()
+        : String(dateStr).trim();
     }
+
     const dateGroups = {};
     r.forEach(x => {
-      const dateKey = extractDate(x.date);
-      if (!dateGroups[dateKey]) dateGroups[dateKey] = [];
-      dateGroups[dateKey].push(x);
+      const k = extractDate(x.date);
+      if (!dateGroups[k]) dateGroups[k] = [];
+      dateGroups[k].push(x);
     });
-    const sortedDates = Object.keys(dateGroups).sort((a, b) =>
-      parseKorDateToMs(b) - parseKorDateToMs(a)
+
+    const sortedDates = Object.keys(dateGroups).sort(
+      (a,b) => parseKorDateToMs(b) - parseKorDateToMs(a)
     );
     const ORDER = ['플랭크','푸시업','에어 스쿼트','런지','버피','줄넘기'];
     const ICONS = {
       '플랭크':'💪','푸시업':'⬆️','에어 스쿼트':'🦵',
       '런지':'🏃','버피':'🔥','줄넘기':'🪢'
     };
+
     recEl.innerHTML = sortedDates.map((dateKey, idx) => {
       const records = dateGroups[dateKey];
       const merged  = {};
       records.forEach(x => {
         const key = x.exercise || '알 수 없음';
-        if (!merged[key])
-          merged[key] = { reps:0, accuracySum:0, count:0, duration:0 };
-        merged[key].reps        += (x.reps     || 0);
-        merged[key].accuracySum += (x.accuracy || 0);
-        merged[key].duration    += (x.duration || 0);
-        merged[key].count       += 1;
+        if (!merged[key]) merged[key] = {
+          reps:0, accuracySum:0, count:0, duration:0
+        };
+        merged[key].reps        += x.reps     || 0;
+        merged[key].accuracySum += x.accuracy || 0;
+        merged[key].duration    += x.duration || 0;
+        merged[key].count++;
       });
-      const sortedKeys = Object.keys(merged).sort((a, b) => {
+
+      const sortedKeys = Object.keys(merged).sort((a,b) => {
         const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
-        if (ia === -1 && ib === -1) return 0;
-        if (ia === -1) return 1;
-        if (ib === -1) return -1;
+        if (ia===-1&&ib===-1) return 0;
+        if (ia===-1)          return 1;
+        if (ib===-1)          return -1;
         return ia - ib;
       });
-      const dayReps = records.reduce((s, x) => s + (x.reps || 0), 0);
+
+      const dayReps = records.reduce((s,x) => s+(x.reps||0), 0);
       const dayMins = Math.round(
-        records.reduce((s, x) => s + (x.duration || 0), 0) / 60
+        records.reduce((s,x) => s+(x.duration||0), 0) / 60
       );
       const dayAcc  = Math.round(
-        records.reduce((s, x) => s + (x.accuracy || 0), 0) / records.length
+        records.reduce((s,x) => s+(x.accuracy||0), 0) / records.length
       );
       const isOpen  = idx === 0;
-      const groupId = `dayGroup_${idx}`;
-      const arrowId = `arrow_${idx}`;
+      const gid     = `dg_${idx}`;
+      const aid     = `da_${idx}`;
+
       return `
         <div class="day-group-header"
-             onclick="toggleDayGroup('${groupId}','${arrowId}')">
+             onclick="toggleDayGroup('${gid}','${aid}')">
           <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:1rem;">📅</span>
+            <span>📅</span>
             <div>
               <div style="font-weight:700;font-size:.9rem;">
                 ${escapeHtml(dateKey)}
-                ${idx === 0
-                  ? `<span style="font-size:.72rem;
-                       background:linear-gradient(135deg,var(--accent),var(--accent2));
-                       color:#fff;padding:2px 8px;border-radius:20px;
-                       margin-left:6px;">최근</span>` : ''}
+                ${idx===0 ? `<span style="font-size:.72rem;
+                  background:linear-gradient(135deg,var(--accent),var(--accent2));
+                  color:#fff;padding:2px 8px;border-radius:20px;
+                  margin-left:6px;">최근</span>` : ''}
               </div>
               <div style="font-size:.75rem;color:var(--text2);margin-top:2px;">
-                ${sortedKeys.length}종목 · ${dayReps}reps · ${dayMins}분 · 정확도 ${dayAcc}%
+                ${sortedKeys.length}종목 · ${dayReps}reps ·
+                ${dayMins}분 · ${dayAcc}%
               </div>
             </div>
           </div>
-          <span id="${arrowId}" class="day-group-arrow"
-                style="transform:rotate(${isOpen ? '0' : '180deg'});">▲</span>
+          <span id="${aid}" class="day-group-arrow"
+                style="transform:rotate(${isOpen?'0':'180deg'});">▲</span>
         </div>
-        <div id="${groupId}"
-             style="display:${isOpen ? 'block' : 'none'};margin-bottom:14px;">
+        <div id="${gid}"
+             style="display:${isOpen?'block':'none'};margin-bottom:14px;">
           <div class="record-list">
             ${sortedKeys.map(exName => {
               const m      = merged[exName];
               const avgAc  = Math.round(m.accuracySum / m.count);
               const icon   = ICONS[exName] || '🏋️';
               const mins   = Math.round(m.duration / 60);
-              const unit   = exName === '플랭크'
+              const unit   = exName==='플랭크'
                 ? `${m.reps}초 유지` : `${m.reps} Reps`;
               const sess   = m.count > 1
-                ? `<span style="font-size:.72rem;color:var(--text2);">(${m.count}세션)</span>` : '';
-              const accColor =
-                avgAc >= 80 ? 'var(--success)' :
-                avgAc >= 60 ? 'var(--warning)' : 'var(--danger)';
-              return `
-                <div class="record-item">
-                  <div class="r-left">${icon} ${escapeHtml(exName)} ${sess}</div>
-                  <div class="r-right" style="display:flex;align-items:center;gap:8px;">
-                    <span>${escapeHtml(unit)}</span>
-                    <span style="color:${accColor};font-size:.82rem;">${avgAc}%</span>
-                    <span style="font-size:.75rem;color:var(--text2);">${mins}분</span>
-                  </div>
-                </div>`;
+                ? `<span style="font-size:.72rem;color:var(--text2);">
+                     (${m.count}세션)</span>` : '';
+              const accClr = avgAc>=80
+                ? 'var(--success)' : avgAc>=60
+                ? 'var(--warning)' : 'var(--danger)';
+              return `<div class="record-item">
+                <div class="r-left">
+                  ${icon} ${escapeHtml(exName)} ${sess}
+                </div>
+                <div class="r-right"
+                     style="display:flex;align-items:center;gap:8px;">
+                  <span>${escapeHtml(unit)}</span>
+                  <span style="color:${accClr};font-size:.82rem;">
+                    ${avgAc}%
+                  </span>
+                  <span style="font-size:.75rem;color:var(--text2);">
+                    ${mins}분
+                  </span>
+                </div>
+              </div>`;
             }).join('')}
           </div>
         </div>`;
@@ -2181,17 +2388,18 @@ async function loadDashboard() {
     showToast('⚠️ 데이터를 불러오지 못했습니다.');
   }
 }
-function toggleDayGroup(groupId, arrowId) {
-  const group  = document.getElementById(groupId);
-  const arrow  = document.getElementById(arrowId);
-  const isOpen = group.style.display !== 'none';
-  group.style.display   = isOpen ? 'none'           : 'block';
-  arrow.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+
+function toggleDayGroup(gid, aid) {
+  const g    = document.getElementById(gid);
+  const a    = document.getElementById(aid);
+  const open = g.style.display !== 'none';
+  g.style.display   = open ? 'none'  : 'block';
+  a.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // 성취 기준
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 async function loadAchievement() {
   const box = document.getElementById('achievementBox');
   box.textContent = '데이터 분석 중...';
@@ -2202,43 +2410,44 @@ async function loadAchievement() {
     const r      = res.exerciseRecords || [];
     const n      = r.length;
     const avgAcc = n > 0
-      ? Math.round(r.reduce((s, x) => s + (x.accuracy || 0), 0) / n) : 0;
-    const grade =
-      (n >= 10 && avgAcc >= 85) ? '🏆 A+ 매우 우수' :
-      (n >= 7  && avgAcc >= 70) ? '🥇 A  우수'      :
-      (n >= 5  && avgAcc >= 60) ? '🥈 B  보통'      :
-                                   '🥉 C  노력 필요';
+      ? Math.round(r.reduce((s,x) => s+(x.accuracy||0), 0) / n) : 0;
+    const grade  =
+      (n>=10&&avgAcc>=85) ? '🏆 A+ 매우 우수' :
+      (n>=7 &&avgAcc>=70) ? '🥇 A  우수'      :
+      (n>=5 &&avgAcc>=60) ? '🥈 B  보통'      : '🥉 C  노력 필요';
     box.textContent =
-      `📊 성취 기준 평가 결과\n\n` +
-      `• 총 운동 세션: ${n}회\n` +
+      `📊 성취 기준 평가 결과\n\n`   +
+      `• 총 운동 세션: ${n}회\n`      +
       `• 평균 자세 정확도: ${avgAcc}%\n` +
-      `• 성취 등급: ${grade}\n\n` +
+      `• 성취 등급: ${grade}\n\n`     +
       `💡 꾸준히 운동하면 자세 정확도와 체력이 함께 성장해요!`;
   } catch {
     box.textContent = '데이터를 불러올 수 없습니다.';
   }
 }
 
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 // AI 채팅
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 function addChatBubble(role, msg) {
-  const chat  = document.getElementById('aiChat');
-  const wrap  = document.createElement('div');
-  wrap.className = `ai-msg${role === 'user' ? ' user-msg' : ''}`;
+  const chat = document.getElementById('aiChat');
+  const wrap = document.createElement('div');
+  wrap.className = `ai-msg${role==='user'?' user-msg':''}`;
   if (role !== 'user') {
-    const avatar     = document.createElement('div');
-    avatar.className = 'ai-avatar';
-    avatar.textContent = '🏫';
-    wrap.appendChild(avatar);
+    const av = document.createElement('div');
+    av.className   = 'ai-avatar';
+    av.textContent = '🏫';
+    wrap.appendChild(av);
   }
-  const bubble     = document.createElement('div');
-  bubble.className = `ai-bubble${role === 'user' ? ' user-bubble' : ''}`;
-  bubble.textContent = msg;
-  wrap.appendChild(bubble);
+  const b = document.createElement('div');
+  b.className   =
+    `ai-bubble${role==='user'?' user-bubble':''}`;
+  b.textContent = msg;
+  wrap.appendChild(b);
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
 }
+
 function quickChat(msg) {
   document.getElementById('chatInput').value = msg;
   sendChat();
@@ -2254,62 +2463,50 @@ function sendChat() {
 function generateAIReply(msg) {
   const m = msg.toLowerCase();
   if (m.includes('스쿼트'))
-    return '🦵 스쿼트 핵심: 발은 어깨너비, 무릎은 발끝 방향, 허벅지 평행!\n발뒤꿈치 들리지 않도록 💪';
+    return '🦵 스쿼트 핵심: 발 어깨너비, 무릎 발끝 방향, 허벅지 평행!';
   if (m.includes('런지'))
     return '🏃 런지 핵심: 앞무릎 90도, 상체 곧게, 뒷무릎 바닥 살짝!';
   if (m.includes('플랭크'))
     return '💪 플랭크 핵심: 팔꿈치 어깨 아래, 머리부터 발끝 일직선!';
-  if (m.includes('푸시업') || m.includes('팔굽혀'))
+  if (m.includes('푸시업'))
     return '⬆️ 푸시업 핵심: 손 어깨너비, 팔꿈치 45도, 몸 일직선!';
   if (m.includes('버피'))
     return '🔥 버피 핵심: 스쿼트→플랭크→푸시업→스쿼트→점프+박수! 🎉';
   if (m.includes('줄넘기'))
     return '🪢 줄넘기 핵심: 발끝 착지, 팔꿈치 고정, 손목으로 돌리기!';
-  if (m.includes('심박수') || m.includes('wod'))
-    return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 힘들면 페이스 낮추기\n• 세트 사이 30초~1분 휴식!';
-  if (m.includes('초보') || m.includes('처음'))
-    return '🌱 초보자 팁:\n① 자세 먼저, 속도는 나중에\n② 워밍업 5분\n③ 물 자주 마시기\n④ 근육통이면 충분히 쉬기\n⑤ 꾸준함이 최고! 💪';
-  if (m.includes('피드백') || m.includes('오늘'))
-    return `💌 ${currentStudent?.name || '학생'} 오늘도 열심히! 🎉\n대시보드에서 기록을 확인하고 꾸준히 도전해요! 💪`;
+  if (m.includes('심박수')||m.includes('wod'))
+    return '❤️ WOD 심박수 팁:\n• 목표: 최대심박수(220-나이)의 70~85%\n• 세트 사이 30초~1분 휴식!';
+  if (m.includes('초보')||m.includes('처음'))
+    return '🌱 초보자 팁:\n① 자세 먼저\n② 워밍업 5분\n③ 물 자주 마시기\n④ 꾸준함이 최고! 💪';
+  if (m.includes('피드백')||m.includes('오늘'))
+    return `💌 ${currentStudent?.name||'학생'} 오늘도 열심히! 🎉 대시보드에서 기록을 확인해봐요!`;
   return `🏫 "${msg}"에 대해 더 구체적으로 물어봐 주면 자세히 설명해드릴게요! 😊`;
 }
 
-// ════════════════════════════════════════════════
-// ★ 일일 기록 — 분모 포함 저장
-// ════════════════════════════════════════════════
-function changeWodSets(d) {
-  const max = wodDenominator > 0 ? wodDenominator : 999;
-  wodSetsCount = Math.max(0, Math.min(wodSetsCount + d, max));
-  const el = document.getElementById('wodSetsVal');
-  el.textContent    = wodSetsCount;
-  el.style.transform = 'scale(1.3)';
-  el.style.color     = 'var(--accent)';
-  setTimeout(() => {
-    el.style.transform = 'scale(1)';
-    el.style.color     = '';
-  }, 200);
-  updateDenominatorDisplay();   // ★ 진행 바 즉시 갱신
-}
+// ════════════════════════════════════════════════════════════════
+// 일일 기록 저장
+// ════════════════════════════════════════════════════════════════
 async function saveDailyLog() {
   if (!currentStudent) return;
   try {
     const res = await gasCall({
-      action          : 'saveDailyLog',
-      date            : getNowDateTimeStr(),
-      studentId       : currentStudent.id,
-      name            : currentStudent.name,
-      wodSets         : wodSetsCount,
-      wodDenominator  : wodDenominator,     // ★ 분모 전송
-      totalReps       : sessionTotalReps,
-      peakHR          : document.getElementById('peakHR').value       || 0,
-      avgHR           : document.getElementById('avgHR').value        || 0,
-      goodPoint       : document.getElementById('goodPoint').value,
-      improvePoint    : document.getElementById('improvePoint').value,
-      breakfast       : document.getElementById('breakfast').value,
-      lunch           : document.getElementById('lunch').value,
-      dinner          : document.getElementById('dinner').value,
-      water           : document.getElementById('water').value  || 0,
-      sleep           : document.getElementById('sleep').value  || 0,
+      action         : 'saveDailyLog',
+      date           : getNowDateTimeStr(),
+      studentId      : currentStudent.id,
+      name           : currentStudent.name,
+      wodRounds      : wodRounds,
+      wodPartial     : wodPartial,
+      wodDenominator : wodDenominator,
+      totalReps      : sessionTotalReps,
+      peakHR         : document.getElementById('peakHR').value      || 0,
+      avgHR          : document.getElementById('avgHR').value       || 0,
+      goodPoint      : document.getElementById('goodPoint').value,
+      improvePoint   : document.getElementById('improvePoint').value,
+      breakfast      : document.getElementById('breakfast').value,
+      lunch          : document.getElementById('lunch').value,
+      dinner         : document.getElementById('dinner').value,
+      water          : document.getElementById('water').value  || 0,
+      sleep          : document.getElementById('sleep').value  || 0,
     });
     if (res.status === 'success') {
       showToast('✅ 오늘의 기록이 저장되었습니다!');
@@ -2321,24 +2518,30 @@ async function saveDailyLog() {
     showToast('⚠️ 서버 연결 실패: ' + (err.message || ''));
   }
 }
+
 function generateAITotal() {
   const gp = document.getElementById('goodPoint').value;
   const ip = document.getElementById('improvePoint').value;
   const w  = document.getElementById('water').value;
   const sl = document.getElementById('sleep').value;
   const hr = document.getElementById('peakHR').value;
-  const pct = wodDenominator > 0
-    ? Math.round((wodSetsCount / wodDenominator) * 100) : 0;
-  let msg  = '👨‍🏫 AI 선생님의 오늘 총평\n\n';
-  msg += `📊 WOD 달성률: ${wodSetsCount}/${wodDenominator} 종목 (${pct}%)\n`;
-  msg += pct >= 100 ? '🏆 WOD 완주! 대단해요!\n\n'
-       : pct >= 70  ? '💪 거의 다 왔어요! 내일은 완주해봐요!\n\n'
-                    : '🌱 오늘은 시작이에요! 꾸준히 도전해요!\n\n';
-  msg += gp
-    ? `✅ "${gp}" 정말 잘했어요!\n\n`
-    : '오늘도 참여해줘서 고마워요! 😊\n\n';
+
+  const totalDone  = wodRounds * wodDenominator + wodPartial;
+  const overallPct = wodDenominator > 0
+    ? Math.round((totalDone / wodDenominator) * 100) : 0;
+
+  let msg = '👨‍🏫 AI 선생님의 오늘 총평\n\n';
+  msg += `📊 WOD 달성: ${wodRounds}라운드 완주 + ${wodPartial}종목 추가\n`;
+  msg += `   (총 ${totalDone}/${wodDenominator}종목, ${overallPct}%)\n\n`;
+
+  if (wodRounds >= 2)        msg += '🏆 2라운드 이상! 정말 대단해요!\n\n';
+  else if (wodRounds === 1)  msg += '💪 1라운드 완주! 훌륭해요!\n\n';
+  else if (wodPartial > 0)   msg += '🌱 부분 완료! 내일은 1라운드 도전해봐요!\n\n';
+  else                       msg += '📌 오늘 참여만으로도 의미 있어요! 😊\n\n';
+
+  msg += gp ? `✅ "${gp}" 정말 잘했어요!\n\n` : '';
   msg += ip ? `📈 "${ip}" 개선하려는 의지 훌륭해요!\n\n` : '';
-  msg += parseFloat(w) >= 1.5
+  msg += parseFloat(w)  >= 1.5
     ? '💧 수분 섭취 훌륭해요!\n'
     : '💧 물을 더 마시면 운동 효율이 올라가요!\n';
   msg += parseFloat(sl) >= 7
@@ -2346,18 +2549,23 @@ function generateAITotal() {
     : '🌙 수면 7시간 이상을 목표로 해봐요!\n';
   if (hr) msg += `❤️ 최고 심박수 ${hr}BPM. 잘 했어요!\n`;
   msg += '\n💪 내일도 파이팅!';
+
   document.getElementById('aiTotalBox').textContent = msg;
 }
 
-// ════════════════════════════════════════════════
-// 토스트 & 초기화
-// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+// 토스트
+// ════════════════════════════════════════════════════════════════
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// ════════════════════════════════════════════════════════════════
+// 초기화
+// ════════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
   ['loginId','loginName','loginPw'].forEach(id =>
     document.getElementById(id).addEventListener('keydown', e => {
@@ -2367,6 +2575,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('logDate').textContent =
     '📅 ' + new Date().toLocaleDateString('ko-KR');
   switchAuthTab('login');
+  refreshCounterUI();
 });
 </script>
 </body>
